@@ -14,3 +14,11 @@ void PipelineStates::SetDefaults() {
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_SCISSOR_TEST);
 }
+
+void PipelineStates::DrawSolid() {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void PipelineStates::DrawWire() {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+}

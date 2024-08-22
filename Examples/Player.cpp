@@ -3,10 +3,11 @@
 //
 
 #include "Player.h"
+
+#include "Core/PipelineStates.h"
 #include "Core/SceneContext.h"
 
 #include <glm/ext/matrix_transform.hpp>
-#include <glad/glad.h>
 
 Player::Player() = default;
 
@@ -85,7 +86,5 @@ static glm::mat4 ProjectionMatrix() {
 }
 
 void Player::Draw(const Shared<SceneContext>& context) {
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     mSprite->Draw(ViewMatrix(), ProjectionMatrix(), mSprite->GetModel());
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

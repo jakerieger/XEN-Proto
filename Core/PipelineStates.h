@@ -8,4 +8,6 @@ class PipelineStates {
 public:
     PipelineStates() = default;
     static void SetDefaults();
+    static void DrawSolid();
+    static void DrawWire();
 };
