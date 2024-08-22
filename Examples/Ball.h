@@ -6,9 +6,30 @@
 
 #include "Shared/Types.h"
 #include "Core/GameObject.h"
+#include "Core/Components/SpriteRenderer.h"
+#include "Core/Components/Transform.h"
 
-using namespace GameObject::Traits;
+using namespace GameObject;
 
-class Ball : public IGameObject, public IPhysicsObject {
+class Ball final : public IGameObject,
+                   public Traits::IDrawable,
+                   public Traits::IPhysicsObject {
+public:
+    Ball();
 
+    // IGameObject
+    void Awake(const Shared<SceneContext>& context) override;
+    void Update(const Shared<SceneContext>& context, f32 dT) override;
+    void LateUpdate(const Shared<SceneContext>& context) override;
+    void Destroyed(const Shared<SceneContext>& context) override;
+
+    // IPhysicsUpdate
+    void PhysicsUpdate(const Shared<SceneContext>& context) override;
+
+    // IDrawable
+    void Draw(const Shared<SceneContext>& context) override;
+
+private:
+    SpriteRenderer* mSprite;
+    Transform* mTransform;
 };

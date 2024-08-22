@@ -3,8 +3,6 @@
 //
 
 #include "Player.h"
-
-#include "Core/PipelineStates.h"
 #include "Core/SceneContext.h"
 
 Player::Player() : mSprite(None), mTransform(None) {}
@@ -18,6 +16,8 @@ void Player::Awake(const Shared<SceneContext>& context) {
 
 void Player::Update(const Shared<SceneContext>& context, f32 dT) {
     IGameObject::Update(context, dT);
+
+    mTransform->SetPosition({540, 0});
 }
 
 void Player::LateUpdate(const Shared<SceneContext>& context) {

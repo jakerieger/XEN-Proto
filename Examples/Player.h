@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Core/GameObject.h"
-#include "../Core/Components/SpriteRenderer.h"
+#include "Core/Components/SpriteRenderer.h"
 #include "Core/Components/Transform.h"
 
 using namespace GameObject;
