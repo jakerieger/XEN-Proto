@@ -6,8 +6,8 @@
 
 #include "EngineConfig.h"
 #include "Shared/Types.h"
-#include "Shared/glad/glad.h"
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 class GraphicsContext {

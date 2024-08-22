@@ -5,7 +5,8 @@
 #pragma once
 
 #include "Shared/Types.h"
-#include "Shared/ini.h"
+
+#include <ini.h>
 
 enum class EWindowMode {
     Windowed,

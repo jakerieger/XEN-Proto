@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Shared/Types.h"
+
 #include <condition_variable>
 
 class ThreadPool {

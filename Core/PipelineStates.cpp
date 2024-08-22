@@ -3,7 +3,7 @@
 //
 
 #include "PipelineStates.h"
-#include "Shared/glad/glad.h"
+#include <glad/glad.h>
 
 void PipelineStates::SetDefaults() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

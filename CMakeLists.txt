@@ -8,10 +8,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include_directories(
         ${CMAKE_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/Shared/Vendor
 )
 
 add_library(GameEngineCore STATIC
-        Shared/glad.c
+        Shared/Vendor/glad.c
         Core/Game.h
         Core/Game.cpp
         Core/ThreadPool.cpp
@@ -28,6 +29,9 @@ add_library(GameEngineCore STATIC
         Core/PipelineStates.h
         Core/GameObject.cpp
         Core/GameObject.h
+        Core/PoolAllocator.cpp
+        Core/PoolAllocator.h
+        Core/Memory.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
