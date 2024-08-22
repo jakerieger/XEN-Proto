@@ -19,8 +19,8 @@ IGame::IGame(const str& title) {
 static void PhysicsThread(const IGame* game) {
     while (game->IsRunning()) {
         if (!game->IsPaused()) {
-            for (const auto& go : game->GetActiveScene()->GetGameObjects()) {
-                go->PhysicsUpdate();
+            if (game->GetActiveScene()) {
+                game->GetActiveScene()->PhysicsUpdate();
             }
         }
 

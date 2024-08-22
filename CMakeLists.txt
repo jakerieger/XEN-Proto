@@ -29,15 +29,23 @@ add_library(GameEngineCore STATIC
         Core/PipelineStates.h
         Core/GameObject.cpp
         Core/GameObject.h
-        Core/PoolAllocator.cpp
         Core/PoolAllocator.h
-        Core/Memory.h
+        Core/SceneContext.cpp
+        Core/SceneContext.h
+        Core/ArenaAllocator.cpp
+        Core/ArenaAllocator.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
 target_link_libraries(GameEngineCore PRIVATE glfw)
 
-add_executable(Pong Examples/Pong.cpp)
+add_executable(Pong Examples/Pong.cpp
+        Examples/Player.cpp
+        Examples/Player.h
+        Examples/Opponent.cpp
+        Examples/Opponent.h
+        Examples/Ball.cpp
+        Examples/Ball.h)
 target_link_libraries(Pong PRIVATE GameEngineCore glfw)
 
 # Copy default engine config

@@ -5,11 +5,12 @@
 #pragma once
 
 #include "GameObject.h"
+#include "SceneContext.h"
 #include "Shared/Types.h"
 
 class Scene {
 public:
-    Scene() = default;
+    Scene();
 
     void Awake() const;
     void Update(f32 dT) const;
@@ -20,6 +21,12 @@ public:
 
     [[nodiscard]] Vector<Shared<IGameObject>> GetGameObjects() const;
 
+    template<typename T>
+    void AddGameObject(const Shared<T>& gameObject) {
+        static_assert(std::is_base_of_v<IGameObject, T>, "T must derive from IGameObject");
+        mSceneContext->GameObjects.push_back(gameObject);
+    }
+
 private:
-    Vector<Shared<IGameObject>> mGameObjects;
+    Shared<SceneContext> mSceneContext;
 };

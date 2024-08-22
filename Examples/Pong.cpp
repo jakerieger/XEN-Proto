@@ -1,3 +1,4 @@
+#include "Player.h"
 #include "Core/Game.h"
 
 class Pong final : public IGame {
@@ -6,6 +7,10 @@ public:
 
     void Initialize() override {
         const auto gameScene = std::make_shared<Scene>();
+
+        const auto player = std::make_shared<Player>();
+        gameScene->AddGameObject(player);
+
         this->LoadScene(gameScene);
     }
 
