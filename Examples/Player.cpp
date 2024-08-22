@@ -3,8 +3,6 @@
 //
 
 #include "Player.h"
-
-#include "Core/PipelineStates.h"
 #include "Core/SceneContext.h"
 
 #include <glm/ext/matrix_transform.hpp>
