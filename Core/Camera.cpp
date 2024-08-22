@@ -5,7 +5,8 @@
 #include "Camera.h"
 
 glm::mat4 OrthoCamera::GetViewMatrix() const {
-    return glm::mat4(1.f);
+    // Orthographic cameras just need an identity matrix
+    return {1.f};
 }
 
 glm::mat4 OrthoCamera::GetProjectionMatrix() const {
