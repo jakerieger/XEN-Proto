@@ -1,21 +1,32 @@
+#include "Ball.h"
 #include "Player.h"
 #include "Core/Game.h"
 
+#ifndef NDEBUG
+static const auto kGameName = "Pong <Debug>";
+#else
+static const auto kGameName = "Pong";
+#endif
+
 class Pong final : public IGame {
 public:
-    Pong() : IGame("Pong <OpenGL 4.6>") {}
+    Pong() : IGame(kGameName) {}
 
     void Initialize() override {
         const auto gameScene = std::make_shared<Scene>();
         const auto player    = std::make_shared<Player>();
+        const auto ball = std::make_shared<Ball>();
         gameScene->AddGameObject(player);
+        gameScene->AddGameObject(ball);
 
         this->AddScene("game", gameScene);
         this->LoadScene("game");
     }
 
     void Shutdown() override {
-        IGame::Shutdown();  // MAKE SURE TO CALL THIS AT THE END
+        // Make sure to call this at the end or internal engine resources will not be cleaned
+        // up properly
+        IGame::Shutdown();
     }
 
 private:

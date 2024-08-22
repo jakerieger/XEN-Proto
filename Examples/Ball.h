@@ -4,8 +4,11 @@
 
 #pragma once
 
+#include "Shared/Types.h"
+#include "Core/GameObject.h"
 
+using namespace GameObject::Traits;
 
-class Ball {
+class Ball : public IGameObject, public IPhysicsObject {
 
 };
