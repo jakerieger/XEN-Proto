@@ -15,8 +15,8 @@ add_library(GameEngineCore STATIC
         Shared/Vendor/glad.c
         Core/Game.h
         Core/Game.cpp
-        Core/ThreadPool.cpp
-        Core/ThreadPool.h
+        Core/Memory/ThreadPool.cpp
+        Core/Memory/ThreadPool.h
         Shared/Types.h
         Shared/IO.h
         Core/GraphicsContext.cpp
@@ -29,11 +29,13 @@ add_library(GameEngineCore STATIC
         Core/PipelineStates.h
         Core/GameObject.cpp
         Core/GameObject.h
-        Core/PoolAllocator.h
+        Core/Memory/PoolAllocator.h
         Core/SceneContext.cpp
         Core/SceneContext.h
-        Core/ArenaAllocator.cpp
-        Core/ArenaAllocator.h
+        Core/Memory/ArenaAllocator.cpp
+        Core/Memory/ArenaAllocator.h
+        Core/Clock.cpp
+        Core/Clock.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)

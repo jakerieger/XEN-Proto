@@ -4,9 +4,7 @@
 
 #include "Player.h"
 
-#include <iostream>
-
-Player::Player() {}
+Player::Player() = default;
 
 void Player::Awake(const Shared<SceneContext>& context) {}
 

@@ -6,12 +6,12 @@ public:
     Pong() : IGame("Pong <OpenGL 4.6>") {}
 
     void Initialize() override {
-        const auto gameScene = std::make_shared<Scene>();
-
+        auto gameScene    = std::make_shared<Scene>();
         const auto player = std::make_shared<Player>();
         gameScene->AddGameObject(player);
 
-        this->LoadScene(gameScene);
+        this->AddScene("game", gameScene);
+        this->LoadScene("game");
     }
 
     void Shutdown() override {

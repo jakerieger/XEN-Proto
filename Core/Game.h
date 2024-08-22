@@ -4,10 +4,11 @@
 
 #pragma once
 
+#include "Clock.h"
 #include "EngineConfig.h"
 #include "GraphicsContext.h"
 #include "Scene.h"
-#include "ThreadPool.h"
+#include "Memory/ThreadPool.h"
 #include "Shared/Types.h"
 
 class IGame {
@@ -23,7 +24,14 @@ public:
     [[nodiscard]] ThreadPool* GetThreadPool() const;
     [[nodiscard]] Shared<EngineConfig> GetEngineConfig() const;
 
-    void LoadScene(const Shared<Scene>& scene);
+    void AddScene(const str& name, const Shared<Scene>& scene);
+    void RemoveScene(const str& name);
+    void RemoveAllScenes();
+    void LoadScene(const str& name);
+    void UnloadScene(const str& name);
+
+    void Pause();
+    void Resume();
 
 protected:
     virtual void Initialize() = 0;
@@ -36,6 +44,9 @@ protected:
     Unique<GraphicsContext> mGraphicsContext;
     Shared<Scene> mActiveScene;
     Shared<EngineConfig> mConfig;
+    Unique<Clock> mClock;
+
+    Dictionary<str, Shared<Scene>> mScenes;
 
 private:
     void CreateResources();

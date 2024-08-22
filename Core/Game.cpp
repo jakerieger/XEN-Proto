@@ -5,6 +5,7 @@
 #include "Game.h"
 
 #include <iostream>
+#include <ranges>
 
 IGame::IGame(const str& title) {
     mConfig = std::make_shared<EngineConfig>();
@@ -35,24 +36,17 @@ void IGame::Run() {
     // Call user-defined init code
     Initialize();
 
+    // Pass physics updating to its own thread running at its own fixed timestep
     auto physicsThread = Thread(PhysicsThread, this);
 
-    if (mActiveScene) {
-        mActiveScene->Awake();
-    }
-
     // Game loop
-    static f32 dT        = 0.f;
-    static auto lastTime = std::chrono::high_resolution_clock::now();
+    mClock->Start();
     while (IsRunning()) {
-        auto currentTime                     = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<f32> deltaTime = currentTime - lastTime;
-        lastTime                             = currentTime;
-        dT                                   = deltaTime.count();
+        mClock->Tick();
 
         if (!mPaused) {
             if (mActiveScene) {
-                mActiveScene->Update(dT);
+                mActiveScene->Update(mClock->GetDeltaTime());
             }
 
             RenderThread();
@@ -62,14 +56,11 @@ void IGame::Run() {
             }
         }
 
-        // Calculate timestep
-        const auto timestep = 1.f / mConfig->GetInternalConfig().FixedTimestep;
-        std::this_thread::sleep_for(std::chrono::duration<f32>(timestep));
+        mClock->Update();
     }
+    mClock->Stop();
 
-    if (mActiveScene) {
-        mActiveScene->Destroyed();
-    }
+    RemoveAllScenes();
 
     physicsThread.join();
 
@@ -90,6 +81,8 @@ void IGame::CreateResources() {
     mThreadPool = std::make_unique<ThreadPool>(4);
 
     mActiveScene = std::make_shared<Scene>();
+
+    mClock = std::make_unique<Clock>();
 }
 
 bool IGame::IsRunning() const {
@@ -116,8 +109,50 @@ Shared<EngineConfig> IGame::GetEngineConfig() const {
     return mConfig;
 }
 
-void IGame::LoadScene(const Shared<Scene>& scene) {
-    mActiveScene = scene;
+void IGame::AddScene(const str& name, const Shared<Scene>& scene) {
+    mScenes[name] = scene;
+}
+
+void IGame::RemoveScene(const str& name) {
+    const auto scene = mScenes.find(name);
+    if (scene != mScenes.end()) {
+        scene->second->Destroyed();
+        mScenes.erase(name);
+    }
+}
+
+void IGame::RemoveAllScenes() {
+    for (const auto& [name, scene] : mScenes) {
+        scene->Destroyed();
+        std::cout << "(Info) Unloaded scene: \"" << name << "\"\n";
+    }
+
+    mScenes.clear();
+}
+
+void IGame::LoadScene(const str& name) {
+    const auto scene = mScenes.find(name);
+    if (scene != mScenes.end()) {
+        mActiveScene = scene->second;
+        mActiveScene->Awake();
+        std::cout << "(Info) Loaded scene: \"" << name << "\"\n";
+    }
+}
+
+void IGame::UnloadScene(const str& name) {
+    const auto scene = mScenes.find(name);
+    if (scene != mScenes.end()) {
+        scene->second->Destroyed();
+        std::cout << "(Info) Unloaded scene: \"" << name << "\"\n";
+    }
+}
+
+void IGame::Pause() {
+    mPaused = true;
+}
+
+void IGame::Resume() {
+    mPaused = false;
 }
 
 void IGame::RenderThread() const {

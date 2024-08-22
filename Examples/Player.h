@@ -6,12 +6,12 @@
 
 #include "Core/GameObject.h"
 
-using namespace GameObject::Traits;
+using namespace GameObject;
 
 class Player final : public IGameObject,
-                     public IDrawable,
-                     public IInputListener,
-                     public IPhysicsObject {
+                     public Traits::IDrawable,
+                     public Traits::IInputListener,
+                     public Traits::IPhysicsObject {
 public:
     Player();
 
