@@ -12,8 +12,21 @@ public:
     explicit ThreadPool(size_t numThreads);
     ~ThreadPool();
 
-    template<class F>
-    void Enqueue(F&& task);
+    template<class F, class... Args>
+    auto Enqueue(F&& f, Args&&... args) -> Future<typename std::invoke_result_t<F, Args...>> {
+        using ReturnType = std::invoke_result_t<F, Args...>;
+
+        auto task = std::make_shared<std::packaged_task<ReturnType()>>(
+          std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+
+        std::future<ReturnType> result = task->get_future();
+        {
+            std::unique_lock<Mutex> lock(mMutex);
+            mTasks.emplace([task]() { (*task)(); });
+        }
+        mCondition.notify_one();
+        return result;
+    }
 
     static u32 GetMaxThreadCount();
 

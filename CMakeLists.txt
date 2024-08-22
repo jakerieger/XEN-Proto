@@ -26,6 +26,8 @@ add_library(GameEngineCore STATIC
         Core/EngineConfig.h
         Core/PipelineStates.cpp
         Core/PipelineStates.h
+        Core/GameObject.cpp
+        Core/GameObject.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)

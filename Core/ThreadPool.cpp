@@ -12,7 +12,7 @@ ThreadPool::ThreadPool(size_t numThreads) {
                 {
                     std::unique_lock<Mutex> lock(mMutex);
                     this->mCondition.wait(lock,
-                                          [this] { return this->mStop || !mWorkers.empty(); });
+                                          [this] { return this->mStop || !this->mTasks.empty(); });
                     if (this->mStop && this->mTasks.empty())
                         return;
                     task = std::move(this->mTasks.front());
@@ -28,18 +28,11 @@ ThreadPool::~ThreadPool() {
     mStop = true;
     mCondition.notify_all();
     for (Thread& worker : mWorkers) {
-        worker.join();
+        if (worker.joinable()) {
+            worker.join();
+        }
     }
 }
 u32 ThreadPool::GetMaxThreadCount() {
     return 4;
-}
-
-template<class F>
-void ThreadPool::Enqueue(F&& task) {
-    {
-        std::unique_lock<Mutex> lock(mMutex);
-        mTasks.emplace(std::forward<F>(task));
-    }
-    mCondition.notify_one();
 }

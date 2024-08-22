@@ -8,8 +8,8 @@
 
 GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& title)
     : mWidthCreated(0), mHeightCreated(0), mWidthCurrent(0), mHeightCurrent(0) {
-    const auto width  = config->GetRenderingConfig().Width;
-    const auto height = config->GetRenderingConfig().Height;
+    const auto width  = config->GetRenderingConfig().ResX;
+    const auto height = config->GetRenderingConfig().ResY;
     const auto vsync  = config->GetRenderingConfig().VSync;
 
     if (glfwInit() == GLFW_FALSE) {

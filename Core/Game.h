@@ -12,24 +12,30 @@
 
 class IGame {
 public:
-    IGame(const str& title);
+    explicit IGame(const str& title);
     virtual ~IGame() = default;
     void Run();
+
+    [[nodiscard]] bool IsRunning() const;
+    [[nodiscard]] bool IsPaused() const;
+    [[nodiscard]] Shared<Scene> GetActiveScene() const;
+    [[nodiscard]] GraphicsContext* GetGraphicsContext() const;
+    [[nodiscard]] ThreadPool* GetThreadPool() const;
+    [[nodiscard]] Shared<EngineConfig> GetEngineConfig() const;
 
 protected:
     virtual void Initialize() = 0;
     virtual void Shutdown();
 
-    u32 mWidth;
-    u32 mHeight;
     str mTitle;
+    bool mPaused = false;
 
     Unique<ThreadPool> mThreadPool;
     Unique<GraphicsContext> mGraphicsContext;
-    Vector<Shared<Scene>> mScenes;
+    Shared<Scene> mActiveScene;
     Shared<EngineConfig> mConfig;
 
 private:
     void CreateResources();
-    bool IsRunning() const;
+    void RenderThread() const;
 };

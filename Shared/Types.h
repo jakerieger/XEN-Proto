@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <future>
 #include <map>
 #include <mutex>
 #include <optional>
@@ -79,6 +80,9 @@ using Dictionary = std::unordered_map<K, V>;
 
 template<class K, class V>
 using Map = std::map<K, V>;
+
+template<typename T>
+using Future = std::future<T>;
 
 constexpr auto Inf32 = std::numeric_limits<float>::infinity();
 constexpr auto Inf64 = std::numeric_limits<double>::infinity();
