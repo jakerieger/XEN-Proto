@@ -6,6 +6,7 @@
 
 #include "Core/GameObject.h"
 #include "Core/Sprite.h"
+#include "Core/Components/Transform.h"
 
 using namespace GameObject;
 
@@ -30,4 +31,5 @@ public:
 
 private:
     Unique<Sprite> mSprite;
+    Transform* mTransform;
 };

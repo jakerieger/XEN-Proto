@@ -7,19 +7,25 @@
 #include "Core/PipelineStates.h"
 #include "Core/SceneContext.h"
 
-#include <glm/ext/matrix_transform.hpp>
-
-Player::Player() = default;
+Player::Player() : mTransform(None) {}
 
 void Player::Awake(const Shared<SceneContext>& context) {
-    mSprite = std::make_unique<Sprite>("Assets/Sprites/paddle_player.png");
+    mTransform = AddComponent<Transform>();
+    mSprite    = std::make_unique<Sprite>("Assets/Sprites/paddle_player.png");
+
+    IGameObject::Awake(context);
 }
 
-void Player::Update(const Shared<SceneContext>& context, f32 dT) {}
+void Player::Update(const Shared<SceneContext>& context, f32 dT) {
+    IGameObject::Update(context, dT);
+}
 
-void Player::LateUpdate(const Shared<SceneContext>& context) {}
+void Player::LateUpdate(const Shared<SceneContext>& context) {
+    IGameObject::LateUpdate(context);
+}
 
 void Player::Destroyed(const Shared<SceneContext>& context) {
+    IGameObject::Destroyed(context);
     mSprite.reset();
 }
 

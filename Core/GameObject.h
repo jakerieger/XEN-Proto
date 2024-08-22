@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Component.h"
 #include "Shared/Types.h"
 
 class SceneContext;
@@ -12,17 +13,62 @@ class IGameObject {
 public:
     virtual ~IGameObject() = default;
 
-    virtual void Awake(const Shared<SceneContext>& context)          = 0;
-    virtual void Update(const Shared<SceneContext>& context, f32 dT) = 0;
-    virtual void LateUpdate(const Shared<SceneContext>& context)     = 0;
-    virtual void Destroyed(const Shared<SceneContext>& context)      = 0;
+    virtual void Awake(const Shared<SceneContext>& context) {
+        for (auto& component : mComponents) {
+            component->Awake();
+        }
+    }
+
+    virtual void Update(const Shared<SceneContext>& context, f32 dT) {
+        for (auto& component : mComponents) {
+            component->Update();
+        }
+    }
+
+    virtual void LateUpdate(const Shared<SceneContext>& context) {
+        for (auto& component : mComponents) {
+            component->LateUpdate();
+        }
+    }
+
+    virtual void Destroyed(const Shared<SceneContext>& context) {
+        for (auto& component : mComponents) {
+            component->Destroyed();
+        }
+
+        mComponents.clear();
+    }
 
     template<typename T>
     T* As() {
         return DCAST<T*>(this);
     }
 
+    template<typename T>
+    T* GetComponent() {
+        for (auto& components : mComponents) {
+            if (auto casted = DCAST<T*>(components.get())) {
+                return casted;
+            }
+        }
+
+        return None;
+    }
+
+    Vector<Unique<IComponent>>& GetComponents() {
+        return mComponents;
+    }
+
+    template<typename T, typename... Args>
+    T* AddComponent(Args&&... args) {
+        auto component  = std::make_unique<T>(std::forward<Args>(args)...);
+        T* componentPtr = component.get();
+        mComponents.emplace_back(std::move(component));
+        return componentPtr;
+    }
+
 protected:
+    Vector<Unique<IComponent>> mComponents;
 };
 
 namespace GameObject::Traits {

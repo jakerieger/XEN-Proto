@@ -46,6 +46,10 @@ add_library(GameEngineCore STATIC
         Core/TextureLoader.h
         Core/Camera.cpp
         Core/Camera.h
+        Core/Component.cpp
+        Core/Component.h
+        Core/Components/Transform.cpp
+        Core/Components/Transform.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
