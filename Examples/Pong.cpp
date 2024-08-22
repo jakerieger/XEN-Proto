@@ -15,9 +15,9 @@ public:
     void Initialize() override {
         const auto gameScene = std::make_shared<Scene>();
         const auto player    = std::make_shared<Player>();
-        const auto ball = std::make_shared<Ball>();
+        //const auto ball = std::make_shared<Ball>();
         gameScene->AddGameObject(player);
-        gameScene->AddGameObject(ball);
+        //gameScene->AddGameObject(ball);
 
         this->AddScene("game", gameScene);
         this->LoadScene("game");

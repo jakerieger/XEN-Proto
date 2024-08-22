@@ -3,6 +3,8 @@
 //
 
 #include "Player.h"
+
+#include "Core/PipelineStates.h"
 #include "Core/SceneContext.h"
 
 #include <glm/ext/matrix_transform.hpp>
@@ -27,5 +29,6 @@ void Player::PhysicsUpdate(const Shared<SceneContext>& context) {
 
 void Player::Draw(const Shared<SceneContext>& context) {
     const auto camera = context->MainCamera;
+    PipelineStates::DrawWire();
     mSprite->Draw(camera->GetViewMatrix(), camera->GetProjectionMatrix(), mSprite->GetModel());
 }

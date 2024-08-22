@@ -21,11 +21,8 @@ Sprite::Sprite(const Path& sprite) {
     mShader  = std::make_unique<Shader>(Sprite_VS, Sprite_FS);
 
     mModel                    = glm::mat4(1.0f);
-    const f32 aspect          = (f32)width / (f32)height;
-    constexpr f32 targetWidth = 1.f;
-    const f32 targetHeight    = targetWidth / aspect;
-    mModel                    = glm::translate(mModel, glm::vec3(-25, 12, 0));
-    mModel                    = glm::scale(mModel, glm::vec3(targetWidth, targetHeight, 1.0f));
+    mModel                    = glm::translate(mModel, glm::vec3(540, 0, 0));
+    mModel                    = glm::scale(mModel, glm::vec3(width / 4.f, height / 4.f, 1.0f));
 
     glGenVertexArrays(1, &mVAO);
     glGenBuffers(1, &mVBO);
