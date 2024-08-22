@@ -30,24 +30,20 @@ public:
       float left, float right, float bottom, float top, float near = -1.0f, float far = 1.0f);
 
     void SetPosition(const glm::vec3& position);
-
     void SetScale(float scale);
-
     void SetBounds(float left, float right, float bottom, float top);
 
     [[nodiscard]] glm::mat4 GetViewMatrix() const override;
-
     [[nodiscard]] glm::mat4 GetProjectionMatrix() const override;
-
-    glm::vec3 ScreenToWorld(const glm::vec2& screenCoords, const glm::vec2& screenSize) const;
-
-    glm::vec2 WorldToScreen(const glm::vec3& worldCoords, const glm::vec2& screenSize) const;
+    [[nodiscard]] glm::vec3 ScreenToWorld(const glm::vec2& screenCoords, const glm::vec2& screenSize) const;
+    [[nodiscard]] glm::vec2 WorldToScreen(const glm::vec3& worldCoords, const glm::vec2& screenSize) const;
 
     void Update() override;
 
+    static Shared<OrthoCamera> CreateDefault();
+
 private:
     void UpdateView();
-
     void UpdateProjection();
 
     glm::mat4 mViewMatrix{};

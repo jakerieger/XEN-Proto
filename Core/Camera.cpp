@@ -70,3 +70,7 @@ void OrthoCamera::Update() {
     UpdateView();
     UpdateProjection();
 }
+
+Shared<OrthoCamera> OrthoCamera::CreateDefault() {
+     return std::make_shared<OrthoCamera>(-640, 640, -360, 360);
+}
