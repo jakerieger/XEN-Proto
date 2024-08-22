@@ -23,6 +23,8 @@ public:
     [[nodiscard]] ThreadPool* GetThreadPool() const;
     [[nodiscard]] Shared<EngineConfig> GetEngineConfig() const;
 
+    void LoadScene(const Shared<Scene>& scene);
+
 protected:
     virtual void Initialize() = 0;
     virtual void Shutdown();

@@ -7,10 +7,11 @@
 #include "PipelineStates.h"
 
 GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& title)
-    : mWidthCreated(0), mHeightCreated(0), mWidthCurrent(0), mHeightCurrent(0) {
-    const auto width  = config->GetRenderingConfig().ResX;
-    const auto height = config->GetRenderingConfig().ResY;
-    const auto vsync  = config->GetRenderingConfig().VSync;
+    : mWidthCreated(0), mHeightCreated(0), mWidthCurrent(0), mHeightCurrent(0), mConfig(config) {
+    const auto width      = config->GetRenderingConfig().ResX;
+    const auto height     = config->GetRenderingConfig().ResY;
+    const auto vsync      = config->GetRenderingConfig().VSync;
+    const auto windowMode = config->GetRenderingConfig().WindowMode;
 
     if (glfwInit() == GLFW_FALSE) {
         throw RuntimeError("Failed to initialize GLFW");
@@ -24,6 +25,10 @@ GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& 
 #ifndef NDEBUG
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
+
+    // TODO: Handle window modes here, prior to swap interval
+
+    glfwSwapInterval(vsync);
 
     mWindow = UniqueDelete<GLFWwindow, DestroyWindow>(
       glfwCreateWindow(CAST<int>(width), CAST<int>(height), title.c_str(), None, None));
@@ -39,7 +44,10 @@ GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& 
         throw RuntimeError("Failed to initialize GLAD");
     }
 
-    glfwSwapInterval(vsync);
+    OnResize(width, height);
+    glfwSetFramebufferSizeCallback(mWindow.get(), [](GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+    });
 }
 
 GraphicsContext::~GraphicsContext() {
@@ -59,10 +67,15 @@ void GraphicsContext::BeginFrame() const {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Set default OpenGL states for blend, depth, culling, etc
-    // TODO: Make this modular to simplify OpenGL state management
+    // TODO: Make this modular to simplify OpenGL state management and give game devs control over
+    // the rendering pipeline
     PipelineStates::SetDefaults();
 }
 
 void GraphicsContext::EndFrame() const {
     glfwSwapBuffers(mWindow.get());
+}
+void GraphicsContext::OnResize(u32 width, u32 height) {
+    mWidthCurrent  = width;
+    mHeightCurrent = height;
 }

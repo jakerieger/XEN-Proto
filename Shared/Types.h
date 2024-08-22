@@ -64,6 +64,9 @@ template<class T>
 using Shared = std::shared_ptr<T>;
 
 template<class T>
+using Weak = std::weak_ptr<T>;
+
+template<class T>
 using Option = std::optional<T>;
 
 template<class T>

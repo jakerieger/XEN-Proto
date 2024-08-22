@@ -20,8 +20,6 @@ public:
     void EndFrame() const;
 
 private:
-    void FramebufferCallback(GLFWwindow* window, int width, int height);
-
     struct DestroyWindow {
         void operator()(GLFWwindow* window) const noexcept {
             glfwDestroyWindow(window);
@@ -31,5 +29,7 @@ private:
     UniqueDelete<GLFWwindow, DestroyWindow> mWindow;
     u32 mWidthCreated, mHeightCreated;
     u32 mWidthCurrent, mHeightCurrent;
-    Shared<EngineConfig> mConfig;
+    Weak<EngineConfig> mConfig;
+
+    void OnResize(u32 width, u32 height);
 };

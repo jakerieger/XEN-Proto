@@ -116,6 +116,10 @@ Shared<EngineConfig> IGame::GetEngineConfig() const {
     return mConfig;
 }
 
+void IGame::LoadScene(const Shared<Scene>& scene) {
+    mActiveScene = scene;
+}
+
 void IGame::RenderThread() const {
     mGraphicsContext->BeginFrame();
 
