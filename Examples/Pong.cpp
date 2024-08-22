@@ -18,6 +18,7 @@ public:
         //const auto ball = std::make_shared<Ball>();
         gameScene->AddGameObject(player);
         //gameScene->AddGameObject(ball);
+        gameScene->SetCamera(OrthoCamera::CreateDefault());
 
         this->AddScene("game", gameScene);
         this->LoadScene("game");

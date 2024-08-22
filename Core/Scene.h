@@ -27,6 +27,14 @@ public:
         mSceneContext->GameObjects.push_back(gameObject);
     }
 
+    void SetCamera(const Shared<ICamera>& camera) const;
+    [[nodiscard]] Shared<ICamera> GetCamera() const;
+
+    template<typename T>
+    T* GetCameraAs() {
+        return DCAST<T*>(GetCamera().get());
+    }
+
 private:
     Shared<SceneContext> mSceneContext;
 };

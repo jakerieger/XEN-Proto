@@ -11,15 +11,15 @@ Scene::Scene() {
 };
 
 void Scene::Awake() const {
-    mSceneContext->MainCamera = OrthoCamera::CreateDefault();
-
     for (const auto& go : mSceneContext->GameObjects) {
         go->Awake(mSceneContext);
     }
 }
 
 void Scene::Update(f32 dT) const {
-    mSceneContext->MainCamera->Update();
+    if (GetCamera()) {
+        GetCamera()->Update();
+    }
 
     for (const auto& go : mSceneContext->GameObjects) {
         go->Update(mSceneContext, dT);
@@ -43,7 +43,9 @@ void Scene::Destroyed() const {
         go->Destroyed(mSceneContext);
     }
 
-    mSceneContext->MainCamera.reset();
+    if (GetCamera()) {
+        GetCamera().reset();
+    }
 }
 
 void Scene::Render() const {
@@ -54,4 +56,12 @@ void Scene::Render() const {
 
 Vector<Shared<IGameObject>> Scene::GetGameObjects() const {
     return mSceneContext->GameObjects;
+}
+
+void Scene::SetCamera(const Shared<ICamera>& camera) const {
+    mSceneContext->MainCamera = camera;
+}
+
+Shared<ICamera> Scene::GetCamera() const {
+    return mSceneContext->MainCamera;
 }
