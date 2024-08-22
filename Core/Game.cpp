@@ -61,10 +61,7 @@ void IGame::Run() {
     mClock->Stop();
 
     RemoveAllScenes();
-
     physicsThread.join();
-
-    // Call shutdown code
     Shutdown();
 }
 

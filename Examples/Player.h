@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Core/GameObject.h"
+#include "Core/Sprite.h"
 
 using namespace GameObject;
 
@@ -26,4 +27,7 @@ public:
 
     // IDrawable
     void Draw(const Shared<SceneContext>& context) override;
+
+private:
+    Unique<Sprite> mSprite;
 };

@@ -13,6 +13,7 @@ include_directories(
 
 add_library(GameEngineCore STATIC
         Shared/Vendor/glad.c
+        Shared/Vendor/stb_image.cpp
         Core/Game.h
         Core/Game.cpp
         Core/Memory/ThreadPool.cpp
@@ -36,6 +37,13 @@ add_library(GameEngineCore STATIC
         Core/Memory/ArenaAllocator.h
         Core/Clock.cpp
         Core/Clock.h
+        Core/Primitives.h
+        Core/Sprite.cpp
+        Core/Sprite.h
+        Core/Shader.cpp
+        Core/Shader.h
+        Core/TextureLoader.cpp
+        Core/TextureLoader.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)

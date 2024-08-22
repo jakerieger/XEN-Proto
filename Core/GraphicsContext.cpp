@@ -28,7 +28,7 @@ GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& 
 
     // TODO: Handle window modes here, prior to swap interval
 
-    glfwSwapInterval(~vsync);
+    glfwSwapInterval(vsync);
 
     mWindow = UniqueDelete<GLFWwindow, DestroyWindow>(
       glfwCreateWindow(CAST<int>(width), CAST<int>(height), title.c_str(), None, None));
