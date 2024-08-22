@@ -11,6 +11,9 @@ Scene::Scene() {
 };
 
 void Scene::Awake() const {
+    // TODO: Pass screen dimensions to scene class, or something idfk
+    mSceneContext->MainCamera = std::make_shared<OrthoCamera>(1280.f, 720.f);
+
     for (const auto& go : mSceneContext->GameObjects) {
         go->Awake(mSceneContext);
     }
@@ -38,6 +41,8 @@ void Scene::Destroyed() const {
     for (const auto& go : mSceneContext->GameObjects) {
         go->Destroyed(mSceneContext);
     }
+
+    mSceneContext->MainCamera.reset();
 }
 
 void Scene::Render() const {

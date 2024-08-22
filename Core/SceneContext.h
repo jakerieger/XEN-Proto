@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Camera.h"
 #include "GameObject.h"
 #include "Shared/Types.h"
 
@@ -15,6 +16,7 @@ public:
     ~SceneContext() = default;
 
     Vector<Shared<IGameObject>> GameObjects;
+    Shared<ICamera> MainCamera;
 };
 
 #define ASSERT_GAMEOBJECT                                                                          \
