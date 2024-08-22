@@ -28,8 +28,6 @@ GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& 
 
     // TODO: Handle window modes here, prior to swap interval
 
-    glfwSwapInterval(vsync);
-
     mWindow = UniqueDelete<GLFWwindow, DestroyWindow>(
       glfwCreateWindow(CAST<int>(width), CAST<int>(height), title.c_str(), None, None));
     if (!mWindow) {
@@ -48,6 +46,8 @@ GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& 
     glfwSetFramebufferSizeCallback(mWindow.get(), [](GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);
     });
+
+    glfwSwapInterval(vsync);
 }
 
 GraphicsContext::~GraphicsContext() {

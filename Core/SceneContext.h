@@ -41,7 +41,7 @@ template<typename T>
 static T* FindGameObjectOf(const Shared<SceneContext>& context, const str& name) {
     ASSERT_GAMEOBJECT;
     for (auto& go : context->GameObjects) {
-        if (auto casted = dynamic_cast<T*>(go.get()); casted && casted->GetName() == name) {
+        if (auto casted = DCAST<T*>(go.get()); casted && casted->GetName() == name) {
             return casted;
         }
     }

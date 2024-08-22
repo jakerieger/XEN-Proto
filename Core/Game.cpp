@@ -56,6 +56,11 @@ void IGame::Run() {
             }
         }
 
+#ifndef NDEBUG
+        // Show the frame rate in the window title for debugging purposes
+        auto fmt = std::format("{} | FPS: {:.2f}", mTitle, mClock->GetFrameRate());
+        glfwSetWindowTitle(mGraphicsContext->GetWindow(), fmt.c_str());
+#endif
         mClock->Update();
     }
     mClock->Stop();
@@ -68,7 +73,7 @@ void IGame::Run() {
 void IGame::Shutdown() {
     mGraphicsContext.reset();
     mThreadPool.reset();
-    mActiveScene.reset();
+    mClock.reset();
 }
 
 void IGame::CreateResources() {
