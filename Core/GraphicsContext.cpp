@@ -61,7 +61,8 @@ GLFWwindow* GraphicsContext::GetWindow() const {
     return mWindow.get();
 }
 
-void GraphicsContext::BeginFrame() const {
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void GraphicsContext::BeginFrame() const {  // NOLINT(*-convert-member-functions-to-static)
     glfwPollEvents();
     glClearColor(17.f / 255.f, 18.f / 255.f, 28.f / 255.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

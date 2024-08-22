@@ -7,11 +7,11 @@
 #include "Core/PipelineStates.h"
 #include "Core/SceneContext.h"
 
-Player::Player() : mTransform(None) {}
+Player::Player() : mSprite(None), mTransform(None) {}
 
 void Player::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();
-    mSprite    = std::make_unique<Sprite>("Assets/Sprites/paddle_player.png");
+    mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/paddle_player.png", mTransform);
 
     IGameObject::Awake(context);
 }
@@ -26,7 +26,6 @@ void Player::LateUpdate(const Shared<SceneContext>& context) {
 
 void Player::Destroyed(const Shared<SceneContext>& context) {
     IGameObject::Destroyed(context);
-    mSprite.reset();
 }
 
 void Player::PhysicsUpdate(const Shared<SceneContext>& context) {
@@ -35,6 +34,7 @@ void Player::PhysicsUpdate(const Shared<SceneContext>& context) {
 
 void Player::Draw(const Shared<SceneContext>& context) {
     const auto camera = context->MainCamera;
-    PipelineStates::DrawWire();
-    mSprite->Draw(camera->GetViewMatrix(), camera->GetProjectionMatrix(), mSprite->GetModel());
+    mSprite->Draw(camera->GetViewMatrix(),
+                  camera->GetProjectionMatrix(),
+                  mTransform->GetModelMatrix());
 }

@@ -38,8 +38,8 @@ add_library(GameEngineCore STATIC
         Core/Clock.cpp
         Core/Clock.h
         Core/Primitives.h
-        Core/Sprite.cpp
-        Core/Sprite.h
+        Core/Components/SpriteRenderer.cpp
+        Core/Components/SpriteRenderer.h
         Core/Shader.cpp
         Core/Shader.h
         Core/TextureLoader.cpp

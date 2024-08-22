@@ -2,27 +2,25 @@
 // Created: 8/22/2024.
 //
 
-#include "Sprite.h"
-#include "Primitives.h"
-#include "TextureLoader.h"
+#include "SpriteRenderer.h"
+#include "../Primitives.h"
+#include "../TextureLoader.h"
 
-#include <glad/glad.h>
+#include <../../Shared/Vendor/glad/glad.h>
 
 #pragma region Shaders
-#include "Shaders/SpriteQuad.h"
+#include "../../Shaders/SpriteQuad.h"
 
 #include <glm/ext/matrix_transform.hpp>
 #pragma endregion
 
-Sprite::Sprite(const Path& sprite) {
+SpriteRenderer::SpriteRenderer(const Path& sprite, Transform* transform) {
     u32 width;
     u32 height;
     mTexture = LoadTextureFromFile(sprite, width, height);
     mShader  = std::make_unique<Shader>(Sprite_VS, Sprite_FS);
 
-    mModel                    = glm::mat4(1.0f);
-    mModel                    = glm::translate(mModel, glm::vec3(540, 0, 0));
-    mModel                    = glm::scale(mModel, glm::vec3(width / 4.f, height / 4.f, 1.0f));
+    transform->SetScale({CAST<f32>(width) / 4.f, CAST<f32>(height) / 4.f});
 
     glGenVertexArrays(1, &mVAO);
     glGenBuffers(1, &mVBO);
@@ -42,14 +40,16 @@ Sprite::Sprite(const Path& sprite) {
     mShader->Unbind();
 }
 
-Sprite::~Sprite() {
+SpriteRenderer::~SpriteRenderer() {
     mShader.reset();
     glDeleteVertexArrays(1, &mVAO);
     glDeleteBuffers(1, &mVBO);
     glDeleteTextures(1, &mTexture);
 }
 
-void Sprite::Draw(const glm::mat4& view, const glm::mat4& proj, const glm::mat4& model) const {
+void SpriteRenderer::Draw(const glm::mat4& view,
+                          const glm::mat4& proj,
+                          const glm::mat4& model) const {
     mShader->Bind();
     mShader->SetMat4("uView", view);
     mShader->SetMat4("uProjection", proj);
@@ -62,3 +62,11 @@ void Sprite::Draw(const glm::mat4& view, const glm::mat4& proj, const glm::mat4&
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
 }
+
+void SpriteRenderer::Awake() {}
+
+void SpriteRenderer::Update() {}
+
+void SpriteRenderer::LateUpdate() {}
+
+void SpriteRenderer::Destroyed() {}

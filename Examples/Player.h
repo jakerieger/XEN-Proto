@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Core/GameObject.h"
-#include "Core/Sprite.h"
+#include "../Core/Components/SpriteRenderer.h"
 #include "Core/Components/Transform.h"
 
 using namespace GameObject;
@@ -30,6 +30,6 @@ public:
     void Draw(const Shared<SceneContext>& context) override;
 
 private:
-    Unique<Sprite> mSprite;
+    SpriteRenderer* mSprite;
     Transform* mTransform;
 };
