@@ -10,14 +10,13 @@ Ball::Ball() : mSprite(None), mTransform(None) {}
 void Ball::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();
     mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/ball.png", mTransform);
+    mTransform->SetPosition({0, 0});
 
     IGameObject::Awake(context);
 }
 
 void Ball::Update(const Shared<SceneContext>& context, f32 dT) {
     IGameObject::Update(context, dT);
-
-    mTransform->SetPosition({0, 0});
 }
 
 void Ball::LateUpdate(const Shared<SceneContext>& context) {

@@ -10,14 +10,13 @@ Player::Player() : mSprite(None), mTransform(None) {}
 void Player::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();
     mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/paddle_player.png", mTransform);
+    mTransform->SetPosition({540, 0});
 
     IGameObject::Awake(context);
 }
 
 void Player::Update(const Shared<SceneContext>& context, f32 dT) {
     IGameObject::Update(context, dT);
-
-    mTransform->SetPosition({540, 0});
 }
 
 void Player::LateUpdate(const Shared<SceneContext>& context) {

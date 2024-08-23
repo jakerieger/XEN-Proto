@@ -55,20 +55,4 @@ add_library(GameEngineCore STATIC
 find_package(glfw3 CONFIG REQUIRED)
 target_link_libraries(GameEngineCore PRIVATE glfw)
 
-add_executable(Pong Examples/Pong.cpp
-        Examples/Player.cpp
-        Examples/Player.h
-        Examples/Opponent.cpp
-        Examples/Opponent.h
-        Examples/Ball.cpp
-        Examples/Ball.h)
-target_link_libraries(Pong PRIVATE GameEngineCore glfw)
-
-# Copy default engine config
-add_custom_command(TARGET Pong PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_SOURCE_DIR}/EngineConfig.ini ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/EngineConfig.ini)
-
-add_custom_command(TARGET Pong PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/Assets ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Assets)
+add_subdirectory(Examples/Pong)

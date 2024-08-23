@@ -1,4 +1,5 @@
 #include "Ball.h"
+#include "Opponent.h"
 #include "Player.h"
 #include "Core/Game.h"
 
@@ -15,9 +16,11 @@ public:
     void Initialize() override {
         const auto gameScene = std::make_shared<Scene>();
         const auto player    = std::make_shared<Player>();
+        const auto opponent  = std::make_shared<Opponent>();
         const auto ball      = std::make_shared<Ball>();
 
         gameScene->AddGameObject(player);
+        gameScene->AddGameObject(opponent);
         gameScene->AddGameObject(ball);
         gameScene->SetCamera(OrthoCamera::CreateDefault());
 
