@@ -87,5 +87,12 @@ using Map = std::map<K, V>;
 template<typename T>
 using Future = std::future<T>;
 
+struct Rect {
+    int Left   = 0;
+    int Top    = 0;
+    int Right  = 0;
+    int Bottom = 0;
+};
+
 constexpr auto Inf32 = std::numeric_limits<float>::infinity();
 constexpr auto Inf64 = std::numeric_limits<double>::infinity();

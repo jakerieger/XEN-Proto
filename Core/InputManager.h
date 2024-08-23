@@ -18,7 +18,7 @@ struct FActionState {
 
 class InputManager {
 public:
-    explicit InputManager(GLFWwindow* window);
+    InputManager(GLFWwindow* window, FInputMap inputMap);
     ~InputManager();
 
     void RegisterListener(const Shared<IInputListener>& listener);
@@ -34,10 +34,13 @@ public:
     [[nodiscard]] Dictionary<u32, FActionState> GetKeyStates() const;
     [[nodiscard]] Dictionary<u32, FActionState> GetMouseButtonStates() const;
 
+    FInputMap GetInputMap() const;
+
 private:
     Vector<Shared<IInputListener>> mListeners;
     Dictionary<u32, FActionState> mKeyStates;
     Dictionary<u32, FActionState> mMouseButtonStates;
     Thread mDispatchThread;
     bool mShouldDispatch = false;
+    FInputMap mInputMap;
 };

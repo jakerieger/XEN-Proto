@@ -6,17 +6,13 @@
 
 #include "Shared/Types.h"
 
+#define MINI_CASE_SENSITIVE
 #include <ini.h>
 
 enum class EWindowMode {
     Windowed,
     Borderless,
     Fullscreen,
-};
-
-struct alignas(4) FInternalConfig {
-    f32 FixedTimestep   = 60.f;
-    f32 PhysicsTimestep = 120.f;
 };
 
 struct alignas(4) FRenderingConfig {
@@ -33,18 +29,18 @@ struct alignas(4) FAudioConfig {
     f32 VoiceVolume  = 1.f;
 };
 
-class EngineConfig {
+struct FInputMap {
+    Dictionary<str, str> InputMappings;
+
+    [[nodiscard]] str GetInputMapping(const str& name) const;
+    [[nodiscard]] Dictionary<str, str> GetInputMappings() const;
+    void AddInputMapping(const str& name, const str& value);
+};
+
+class Config {
 public:
-    EngineConfig() = default;
+    Config() = default;
     void LoadConfig(const Path& config);
-
-    [[nodiscard]] FInternalConfig GetInternalConfig() const {
-        return mInternalConfig;
-    }
-
-    void SetInternalConfig(const FInternalConfig& config) {
-        mInternalConfig = config;
-    }
 
     [[nodiscard]] FRenderingConfig GetRenderingConfig() const {
         return mRenderingConfig;
@@ -62,12 +58,16 @@ public:
         mAudioConfig = audioConfig;
     }
 
+    [[nodiscard]] FInputMap GetInputMap() const {
+        return mInputMap;
+    }
+
 private:
-    FInternalConfig mInternalConfig;
     FRenderingConfig mRenderingConfig;
     FAudioConfig mAudioConfig;
+    FInputMap mInputMap;
 
-    void LoadInternalConfig(mINI::INIStructure& config);
     void LoadRenderingConfig(mINI::INIStructure& config);
     void LoadAudioConfig(mINI::INIStructure& config);
+    void LoadInputMappings(mINI::INIStructure& config);
 };

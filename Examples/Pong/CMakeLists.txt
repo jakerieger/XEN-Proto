@@ -1,27 +1,37 @@
 cmake_minimum_required(VERSION 3.14)
 project(2DGameEngine)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Pong)
+
 include_directories(
         ${CMAKE_SOURCE_DIR}
 )
 
-add_executable(Pong
-        Pong.cpp
+set(GAME_SOURCES Pong.cpp
         Ball.h
         Ball.cpp
         Player.h
         Player.cpp
         Opponent.h
-        Opponent.cpp
-)
+        Opponent.cpp)
+
+if (WIN32)
+    add_executable(Pong ${GAME_SOURCES} Res/XenGame.rc)
+else ()
+    add_executable(Pong ${GAME_SOURCES})
+endif ()
 
 target_link_libraries(Pong PRIVATE GameEngineCore glfw)
 
 # Copy default engine config
 add_custom_command(TARGET Pong PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_SOURCE_DIR}/EngineConfig.ini ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/EngineConfig.ini)
+        ${CMAKE_CURRENT_SOURCE_DIR}/Config.ini ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.ini)
 
 add_custom_command(TARGET Pong PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Assets)
+
+add_custom_command(TARGET Pong PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/Res ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Res)

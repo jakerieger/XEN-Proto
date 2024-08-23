@@ -3,10 +3,11 @@
 //
 
 #include "GraphicsContext.h"
-
 #include "PipelineStates.h"
 
-GraphicsContext::GraphicsContext(const Shared<EngineConfig>& config, const str& title)
+#include <stb_image.h>
+
+GraphicsContext::GraphicsContext(const Shared<Config>& config, const str& title)
     : mWidthCreated(0), mHeightCreated(0), mWidthCurrent(0), mHeightCurrent(0), mConfig(config) {
     const auto width      = config->GetRenderingConfig().ResX;
     const auto height     = config->GetRenderingConfig().ResY;
@@ -59,6 +60,20 @@ GraphicsContext::~GraphicsContext() {
 
 GLFWwindow* GraphicsContext::GetWindow() const {
     return mWindow.get();
+}
+
+void GraphicsContext::SetWindowIcon(const Path& icon) const {
+    int width, height, numChannels;
+    u8* img = stbi_load(icon.string().c_str(), &width, &height, &numChannels, 0);
+    if (!img)
+        return;
+
+    GLFWimage icons[1];
+    icons[0].pixels = img;
+    icons->width    = width;
+    icons->height   = height;
+    glfwSetWindowIcon(GetWindow(), 1, icons);
+    stbi_image_free(img);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic

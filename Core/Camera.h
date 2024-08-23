@@ -16,7 +16,7 @@ public:
 
     [[nodiscard]] virtual glm::mat4 GetViewMatrix() const       = 0;
     [[nodiscard]] virtual glm::mat4 GetProjectionMatrix() const = 0;
-    virtual void Update() = 0;
+    virtual void Update()                                       = 0;
 
     template<typename T>
     T* As() {
@@ -35,8 +35,11 @@ public:
 
     [[nodiscard]] glm::mat4 GetViewMatrix() const override;
     [[nodiscard]] glm::mat4 GetProjectionMatrix() const override;
-    [[nodiscard]] glm::vec3 ScreenToWorld(const glm::vec2& screenCoords, const glm::vec2& screenSize) const;
-    [[nodiscard]] glm::vec2 WorldToScreen(const glm::vec3& worldCoords, const glm::vec2& screenSize) const;
+    [[nodiscard]] glm::vec3 ScreenToWorld(const glm::vec2& screenCoords,
+                                          const glm::vec2& screenSize) const;
+    [[nodiscard]] glm::vec2 WorldToScreen(const glm::vec3& worldCoords,
+                                          const glm::vec2& screenSize) const;
+    [[nodiscard]] Rect GetViewport() const;
 
     void Update() override;
 
@@ -46,8 +49,8 @@ private:
     void UpdateView();
     void UpdateProjection();
 
-    glm::mat4 mViewMatrix{};
-    glm::mat4 mProjectionMatrix{};
+    glm::mat4 mViewMatrix {};
+    glm::mat4 mProjectionMatrix {};
 
     f32 mLeft, mRight, mBottom, mTop, mNear, mFar;
     glm::vec3 mPosition;

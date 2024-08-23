@@ -5,9 +5,11 @@
 #pragma once
 
 #include "Component.h"
+#include "Config.h"
 #include "Shared/Types.h"
 #include "InputEvents.h"
 
+// Forward declarations
 class SceneContext;
 
 class IGameObject {
@@ -82,15 +84,15 @@ namespace GameObject::Traits {
     class IInputListener {
     public:
         virtual ~IInputListener() = default;
-        virtual void OnKey(const FKeyEvent& event) {}
-        virtual void OnKeyDown(const FKeyEvent& event) {}
-        virtual void OnKeyUp(const FKeyEvent& event) {}
-        virtual void OnMouseMove(const FMouseMoveEvent& event) {}
-        virtual void OnMouseDown(const FMouseButtonEvent& event) {}
-        virtual void OnMouseUp(const FMouseButtonEvent& event) {}
-        virtual void OnMouseWheel(const FMouseWheelEvent& event) {}
-        virtual void OnMouseLeave(const FMouseMoveEvent& event) {}
-        virtual void OnMouseEnter(const FMouseMoveEvent& event) {}
+        virtual void OnKey(const FKeyEvent& event, const FInputMap& input) {}
+        virtual void OnKeyDown(const FKeyEvent& event, const FInputMap& input) {}
+        virtual void OnKeyUp(const FKeyEvent& event, const FInputMap& input) {}
+        virtual void OnMouseMove(const FMouseMoveEvent& event, const FInputMap& input) {}
+        virtual void OnMouseDown(const FMouseButtonEvent& event, const FInputMap& input) {}
+        virtual void OnMouseUp(const FMouseButtonEvent& event, const FInputMap& input) {}
+        virtual void OnMouseWheel(const FMouseWheelEvent& event, const FInputMap& input) {}
+        virtual void OnMouseLeave(const FMouseMoveEvent& event, const FInputMap& input) {}
+        virtual void OnMouseEnter(const FMouseMoveEvent& event, const FInputMap& input) {}
     };
 
     class IDrawable {

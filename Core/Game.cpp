@@ -8,9 +8,9 @@
 #include <ranges>
 
 IGame::IGame(const str& title) {
-    mConfig = std::make_shared<EngineConfig>();
+    mConfig = std::make_shared<Config>();
     try {
-        mConfig->LoadConfig("EngineConfig.ini");
+        mConfig->LoadConfig("Config.ini");
     } catch (RuntimeError& ex) {
         std::cerr << "[IGame::IGame] " << ex.what() << ", using defaults." << std::endl;
     }
@@ -25,7 +25,7 @@ static void PhysicsThread(const IGame* game) {
             }
         }
 
-        const auto timestep = 1.f / game->GetEngineConfig()->GetInternalConfig().PhysicsTimestep;
+        constexpr auto timestep = 1.f / 240.f;
         std::this_thread::sleep_for(std::chrono::duration<f32>(timestep));
     }
 }
@@ -67,27 +67,22 @@ void IGame::Run() {
 
     RemoveAllScenes();
     physicsThread.join();
+    mInputManager->SetShouldDispatch(false);
     Shutdown();
 }
 
 void IGame::Shutdown() {
     mGraphicsContext.reset();
-    mThreadPool.reset();
     mClock.reset();
     mInputManager.reset();
 }
 
 void IGame::CreateResources() {
     mGraphicsContext = std::make_unique<GraphicsContext>(mConfig, mTitle);
-
-    // TODO: Query user's computer to determine max number of threads
-    mThreadPool = std::make_unique<ThreadPool>(4);
-
-    mActiveScene = std::make_shared<Scene>();
-
-    mClock = std::make_unique<Clock>();
-
-    mInputManager = std::make_unique<InputManager>(mGraphicsContext->GetWindow());
+    mClock           = std::make_unique<Clock>();
+    mInputManager =
+      std::make_unique<InputManager>(mGraphicsContext->GetWindow(), mConfig->GetInputMap());
+    mInputManager->SetShouldDispatch(true);
 }
 
 bool IGame::IsRunning() const {
@@ -106,11 +101,7 @@ GraphicsContext* IGame::GetGraphicsContext() const {
     return mGraphicsContext.get();
 }
 
-ThreadPool* IGame::GetThreadPool() const {
-    return mThreadPool.get();
-}
-
-Shared<EngineConfig> IGame::GetEngineConfig() const {
+Shared<Config> IGame::GetEngineConfig() const {
     return mConfig;
 }
 
@@ -158,6 +149,9 @@ void IGame::Pause() {
 
 void IGame::Resume() {
     mPaused = false;
+}
+void IGame::SetWindowIcon(const Path& icon) const {
+    mGraphicsContext->SetWindowIcon(icon);
 }
 
 void IGame::RenderThread() const {

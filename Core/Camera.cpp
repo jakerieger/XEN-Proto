@@ -38,12 +38,12 @@ glm::mat4 OrthoCamera::GetProjectionMatrix() const {
 
 glm::vec3 OrthoCamera::ScreenToWorld(const glm::vec2& screenCoords,
                                      const glm::vec2& screenSize) const {
-    glm::vec4 ndc((screenCoords.x / screenSize.x) * 2.0f - 1.0f,
-                  (screenCoords.y / screenSize.y) * 2.0f - 1.0f,
-                  0.0f,
-                  1.0f);
+    const glm::vec4 ndc((screenCoords.x / screenSize.x) * 2.0f - 1.0f,
+                        (screenCoords.y / screenSize.y) * 2.0f - 1.0f,
+                        0.0f,
+                        1.0f);
 
-    glm::vec4 world = glm::inverse(mProjectionMatrix * mViewMatrix) * ndc;
+    const glm::vec4 world = glm::inverse(mProjectionMatrix * mViewMatrix) * ndc;
     return glm::vec3(world.x, world.y, world.z) / world.w;
 }
 
@@ -52,8 +52,11 @@ glm::vec2 OrthoCamera::WorldToScreen(const glm::vec3& worldCoords,
     glm::vec4 screen = mProjectionMatrix * mViewMatrix * glm::vec4(worldCoords, 1.0f);
     screen /= screen.w;
 
-    return glm::vec2((screen.x + 1.0f) * 0.5f * screenSize.x,
-                     (screen.y + 1.0f) * 0.5f * screenSize.y);
+    return {(screen.x + 1.0f) * 0.5f * screenSize.x, (screen.y + 1.0f) * 0.5f * screenSize.y};
+}
+
+Rect OrthoCamera::GetViewport() const {
+    return Rect(CAST<int>(mLeft), CAST<int>(mTop), CAST<int>(mRight), CAST<int>(mBottom));
 }
 
 void OrthoCamera::UpdateView() {
@@ -61,8 +64,8 @@ void OrthoCamera::UpdateView() {
 }
 
 void OrthoCamera::UpdateProjection() {
-    f32 width       = (mRight - mLeft) / mScale;
-    f32 height      = (mTop - mBottom) / mScale;
+    f32 width         = (mRight - mLeft) / mScale;
+    f32 height        = (mTop - mBottom) / mScale;
     mProjectionMatrix = glm::ortho(mLeft, mRight, mBottom, mTop, mNear, mFar);
 }
 
@@ -72,5 +75,5 @@ void OrthoCamera::Update() {
 }
 
 Shared<OrthoCamera> OrthoCamera::CreateDefault() {
-     return std::make_shared<OrthoCamera>(-640, 640, -360, 360);
+    return std::make_shared<OrthoCamera>(-640, 640, -360, 360);
 }

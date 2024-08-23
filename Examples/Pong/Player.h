@@ -7,6 +7,7 @@
 #include "Core/GameObject.h"
 #include "Core/Components/SpriteRenderer.h"
 #include "Core/Components/Transform.h"
+#include "Core/Config.h"
 
 using namespace GameObject;
 
@@ -29,9 +30,10 @@ public:
     // IDrawable
     void Draw(const Shared<SceneContext>& context) override;
 
-    void OnKeyDown(const FKeyEvent& event) override;
+    void OnKey(const FKeyEvent& event, const FInputMap& input) override;
 
 private:
     SpriteRenderer* mSprite;
     Transform* mTransform;
+    glm::vec2 mStartPosition;
 };

@@ -24,8 +24,8 @@ add_library(GameEngineCore STATIC
         Core/GraphicsContext.h
         Core/Scene.cpp
         Core/Scene.h
-        Core/EngineConfig.cpp
-        Core/EngineConfig.h
+        Core/Config.cpp
+        Core/Config.h
         Core/PipelineStates.cpp
         Core/PipelineStates.h
         Core/GameObject.cpp
@@ -53,6 +53,7 @@ add_library(GameEngineCore STATIC
         Core/InputEvents.h
         Core/InputManager.cpp
         Core/InputManager.h
+        Core/InputMap.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)

@@ -4,26 +4,29 @@
 
 #include "InputManager.h"
 
+#include <utility>
+
 static InputManager* gActiveManager = None;
 
 static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+
     if (!gActiveManager) {
         return;
     }
 
-    const u32 _key = CAST<u32>(key);
-    FKeyEvent event;
-    event.KeyCode = _key;
-
+    const FKeyEvent event(key);
     if (action == GLFW_PRESS) {
-        gActiveManager->UpdateKeyStates(_key, {true, false});
+        gActiveManager->UpdateKeyStates(key, {true, false});
         for (const auto& listener : gActiveManager->GetListeners()) {
-            listener->OnKeyDown(event);
+            listener->OnKeyDown(event, gActiveManager->GetInputMap());
         }
     } else if (action == GLFW_RELEASE) {
-        gActiveManager->UpdateKeyStates(_key, {false, true});
+        gActiveManager->UpdateKeyStates(key, {false, true});
         for (const auto& listener : gActiveManager->GetListeners()) {
-            listener->OnKeyUp(event);
+            listener->OnKeyUp(event, gActiveManager->GetInputMap());
         }
     }
 }
@@ -38,17 +41,19 @@ static void DispatchThread() {
     while (gActiveManager->ShouldDispatch()) {
         for (const auto& [key, state] : gActiveManager->GetKeyStates()) {
             if (state.Pressed) {
-                FKeyEvent event = {};
-                event.KeyCode   = key;
+                FKeyEvent event(CAST<int>(key));
                 for (const auto& listener : gActiveManager->GetListeners()) {
-                    listener->OnKey(event);
+                    listener->OnKey(event, gActiveManager->GetInputMap());
                 }
             }
         }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(8));
     }
 }
 
-InputManager::InputManager(GLFWwindow* window) {
+InputManager::InputManager(GLFWwindow* window, FInputMap inputMap)
+    : mInputMap(std::move(inputMap)) {
     gActiveManager = this;
 
     glfwSetKeyCallback(window, KeyCallback);
@@ -106,4 +111,8 @@ Dictionary<u32, FActionState> InputManager::GetKeyStates() const {
 
 Dictionary<u32, FActionState> InputManager::GetMouseButtonStates() const {
     return mMouseButtonStates;
+}
+
+FInputMap InputManager::GetInputMap() const {
+    return mInputMap;
 }

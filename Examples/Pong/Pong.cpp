@@ -11,9 +11,15 @@ static const auto kGameName = "Pong";
 
 class Pong final : public IGame {
 public:
+    /**
+     * Do not initialize any runtime components in the game constructor.
+     * That should be done in `IGame::Initialize()`
+     */
     Pong() : IGame(kGameName) {}
 
     void Initialize() override {
+        SetWindowIcon("Res/icon.png");
+
         const auto gameScene = std::make_shared<Scene>();
         const auto player    = std::make_shared<Player>();
         const auto opponent  = std::make_shared<Opponent>();

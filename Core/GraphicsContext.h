@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "EngineConfig.h"
+#include "Config.h"
 #include "Shared/Types.h"
 
 #include <glad/glad.h>
@@ -12,9 +12,10 @@
 
 class GraphicsContext {
 public:
-    GraphicsContext(const Shared<EngineConfig>& config, const str& title);
+    GraphicsContext(const Shared<Config>& config, const str& title);
     ~GraphicsContext();
     [[nodiscard]] GLFWwindow* GetWindow() const;
+    void SetWindowIcon(const Path& icon) const;
 
     void BeginFrame() const;
     void EndFrame() const;
@@ -29,7 +30,7 @@ private:
     UniqueDelete<GLFWwindow, DestroyWindow> mWindow;
     u32 mWidthCreated, mHeightCreated;
     u32 mWidthCurrent, mHeightCurrent;
-    Weak<EngineConfig> mConfig;
+    Weak<Config> mConfig;
 
     void OnResize(u32 width, u32 height);
 };
