@@ -32,7 +32,9 @@ public:
     // IDrawable
     void Draw(const Shared<SceneContext>& context) override;
 
+    // IInputListener
     void OnKey(const FKeyEvent& event, const FInputMap& input) override;
+    void OnKeyDown(const FKeyEvent& event, const FInputMap& input) override;
 
 private:
     SpriteRenderer* mSprite;
@@ -40,5 +42,5 @@ private:
     glm::vec2 mStartPosition;
     Rect mViewport;
 
-    bool OutOfBounds(const glm::vec2& position) const;
+    [[nodiscard]] bool OutOfBounds(const glm::vec2& position) const;
 };

@@ -17,25 +17,25 @@ public:
     virtual ~IGameObject() = default;
 
     virtual void Awake(const Shared<SceneContext>& context) {
-        for (auto& component : mComponents) {
+        for (const auto& component : mComponents) {
             component->Awake();
         }
     }
 
     virtual void Update(const Shared<SceneContext>& context, f32 dT) {
-        for (auto& component : mComponents) {
+        for (const auto& component : mComponents) {
             component->Update();
         }
     }
 
     virtual void LateUpdate(const Shared<SceneContext>& context) {
-        for (auto& component : mComponents) {
+        for (const auto& component : mComponents) {
             component->LateUpdate();
         }
     }
 
     virtual void Destroyed(const Shared<SceneContext>& context) {
-        for (auto& component : mComponents) {
+        for (const auto& component : mComponents) {
             component->Destroyed();
         }
 

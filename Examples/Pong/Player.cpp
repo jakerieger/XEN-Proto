@@ -26,6 +26,9 @@ void Player::LateUpdate(const Shared<SceneContext>& context) {
 
 void Player::Destroyed(const Shared<SceneContext>& context) {
     IGameObject::Destroyed(context);
+
+    mSprite    = None;
+    mTransform = None;
 }
 
 void Player::PhysicsUpdate(const Shared<SceneContext>& context) {
@@ -53,15 +56,24 @@ void Player::OnKey(const FKeyEvent& event, const FInputMap& input) {
     if (event.KeyCode == GetKeyCode(moveUp)) {
         const glm::vec2 newPosition = {mTransform->GetPosition().x,
                                        mTransform->GetPosition().y + 10.f};
-        if (!OutOfBounds(newPosition))
+        if (!OutOfBounds(newPosition)) {
             mTransform->SetPosition(newPosition);
+        }
     }
 
     if (event.KeyCode == GetKeyCode(moveDown)) {
         const glm::vec2 newPosition = {mTransform->GetPosition().x,
                                        mTransform->GetPosition().y - 10.f};
-        if (!OutOfBounds(newPosition))
+        if (!OutOfBounds(newPosition)) {
             mTransform->SetPosition(newPosition);
+        }
+    }
+}
+void Player::OnKeyDown(const FKeyEvent& event, const FInputMap& input) {
+    IInputListener::OnKeyDown(event, input);
+
+    if (event.KeyCode == GetKeyCode("Key.R")) {
+        mTransform->SetPosition(mStartPosition);
     }
 }
 
