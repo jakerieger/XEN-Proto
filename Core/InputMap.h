@@ -5,6 +5,9 @@
 #pragma once
 #include "Shared/Types.h"
 
+/**
+ * @brief Holds all the key name to key code mappings.
+ */
 static const Dictionary<str, u32> KeyMap = {
   {"Key.Space", 32},
   {"Key.Apostrophe", 39},
@@ -128,6 +131,9 @@ static const Dictionary<str, u32> KeyMap = {
   {"Key.RightMenu", 348},
 };
 
+/**
+ * @brief Holds all the mouse button mappings.
+ */
 static const Dictionary<str, u32> MouseButtonMap = {
   {"Mouse.Left", 0},
   {"Mouse.Right", 1},
@@ -136,4 +142,8 @@ static const Dictionary<str, u32> MouseButtonMap = {
 
 static u32 GetKeyCode(const str& name) {
     return KeyMap.find(name)->second;
+}
+
+static u32 GetMouseButton(const str& name) {
+    return MouseButtonMap.find(name)->second;
 }
