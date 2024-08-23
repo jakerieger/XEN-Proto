@@ -6,6 +6,7 @@
 
 #include "Component.h"
 #include "Shared/Types.h"
+#include "InputEvents.h"
 
 class SceneContext;
 
@@ -81,15 +82,15 @@ namespace GameObject::Traits {
     class IInputListener {
     public:
         virtual ~IInputListener() = default;
-        virtual void OnKey() {}
-        virtual void OnKeyDown() {}
-        virtual void OnKeyUp() {}
-        virtual void OnMouseMove() {}
-        virtual void OnMouseDown() {}
-        virtual void OnMouseUp() {}
-        virtual void OnMouseWheel() {}
-        virtual void OnMouseLeave() {}
-        virtual void OnMouseEnter() {}
+        virtual void OnKey(const FKeyEvent& event) {}
+        virtual void OnKeyDown(const FKeyEvent& event) {}
+        virtual void OnKeyUp(const FKeyEvent& event) {}
+        virtual void OnMouseMove(const FMouseMoveEvent& event) {}
+        virtual void OnMouseDown(const FMouseButtonEvent& event) {}
+        virtual void OnMouseUp(const FMouseButtonEvent& event) {}
+        virtual void OnMouseWheel(const FMouseWheelEvent& event) {}
+        virtual void OnMouseLeave(const FMouseMoveEvent& event) {}
+        virtual void OnMouseEnter(const FMouseMoveEvent& event) {}
     };
 
     class IDrawable {

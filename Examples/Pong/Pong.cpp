@@ -24,6 +24,8 @@ public:
         gameScene->AddGameObject(ball);
         gameScene->SetCamera(OrthoCamera::CreateDefault());
 
+        mInputManager->RegisterListener(player);
+
         AddScene("game", gameScene);
         LoadScene("game");
     }

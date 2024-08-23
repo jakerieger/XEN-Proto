@@ -29,6 +29,8 @@ public:
     // IDrawable
     void Draw(const Shared<SceneContext>& context) override;
 
+    void OnKeyDown(const FKeyEvent& event) override;
+
 private:
     SpriteRenderer* mSprite;
     Transform* mTransform;

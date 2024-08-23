@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Core/SceneContext.h"
 
+#include <iostream>
+
 Player::Player() : mSprite(None), mTransform(None) {}
 
 void Player::Awake(const Shared<SceneContext>& context) {
@@ -36,4 +38,8 @@ void Player::Draw(const Shared<SceneContext>& context) {
     mSprite->Draw(camera->GetViewMatrix(),
                   camera->GetProjectionMatrix(),
                   mTransform->GetModelMatrix());
+}
+
+void Player::OnKeyDown(const FKeyEvent& event) {
+    IInputListener::OnKeyDown(event);
 }

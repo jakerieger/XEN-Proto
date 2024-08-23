@@ -7,6 +7,7 @@
 #include "Clock.h"
 #include "EngineConfig.h"
 #include "GraphicsContext.h"
+#include "InputManager.h"
 #include "Scene.h"
 #include "Memory/ThreadPool.h"
 #include "Shared/Types.h"
@@ -45,6 +46,7 @@ protected:
     Shared<Scene> mActiveScene;
     Shared<EngineConfig> mConfig;
     Unique<Clock> mClock;
+    Unique<InputManager> mInputManager;
 
     Dictionary<str, Shared<Scene>> mScenes;
 

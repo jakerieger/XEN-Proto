@@ -50,6 +50,9 @@ add_library(GameEngineCore STATIC
         Core/Component.h
         Core/Components/Transform.cpp
         Core/Components/Transform.h
+        Core/InputEvents.h
+        Core/InputManager.cpp
+        Core/InputManager.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)

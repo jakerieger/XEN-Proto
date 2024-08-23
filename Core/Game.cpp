@@ -74,6 +74,7 @@ void IGame::Shutdown() {
     mGraphicsContext.reset();
     mThreadPool.reset();
     mClock.reset();
+    mInputManager.reset();
 }
 
 void IGame::CreateResources() {
@@ -85,6 +86,8 @@ void IGame::CreateResources() {
     mActiveScene = std::make_shared<Scene>();
 
     mClock = std::make_unique<Clock>();
+
+    mInputManager = std::make_unique<InputManager>(mGraphicsContext->GetWindow());
 }
 
 bool IGame::IsRunning() const {
