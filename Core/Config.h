@@ -33,7 +33,6 @@ struct FInputMap {
     Dictionary<str, str> InputMappings;
 
     [[nodiscard]] str GetInputMapping(const str& name) const;
-    [[nodiscard]] Dictionary<str, str> GetInputMappings() const;
     void AddInputMapping(const str& name, const str& value);
 };
 
