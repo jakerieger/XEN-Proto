@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "Ball.h"
+#include "Ball.h"
 #include "Core/GameObject.h"
 #include "Core/Components/SpriteRenderer.h"
 #include "Core/Components/Transform.h"
@@ -36,4 +38,7 @@ private:
     SpriteRenderer* mSprite;
     Transform* mTransform;
     glm::vec2 mStartPosition;
+    Rect mViewport;
+
+    bool OutOfBounds(const glm::vec2& position) const;
 };

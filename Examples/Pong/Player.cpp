@@ -18,13 +18,6 @@ void Player::Awake(const Shared<SceneContext>& context) {
 
 void Player::Update(const Shared<SceneContext>& context, f32 dT) {
     IGameObject::Update(context, dT);
-
-    const auto camera = context->MainCamera->As<OrthoCamera>();
-    if (!camera)
-        return;
-    auto viewport = camera->GetViewport();
-
-    // Check out of bounds
 }
 
 void Player::LateUpdate(const Shared<SceneContext>& context) {
@@ -36,7 +29,12 @@ void Player::Destroyed(const Shared<SceneContext>& context) {
 }
 
 void Player::PhysicsUpdate(const Shared<SceneContext>& context) {
-    // TODO: Update paddle movement and collision here
+    const auto camera = context->MainCamera->As<OrthoCamera>();
+    if (!camera)
+        return;
+    const auto viewport = camera->GetViewport();
+    // Store camera viewport for checking if player is out-of-bounds
+    mViewport = viewport;
 }
 
 void Player::Draw(const Shared<SceneContext>& context) {
@@ -53,10 +51,36 @@ void Player::OnKey(const FKeyEvent& event, const FInputMap& input) {
     const auto moveDown = input.GetInputMapping("MoveDown");
 
     if (event.KeyCode == GetKeyCode(moveUp)) {
-        mTransform->SetPosition({mTransform->GetPosition().x, mTransform->GetPosition().y + 10.f});
+        const glm::vec2 newPosition = {mTransform->GetPosition().x,
+                                       mTransform->GetPosition().y + 10.f};
+        if (!OutOfBounds(newPosition))
+            mTransform->SetPosition(newPosition);
     }
 
     if (event.KeyCode == GetKeyCode(moveDown)) {
-        mTransform->SetPosition({mTransform->GetPosition().x, mTransform->GetPosition().y - 10.f});
+        const glm::vec2 newPosition = {mTransform->GetPosition().x,
+                                       mTransform->GetPosition().y - 10.f};
+        if (!OutOfBounds(newPosition))
+            mTransform->SetPosition(newPosition);
     }
+}
+
+bool Player::OutOfBounds(const glm::vec2& position) const {
+    // Check out of bounds
+    const auto height = mTransform->GetScale().y;
+    const auto top    = mViewport.Top;
+    const auto bottom = mViewport.Bottom;
+
+    const auto topBounds    = CAST<f32>(top) - height;
+    const auto bottomBounds = CAST<f32>(bottom) + height;
+
+    if (position.y > topBounds) {
+        return true;
+    }
+
+    if (position.y < bottomBounds) {
+        return true;
+    }
+
+    return false;
 }

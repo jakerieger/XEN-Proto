@@ -25,8 +25,7 @@ static void PhysicsThread(const IGame* game) {
             }
         }
 
-        constexpr auto timestep = 1.f / 240.f;
-        std::this_thread::sleep_for(std::chrono::duration<f32>(timestep));
+        std::this_thread::sleep_for(std::chrono::milliseconds(4));
     }
 }
 
