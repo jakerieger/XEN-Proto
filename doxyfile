@@ -123,10 +123,8 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ./Core \
-                        ./Shared/IO.h \
-                        ./Shared/Types.h \
-                        ./Shared/TypeTraits.h \
+INPUT                  = Core \
+                        Shared
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -175,7 +173,6 @@ FILE_PATTERNS          = *.c \
 RECURSIVE              = YES
 EXCLUDE                = Examples \
                          build \
-                         Shared \
                          Shaders \
                          .github \
                          .git \
