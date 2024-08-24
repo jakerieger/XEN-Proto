@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = XEN Engine
-PROJECT_NUMBER         = 0.0.1
+PROJECT_NUMBER         = 0.0.0
 PROJECT_BRIEF          = "Open source 2D game engine"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = Docs
@@ -123,7 +123,10 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ./Core
+INPUT                  = ./Core \
+                        ./Shared/IO.h \
+                        ./Shared/Types.h \
+                        ./Shared/TypeTraits.h \
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -178,6 +181,7 @@ EXCLUDE                = Examples \
                          .git \
                          .gitignore \
                          .gitattributes \
+                         Shared/Vendor \
 EXCLUDE_SYMLINKS       = YES
 EXCLUDE_PATTERNS       = *.txt \
                          LICENSE

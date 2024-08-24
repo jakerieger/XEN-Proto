@@ -10,12 +10,10 @@
 #include <string>
 #include <limits>
 #include <filesystem>
-#include <fstream>
 #include <functional>
 #include <future>
 #include <map>
 #include <mutex>
-#include <optional>
 #include <queue>
 #include <thread>
 #include <unordered_map>
@@ -25,18 +23,30 @@
 #define CCAST const_cast
 #define DCAST dynamic_cast
 
-using u8   = uint8_t;
-using u16  = uint16_t;
-using u32  = uint32_t;
-using u64  = uint64_t;
-using i8   = int8_t;
-using i16  = int16_t;
-using i32  = int32_t;
-using i64  = int64_t;
-using f32  = float;
-using f64  = double;
+/// Unsigned 8-bit integer
+using u8 = uint8_t;
+/// Unsigned 16-bit integer
+using u16 = uint16_t;
+/// Unsigned 32-bit integer
+using u32 = uint32_t;
+/// Unsigned 64-bit integer
+using u64 = uint64_t;
+/// Signed 8-bit integer
+using i8 = int8_t;
+/// Signed 16-bit integer
+using i16 = int16_t;
+/// Signed 32-bit integer
+using i32 = int32_t;
+/// Signed 64-bit integer
+using i64 = int64_t;
+/// 32-bit floating point number
+using f32 = float;
+/// 64-bit floating point number
+using f64 = double;
+/// UTF-16 encoded wide string
 using wstr = std::wstring;
-using str  = std::string;
+/// UTF-8 encoded string
+using str = std::string;
 
 using Exception    = std::exception;
 using RuntimeError = std::runtime_error;
