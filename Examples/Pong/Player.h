@@ -11,13 +11,11 @@
 
 using namespace GameObject;
 
-/**
- * Implement a game object for our player. Note that you can
- * extend a game object's capabilities by inheriting specific traits:
- * - Objects that are drawn on screen must inherit `IDrawable`.
- * - Objects that wish to receive input must inherit `IInputListener`.
- * - Objects that require fixed time-step updating must inherit `IPhysicsObject`.
- */
+/// Implement a game object for our player. Note that you can
+/// extend a game object's capabilities by inheriting specific traits:
+/// - Objects that are drawn on screen must inherit `IDrawable`.
+/// - Objects that wish to receive input must inherit `IInputListener`.
+/// - Objects that require fixed time-step updating must inherit `IPhysicsObject`.
 class Player final : public IGameObject,
                      public Traits::IDrawable,
                      public Traits::IInputListener,

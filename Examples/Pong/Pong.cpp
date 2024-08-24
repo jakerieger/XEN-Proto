@@ -13,11 +13,9 @@ static const auto kGameName = "Pong";
 
 class Pong final : public IGame {
 public:
-    /**
-     * Do not initialize any runtime components in the game constructor.
-     * That should be done in `IGame::Initialize()`. Otherwise, you'll create
-     * resources before the classes that own them have been instantiated.
-     */
+    /// Do not initialize any runtime components in the game constructor.
+    /// That should be done in `IGame::Initialize()`. Otherwise, you'll create
+    /// resources before the classes that own them have been instantiated.
     Pong() : IGame(kGameName) {}
 
     void Initialize() override {

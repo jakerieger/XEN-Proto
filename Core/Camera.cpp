@@ -4,6 +4,8 @@
 
 #include "Camera.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 OrthoCamera::OrthoCamera(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
     : mLeft(left), mRight(right), mBottom(bottom), mTop(top), mNear(near), mFar(far),
       mPosition(0.0f), mScale(1.0f) {

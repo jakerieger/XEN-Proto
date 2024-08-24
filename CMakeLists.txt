@@ -54,6 +54,7 @@ add_library(GameEngineCore STATIC
         Core/InputManager.cpp
         Core/InputManager.h
         Core/InputMap.h
+        Shared/TypeTraits.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
