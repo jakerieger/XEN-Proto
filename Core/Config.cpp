@@ -25,10 +25,6 @@ str FInputMap::GetInputMapping(const str& name) const {
     return InputMappings.find(name)->second;
 }
 
-Dictionary<str, str> FInputMap::GetInputMappings() const {
-    return InputMappings;
-}
-
 void FInputMap::AddInputMapping(const str& name, const str& value) {
     InputMappings[name] = value;
 }
