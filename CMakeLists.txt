@@ -55,6 +55,10 @@ add_library(GameEngineCore STATIC
         Core/InputManager.h
         Core/InputMap.h
         Shared/TypeTraits.h
+        Core/Memory/Unique.cpp
+        Core/Memory/Unique.h
+        Core/Memory/Shared.cpp
+        Core/Memory/Shared.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
