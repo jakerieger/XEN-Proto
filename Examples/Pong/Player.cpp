@@ -86,11 +86,7 @@ bool Player::OutOfBounds(const glm::vec2& position) const {
     const auto topBounds    = CAST<f32>(top) - height;
     const auto bottomBounds = CAST<f32>(bottom) + height;
 
-    if (position.y > topBounds) {
-        return true;
-    }
-
-    if (position.y < bottomBounds) {
+    if (position.y > topBounds || position.y < bottomBounds) {
         return true;
     }
 
