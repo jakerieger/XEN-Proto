@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Config.h"
+#include "EventSystem.h"
 #include "Shared/Types.h"
 
 #include <glad/glad.h>
@@ -12,13 +13,21 @@
 
 class GraphicsContext {
 public:
-    GraphicsContext(const Shared<Config>& config, const str& title);
+    GraphicsContext(const Shared<Config>& config,
+                    const str& title,
+                    const Shared<EventDispatcher>& dispatcher);
     ~GraphicsContext();
     [[nodiscard]] GLFWwindow* GetWindow() const;
-    void SetWindowIcon(const Path& icon) const;
 
     void BeginFrame() const;
     void EndFrame() const;
+
+    void SetWindowIcon(const Path& icon) const;
+    void SetWindowMode(EWindowMode mode) const;
+    void SetWindowTitle(const str& title) const;
+    void SetResolution(int width, int height);
+
+    static void SetVSyncEnabled(bool enable);
 
 private:
     struct DestroyWindow {
@@ -31,6 +40,7 @@ private:
     u32 mWidthCreated, mHeightCreated;
     u32 mWidthCurrent, mHeightCurrent;
     Weak<Config> mConfig;
+    Shared<EventDispatcher> mDispatcher;
 
     void OnResize(u32 width, u32 height);
 };

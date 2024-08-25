@@ -3,12 +3,17 @@
 //
 
 #include "GraphicsContext.h"
+
+#include "Events.h"
 #include "PipelineStates.h"
 
 #include <stb_image.h>
 
-GraphicsContext::GraphicsContext(const Shared<Config>& config, const str& title)
-    : mWidthCreated(0), mHeightCreated(0), mWidthCurrent(0), mHeightCurrent(0), mConfig(config) {
+GraphicsContext::GraphicsContext(const Shared<Config>& config,
+                                 const str& title,
+                                 const Shared<EventDispatcher>& dispatcher)
+    : mWidthCreated(0), mHeightCreated(0), mWidthCurrent(0), mHeightCurrent(0), mConfig(config),
+      mDispatcher(dispatcher) {
     const auto width      = config->GetRenderingConfig().ResX;
     const auto height     = config->GetRenderingConfig().ResY;
     const auto vsync      = config->GetRenderingConfig().VSync;
@@ -76,6 +81,24 @@ void GraphicsContext::SetWindowIcon(const Path& icon) const {
     stbi_image_free(img);
 }
 
+void GraphicsContext::SetWindowMode(const EWindowMode mode) const {
+    // TODO: Set window mode
+}
+
+void GraphicsContext::SetWindowTitle(const str& title) const {
+    glfwSetWindowTitle(GetWindow(), title.c_str());
+}
+
+void GraphicsContext::SetVSyncEnabled(bool enable) {
+    glfwSwapInterval(enable);
+}
+
+void GraphicsContext::SetResolution(int width, int height) {
+    glfwSetWindowSize(GetWindow(), width, height);
+    glViewport(0, 0, width, height);
+    OnResize(width, height);
+}
+
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void GraphicsContext::BeginFrame() const {  // NOLINT(*-convert-member-functions-to-static)
     glfwPollEvents();
@@ -94,4 +117,5 @@ void GraphicsContext::EndFrame() const {
 void GraphicsContext::OnResize(u32 width, u32 height) {
     mWidthCurrent  = width;
     mHeightCurrent = height;
+    mDispatcher->Dispatch(ResolutionChangedEvent(CAST<i32>(width), CAST<i32>(height)));
 }

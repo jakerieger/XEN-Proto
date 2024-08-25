@@ -31,4 +31,9 @@ public:
 private:
     SpriteRenderer* mSprite;
     Transform* mTransform;
+    glm::vec2 mStartPosition;
+    Rect mViewport;
+    glm::vec2 mVelocity = {0.f, 10.f};
+
+    [[nodiscard]] bool OutOfBounds(const glm::vec2& position) const;
 };

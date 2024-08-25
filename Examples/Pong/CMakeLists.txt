@@ -13,7 +13,9 @@ set(GAME_SOURCES Pong.cpp
         Player.h
         Player.cpp
         Opponent.h
-        Opponent.cpp)
+        Opponent.cpp
+        GameInput.cpp
+        GameInput.h)
 
 if (WIN32)
     add_executable(Pong ${GAME_SOURCES} Res/XenGame.rc)

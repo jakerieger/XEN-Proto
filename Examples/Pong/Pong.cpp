@@ -2,6 +2,7 @@
 
 // Game Object classes
 #include "Ball.h"
+#include "GameInput.h"
 #include "Opponent.h"
 #include "Player.h"
 
@@ -18,7 +19,7 @@ public:
     /// resources before the classes that own them have been instantiated.
     Pong() : IGame(kGameName) {}
 
-    void Initialize() override {
+    void Create() override {
         // If you have a png file, you can set it as the window icon.
         // The executable icon is set via system-specific resource files,
         // not at runtime.
@@ -28,14 +29,16 @@ public:
         const auto gameScene = std::make_shared<Scene>();
 
         // Create the game objects that will occupy our scene
-        const auto player   = std::make_shared<Player>();
-        const auto opponent = std::make_shared<Opponent>();
-        const auto ball     = std::make_shared<Ball>();
+        const auto player    = std::make_shared<Player>();
+        const auto opponent  = std::make_shared<Opponent>();
+        const auto ball      = std::make_shared<Ball>();
+        const auto gameInput = std::make_shared<GameInput>(GetGraphicsContext());
 
         // Attach everything to our scene
         gameScene->AddGameObject(player);
         gameScene->AddGameObject(opponent);
         gameScene->AddGameObject(ball);
+        gameScene->AddGameObject(gameInput);
         // Make sure to set our main camera too, otherwise nothing will
         // display on screen
         gameScene->SetCamera(OrthoCamera::CreateDefault());
@@ -43,6 +46,7 @@ public:
         // Register the player class as an input listener so it can receive
         // input events
         mInputManager->RegisterListener(player);
+        mInputManager->RegisterListener(gameInput);
 
         // Add our scene to our game
         AddScene("game", gameScene);
@@ -51,12 +55,12 @@ public:
         LoadScene("game");
     }
 
-    void Shutdown() override {
+    void Destroy() override {
         // TODO: Clean up any resources owned by this class here
 
         // Make sure to call Shutdown on the parent too or internal engine resources will not be
         // cleaned up properly
-        IGame::Shutdown();
+        IGame::Destroy();
     }
 };
 

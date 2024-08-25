@@ -4,6 +4,8 @@
 
 #include "Game.h"
 
+#include "Events.h"
+
 #include <iostream>
 #include <ranges>
 
@@ -33,7 +35,7 @@ void IGame::Run() {
     CreateResources();
 
     // Call user-defined init code
-    Initialize();
+    Create();
 
     // Pass physics updating to its own thread running at its own fixed timestep
     auto physicsThread = Thread(PhysicsThread, this);
@@ -67,17 +69,24 @@ void IGame::Run() {
     RemoveAllScenes();
     physicsThread.join();
     mInputManager->SetShouldDispatch(false);
-    Shutdown();
+    Destroy();
 }
 
-void IGame::Shutdown() {
+void IGame::Destroy() {
     mGraphicsContext.reset();
     mClock.reset();
     mInputManager.reset();
 }
 
 void IGame::CreateResources() {
-    mGraphicsContext = std::make_unique<GraphicsContext>(mConfig, mTitle);
+    mEventDispatcher = std::make_unique<EventDispatcher>();
+    mEventDispatcher->RegisterListener<ResolutionChangedEvent>(
+      [this](const ResolutionChangedEvent& event) {
+          // TODO: Handle window resizing
+          std::cout << "Window resize!\n";
+      });
+
+    mGraphicsContext = std::make_unique<GraphicsContext>(mConfig, mTitle, mEventDispatcher);
     mClock           = std::make_unique<Clock>();
     mInputManager =
       std::make_unique<InputManager>(mGraphicsContext->GetWindow(), mConfig->GetInputMap());

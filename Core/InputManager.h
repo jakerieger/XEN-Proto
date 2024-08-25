@@ -34,7 +34,7 @@ public:
     [[nodiscard]] Dictionary<u32, FActionState> GetKeyStates() const;
     [[nodiscard]] Dictionary<u32, FActionState> GetMouseButtonStates() const;
 
-    FInputMap GetInputMap() const;
+    [[nodiscard]] FInputMap GetInputMap() const;
 
 private:
     Vector<Shared<IInputListener>> mListeners;

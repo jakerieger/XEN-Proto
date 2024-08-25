@@ -6,6 +6,7 @@
 
 #include "Clock.h"
 #include "Config.h"
+#include "EventSystem.h"
 #include "GraphicsContext.h"
 #include "InputManager.h"
 #include "Scene.h"
@@ -66,15 +67,16 @@ public:
     /// modify the necessary platform-specific resource files (ex, .rc files on windows).
     void SetWindowIcon(const Path& icon) const;
 
-protected:
-    virtual void Initialize() = 0;
-    virtual void Shutdown();
+    virtual void Create() = 0;
+    virtual void Destroy();
 
+protected:
     str mTitle;
     bool mPaused = false;
 
     Shared<Scene> mActiveScene;
     Shared<Config> mConfig;
+    Shared<EventDispatcher> mEventDispatcher;
 
     Unique<GraphicsContext> mGraphicsContext;
     Unique<Clock> mClock;
