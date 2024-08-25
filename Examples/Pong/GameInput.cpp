@@ -24,14 +24,12 @@ void GameInput::Destroyed(const Shared<SceneContext>& context) {
 void GameInput::OnKeyDown(const FKeyEvent& event, const FInputMap& input) {
     IInputListener::OnKeyDown(event, input);
 
-    const auto resolution1      = input.GetInputMapping("Resolution1");
-    const auto resolution2      = input.GetInputMapping("Resolution2");
-    const auto resolution3      = input.GetInputMapping("Resolution3");
-    const auto resolution4      = input.GetInputMapping("Resolution4");
-    const auto toggleVsync      = input.GetInputMapping("ToggleVsync");
+    static bool fullscreen      = false;
     const auto toggleFullscreen = input.GetInputMapping("ToggleFullscreen");
 
-    if (event.KeyCode == GetKeyCode(resolution1)) {
-        mGraphicsContext->SetResolution(800, 600);
+    if (event.KeyCode == GetKeyCode(toggleFullscreen)) {
+        mGraphicsContext->SetWindowMode(fullscreen ? EWindowMode::Windowed
+                                                   : EWindowMode::Fullscreen);
+        fullscreen = !fullscreen;
     }
 }

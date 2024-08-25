@@ -6,9 +6,13 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-OrthoCamera::OrthoCamera(f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far)
-    : mLeft(left), mRight(right), mBottom(bottom), mTop(top), mNear(near), mFar(far),
-      mPosition(0.0f), mScale(1.0f) {
+OrthoCamera::OrthoCamera(float width, float height, float near, float far)
+    : mNear(near), mFar(far), mScale(1.0f), mPosition(0.0f) {
+    mLeft   = 0.f;
+    mRight  = 0.f;
+    mTop    = 0.f;
+    mBottom = 0.f;
+    ResizeViewport(width, height);
     Update();
 }
 
@@ -76,6 +80,13 @@ void OrthoCamera::Update() {
     UpdateProjection();
 }
 
+void OrthoCamera::ResizeViewport(float width, float height) {
+    mLeft   = 1.f - (width / 2.f);
+    mTop    = height / 2.f;
+    mRight  = width / 2.f;
+    mBottom = 1.f - (height / 2.f);
+}
+
 Shared<OrthoCamera> OrthoCamera::CreateDefault() {
-    return std::make_shared<OrthoCamera>(-640, 640, -360, 360);
+    return std::make_shared<OrthoCamera>(1280, 720);
 }

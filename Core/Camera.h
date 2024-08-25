@@ -47,8 +47,7 @@ public:
 /// @brief Implements a basic orthographic camera.
 class OrthoCamera final : public ICamera {
 public:
-    OrthoCamera(
-      float left, float right, float bottom, float top, float near = -1.0f, float far = 1.0f);
+    OrthoCamera(float width, float height, float near = -1.0f, float far = 1.0f);
 
     /// @breif Sets camera's world position.
     void SetPosition(const glm::vec3& position);
@@ -75,6 +74,8 @@ public:
 
     void Update() override;
 
+    void ResizeViewport(float width, float height);
+
     /// @brief Creates a default OrthoCamera instance.
     static Shared<OrthoCamera> CreateDefault();
 
@@ -93,4 +94,5 @@ private:
     f32 mFar;
     f32 mScale;
     glm::vec3 mPosition;
+    f32 mAspect = 16.f / 9.f;
 };
