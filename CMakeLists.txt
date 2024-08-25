@@ -1,4 +1,9 @@
 cmake_minimum_required(VERSION 3.14glfw)
+
+if (WIN32)
+    set(VCPKG_TARGET_TRIPLET x64-windows-static)
+endif ()
+
 project(2DGameEngine)
 
 set(CMAKE_CXX_STANDARD 20)
