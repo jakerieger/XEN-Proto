@@ -2,3 +2,4 @@
 build/
 Docs/html/
 vcpkg/
+vcpkg_installed/

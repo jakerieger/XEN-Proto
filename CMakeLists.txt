@@ -1,12 +1,10 @@
-cmake_minimum_required(VERSION 3.14glfw)
-
-if (WIN32)
-    set(VCPKG_TARGET_TRIPLET x64-windows-static)
-endif ()
-
+cmake_minimum_required(VERSION 3.14)
 project(2DGameEngine)
 
 set(CMAKE_CXX_STANDARD 20)
+
+set(VCPKG_CMAKE_PATH "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+set(CMAKE_TOOLCHAIN_FILE ${VCPKG_CMAKE_PATH} CACHE STRING "Vcpkg toolchain file")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
