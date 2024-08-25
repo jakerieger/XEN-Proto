@@ -28,6 +28,12 @@ public:
     void SetRotation(glm::vec2 rotation);
     void SetScale(glm::vec2 scale);
 
+    /// @brief Returns the bounding rectangle of the transform.
+    [[nodiscard]] Rect GetBounds() const;
+
+    /// @brief Tests whether two transforms' bounding boxes are overlapping.
+    static bool IsColliding(const Rect& a, const Rect& b);
+
 private:
     glm::mat4 mMatrix   = {1.f};
     glm::vec2 mPosition = {0.f, 0.f};

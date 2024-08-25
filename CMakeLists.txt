@@ -63,6 +63,8 @@ add_library(GameEngineCore STATIC
         Core/Memory/Shared.h
         Core/EventSystem.h
         Core/Events.h
+        Core/Components/Rigidbody.cpp
+        Core/Components/Rigidbody.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)

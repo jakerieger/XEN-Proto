@@ -67,6 +67,8 @@ public:
     /// modify the necessary platform-specific resource files (ex, .rc files on windows).
     void SetWindowIcon(const Path& icon) const;
 
+    void OnResolutionChange(int width, int height);
+
     virtual void Create() = 0;
     virtual void Destroy();
 

@@ -9,10 +9,10 @@
 
 using namespace GameObject::Traits;
 
-class GameInput final : public IGameObject,
-                        public IInputListener {
+class GameManager final : public IGameObject,
+                          public IInputListener {
 public:
-    explicit GameInput(GraphicsContext* context);
+    explicit GameManager(GraphicsContext* context);
 
     void Awake(const Shared<SceneContext>& context) override;
     void Update(const Shared<SceneContext>& context, f32 dT) override;
@@ -21,6 +21,12 @@ public:
 
     void OnKeyDown(const FKeyEvent& event, const FInputMap& input) override;
 
+    void PlayerScored();
+    void OpponentScored();
+
 private:
     GraphicsContext* mGraphicsContext = None;
+    int mScorePlayer                  = 0;
+    int mScoreOpponent                = 0;
+    int mScoreToWin                   = 10;
 };

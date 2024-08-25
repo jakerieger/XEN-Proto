@@ -2,7 +2,7 @@
 
 // Game Object classes
 #include "Ball.h"
-#include "GameInput.h"
+#include "GameManager.h"
 #include "Opponent.h"
 #include "Player.h"
 
@@ -29,24 +29,24 @@ public:
         const auto gameScene = std::make_shared<Scene>();
 
         // Create the game objects that will occupy our scene
-        const auto player    = std::make_shared<Player>();
-        const auto opponent  = std::make_shared<Opponent>();
-        const auto ball      = std::make_shared<Ball>();
-        const auto gameInput = std::make_shared<GameInput>(GetGraphicsContext());
+        const auto manager  = std::make_shared<GameManager>(GetGraphicsContext());
+        const auto player   = std::make_shared<Player>();
+        const auto opponent = std::make_shared<Opponent>();
+        const auto ball     = std::make_shared<Ball>(player.get(), opponent.get(), manager.get());
 
         // Attach everything to our scene
+        gameScene->AddGameObject(manager);
         gameScene->AddGameObject(player);
         gameScene->AddGameObject(opponent);
         gameScene->AddGameObject(ball);
-        gameScene->AddGameObject(gameInput);
         // Make sure to set our main camera too, otherwise nothing will
         // display on screen
         gameScene->SetCamera(OrthoCamera::CreateDefault());
 
         // Register the player class as an input listener so it can receive
         // input events
+        mInputManager->RegisterListener(manager);
         mInputManager->RegisterListener(player);
-        mInputManager->RegisterListener(gameInput);
 
         // Add our scene to our game
         AddScene("game", gameScene);

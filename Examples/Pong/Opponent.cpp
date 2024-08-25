@@ -36,12 +36,12 @@ void Opponent::PhysicsUpdate(const Shared<SceneContext>& context) {
     mViewport = viewport;
 
     // Move opponent paddle
-    const auto newPosition = mTransform->GetPosition() + mVelocity;
-    if (!OutOfBounds(newPosition)) {
-        mTransform->SetPosition(newPosition);
-    } else {
-        mVelocity.y = -mVelocity.y;
-    }
+    // const auto newPosition = mTransform->GetPosition() + mVelocity;
+    // if (!OutOfBounds(newPosition)) {
+    //     mTransform->SetPosition(newPosition);
+    // } else {
+    //     mVelocity.y = -mVelocity.y;
+    // }
 }
 
 void Opponent::Draw(const Shared<SceneContext>& context) {

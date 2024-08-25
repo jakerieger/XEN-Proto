@@ -4,10 +4,14 @@
 
 #pragma once
 
+#include "GameManager.h"
 #include "Shared/Types.h"
 #include "Core/GameObject.h"
 #include "Core/Components/SpriteRenderer.h"
 #include "Core/Components/Transform.h"
+
+#include "Opponent.h"
+#include "Player.h"
 
 using namespace GameObject;
 
@@ -15,7 +19,7 @@ class Ball final : public IGameObject,
                    public Traits::IDrawable,
                    public Traits::IPhysicsObject {
 public:
-    Ball();
+    Ball(Player* player, Opponent* opponent, GameManager* manager);
 
     // IGameObject
     void Awake(const Shared<SceneContext>& context) override;
@@ -32,4 +36,12 @@ public:
 private:
     SpriteRenderer* mSprite;
     Transform* mTransform;
+    glm::vec2 mStartPosition;
+    Rect mViewport;
+    Player* mPlayer;
+    Opponent* mOpponent;
+    GameManager* mGameManager;
+    glm::vec2 mVelocity = {0.f, 0.f};
+
+    void CheckCollision();
 };

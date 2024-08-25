@@ -46,3 +46,24 @@ void Transform::SetRotation(const glm::vec2 rotation) {
 void Transform::SetScale(const glm::vec2 scale) {
     mScale = scale;
 }
+
+Rect Transform::GetBounds() const {
+    const auto left   = mPosition.x - mScale.x;
+    const auto top    = mPosition.y - mScale.y;
+    const auto right  = mPosition.x + mScale.x;
+    const auto bottom = mPosition.y + mScale.y;
+
+    return Rect(CAST<i32>(left), CAST<i32>(top), CAST<i32>(right), CAST<i32>(bottom));
+}
+
+bool Transform::IsColliding(const Rect& a, const Rect& b) {
+    if (a.Right <= b.Left || b.Right <= a.Left) {
+        return false;
+    }
+
+    if (a.Bottom <= b.Top || b.Bottom <= a.Top) {
+        return false;
+    }
+
+    return true;
+}

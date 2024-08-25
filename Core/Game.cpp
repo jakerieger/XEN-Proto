@@ -3,11 +3,9 @@
 //
 
 #include "Game.h"
-
 #include "Events.h"
 
 #include <iostream>
-#include <ranges>
 
 IGame::IGame(const str& title) {
     mConfig = std::make_shared<Config>();
@@ -82,8 +80,7 @@ void IGame::CreateResources() {
     mEventDispatcher = std::make_unique<EventDispatcher>();
     mEventDispatcher->RegisterListener<ResolutionChangedEvent>(
       [this](const ResolutionChangedEvent& event) {
-          // TODO: Handle window resizing
-          std::cout << "Window resize!\n";
+          OnResolutionChange(event.Width, event.Height);
       });
 
     mGraphicsContext = std::make_unique<GraphicsContext>(mConfig, mTitle, mEventDispatcher);
@@ -160,6 +157,10 @@ void IGame::Resume() {
 }
 void IGame::SetWindowIcon(const Path& icon) const {
     mGraphicsContext->SetWindowIcon(icon);
+}
+
+void IGame::OnResolutionChange(int width, int height) {
+    // TODO: Notify necessary resources that the viewport resolution has changed
 }
 
 void IGame::RenderThread() const {
