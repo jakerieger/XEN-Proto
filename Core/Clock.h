@@ -37,6 +37,9 @@ public:
     /// @note This should be called at the end of your frame.
     void Update();
 
+    /// @brief Reads the value of the CPU's time-stamp counter.
+    static u64 CpuTimestamp();
+
 private:
     using ClockTime = std::chrono::time_point<std::chrono::steady_clock>;
 

@@ -48,3 +48,15 @@ void Clock::Update() {
     const std::chrono::duration<f32> frameDuration = frameEnd - mLastTime;
     mFrameTime                                     = frameDuration.count();
 }
+
+u64 Clock::CpuTimestamp() {
+#ifdef _MSC_VER
+    return __rdtsc();
+#elif defined(__clang__) || defined(__GNUC__)
+    u32 lo, hi;
+    __asm__ __volatile__("rdtsc" : "=a"(lo), "=d"(hi));
+    return ((u64)hi << 32) | lo;
+#else
+    #error "Unsupported compiler"
+#endif
+}
