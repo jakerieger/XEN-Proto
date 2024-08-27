@@ -26,7 +26,7 @@ public:
         SetWindowIcon("Res/icon.png");
 
         // Create our scenes, just a game scene in this case
-        const auto gameScene = std::make_shared<Scene>();
+        const auto gameScene = CreateScene("game");
 
         // Create the game objects that will occupy our scene
         const auto manager  = std::make_shared<GameManager>(GetGraphicsContext());
@@ -47,9 +47,6 @@ public:
         // input events
         mInputManager->RegisterListener(manager);
         mInputManager->RegisterListener(player);
-
-        // Add our scene to our game
-        AddScene("game", gameScene);
 
         // Load our scene
         LoadScene("game");

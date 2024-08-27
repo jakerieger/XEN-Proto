@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Camera.h"
+#include "EventSystem.h"
 #include "GameObject.h"
 #include "Shared/Types.h"
 
@@ -17,6 +18,7 @@ public:
 
     Vector<Shared<IGameObject>> GameObjects;
     Shared<ICamera> MainCamera;
+    Shared<EventDispatcher> EventSystem;
 };
 
 #define ASSERT_GAMEOBJECT                                                                          \

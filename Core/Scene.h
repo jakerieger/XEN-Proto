@@ -10,7 +10,7 @@
 
 class Scene {
 public:
-    Scene();
+    explicit Scene(const Shared<EventDispatcher>& eventDispatcher);
 
     void Awake() const;
     void Update(f32 dT) const;

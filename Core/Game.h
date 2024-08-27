@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "AudioContext.h"
 #include "Clock.h"
 #include "Config.h"
 #include "EventSystem.h"
@@ -52,11 +53,17 @@ public:
     /// in the game's root directory.
     [[nodiscard]] Shared<Config> GetEngineConfig() const;
 
+    [[nodiscard]] InputManager* GetInputManager() const;
+
+    [[nodiscard]] AudioContext* GetAudioContext() const;
+
     void AddScene(const str& name, const Shared<Scene>& scene);
     void RemoveScene(const str& name);
     void RemoveAllScenes();
     void LoadScene(const str& name);
     void UnloadScene(const str& name);
+
+    Shared<Scene> CreateScene(const str& name);
 
     void Pause();
     void Resume();
@@ -79,6 +86,7 @@ protected:
     Shared<Scene> mActiveScene;
     Shared<Config> mConfig;
     Shared<EventDispatcher> mEventDispatcher;
+    Shared<AudioContext> mAudioContext;
 
     Unique<GraphicsContext> mGraphicsContext;
     Unique<Clock> mClock;

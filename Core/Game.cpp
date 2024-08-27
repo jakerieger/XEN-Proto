@@ -88,6 +88,8 @@ void IGame::CreateResources() {
     mInputManager =
       std::make_unique<InputManager>(mGraphicsContext->GetWindow(), mConfig->GetInputMap());
     mInputManager->SetShouldDispatch(true);
+
+    mAudioContext = std::make_shared<AudioContext>(mConfig, mEventDispatcher);
 }
 
 bool IGame::IsRunning() const {
@@ -108,6 +110,14 @@ GraphicsContext* IGame::GetGraphicsContext() const {
 
 Shared<Config> IGame::GetEngineConfig() const {
     return mConfig;
+}
+
+InputManager* IGame::GetInputManager() const {
+    return mInputManager.get();
+}
+
+AudioContext* IGame::GetAudioContext() const {
+    return mAudioContext.get();
 }
 
 void IGame::AddScene(const str& name, const Shared<Scene>& scene) {
@@ -146,6 +156,11 @@ void IGame::UnloadScene(const str& name) {
         scene->second->Destroyed();
         std::cout << "(Info) Unloaded scene: \"" << name << "\"\n";
     }
+}
+
+Shared<Scene> IGame::CreateScene(const str& name) {
+    mScenes[name] = std::make_shared<Scene>(mEventDispatcher);
+    return mScenes[name];
 }
 
 void IGame::Pause() {

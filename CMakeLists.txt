@@ -17,6 +17,9 @@ include_directories(
 add_library(GameEngineCore STATIC
         Shared/Vendor/glad.c
         Shared/Vendor/stb_image.cpp
+        Shared/Types.h
+        Shared/TypeTraits.h
+        Shared/IO.h
         Core/Game.h
         Core/Game.cpp
         Core/Memory/ThreadPool.cpp
@@ -57,7 +60,6 @@ add_library(GameEngineCore STATIC
         Core/InputManager.cpp
         Core/InputManager.h
         Core/InputMap.h
-        Shared/TypeTraits.h
         Core/Memory/Unique.h
         Core/Memory/Shared.cpp
         Core/Memory/Shared.h
@@ -65,9 +67,16 @@ add_library(GameEngineCore STATIC
         Core/Events.h
         Core/Components/Rigidbody.cpp
         Core/Components/Rigidbody.h
+        Core/AudioContext.cpp
+        Core/AudioContext.h
+        Core/AudioChannel.h
+        Core/AudioUtils.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(GameEngineCore PRIVATE glfw)
+find_package(glm CONFIG REQUIRED)
+find_package(OpenAL CONFIG REQUIRED)
+find_package(AudioFile CONFIG REQUIRED)
+target_link_libraries(GameEngineCore PRIVATE glfw glm::glm-header-only OpenAL::OpenAL AudioFile)
 
 add_subdirectory(Examples/Pong)

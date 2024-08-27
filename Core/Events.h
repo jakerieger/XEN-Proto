@@ -7,6 +7,7 @@
 #include "EventSystem.h"
 
 static constexpr int kResolutionChangedEventId = 0x01;
+static constexpr int kPlaySoundEventId         = 0x02;
 
 class ResolutionChangedEvent final : public IEvent {
 public:
@@ -14,4 +15,14 @@ public:
         : IEvent(kResolutionChangedEventId), Width(width), Height(height) {}
     int Width;
     int Height;
+};
+
+class PlaySoundEvent final : public IEvent {
+public:
+    PlaySoundEvent(const str& name, const Path& path, f32 gain = 0.5f, bool loop = false)
+        : IEvent(kPlaySoundEventId), Loop(loop), Name(name), FilePath(path), Gain(gain) {}
+    bool Loop;
+    str Name;
+    Path FilePath;
+    f32 Gain;
 };
