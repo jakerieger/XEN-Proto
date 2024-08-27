@@ -44,4 +44,6 @@ private:
     glm::vec2 mVelocity = {0.f, 0.f};
 
     void CheckCollision();
+    void CheckOutOfBounds();
+    void Reset(bool playerScored);
 };
