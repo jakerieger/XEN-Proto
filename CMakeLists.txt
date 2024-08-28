@@ -75,6 +75,11 @@ add_library(GameEngineCore STATIC
         Core/Math/Vector2.h
         Core/Math/Matrix4x4.cpp
         Core/Math/Matrix4x4.h
+        Core/Math/Vector3.cpp
+        Core/Math/Vector3.h
+        Core/Math/Vector4.cpp
+        Core/Math/Vector4.h
+        Core/Math/MatrixOperations.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
