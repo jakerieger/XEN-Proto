@@ -21,6 +21,8 @@ void Ball::Awake(const Shared<SceneContext>& context) {
     // Set a random initial velocity
     Reset(false);
 
+    mContext = context;
+
     IGameObject::Awake(context);
 }
 
@@ -79,24 +81,28 @@ void Ball::CheckCollision() {
     if (Transform::IsColliding(ballBounds, topBounds)) {
         mTransform->SetPosition(mTransform->GetPosition() - (mVelocity * 1.f));
         mVelocity = Reflection(mVelocity, kTopNormal);
+        PlaySound(mContext.lock(), "impact", "Assets/Audio/impact.wav", 0.2f);
         return;
     }
 
     if (Transform::IsColliding(ballBounds, bottomBounds)) {
         mTransform->SetPosition(mTransform->GetPosition() + (mVelocity * 1.f));
         mVelocity = Reflection(mVelocity, kBottomNormal);
+        PlaySound(mContext.lock(), "impact", "Assets/Audio/impact.wav", 0.2f);
         return;
     }
 
     if (Transform::IsColliding(ballBounds, playerBounds)) {
         mTransform->SetPosition(mTransform->GetPosition() - (mVelocity * 1.f));
         mVelocity = Reflection(mVelocity, kPlayerNormal);
+        PlaySound(mContext.lock(), "impact", "Assets/Audio/impact.wav", 0.2f);
         return;
     }
 
     if (Transform::IsColliding(ballBounds, opponentBounds)) {
         mTransform->SetPosition(mTransform->GetPosition() - (mVelocity * 1.f));
         mVelocity = Reflection(mVelocity, kOpponentNormal);
+        PlaySound(mContext.lock(), "impact", "Assets/Audio/impact.wav", 0.2f);
         return;
     }
 

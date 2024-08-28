@@ -3,7 +3,6 @@
 //
 
 #include "GameManager.h"
-#include "Core/Events.h"
 #include "Core/InputMap.h"
 #include "Core/SceneContext.h"
 
@@ -14,9 +13,7 @@ GameManager::GameManager(GraphicsContext* context) {
 void GameManager::Awake(const Shared<SceneContext>& context) {
     IGameObject::Awake(context);
 
-    const PlaySoundEvent backgroundMusic("music", "Assets/Audio/gameplay.wav", 0.1f, true);
-    const auto dispatcher = context->EventSystem;
-    dispatcher->Dispatch(backgroundMusic);
+    PlaySound(context, "music", "Assets/Audio/gameplay.wav", 0.1f, true);
 }
 void GameManager::Update(const Shared<SceneContext>& context, f32 dT) {
     IGameObject::Update(context, dT);

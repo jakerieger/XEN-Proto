@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <utility>
+
 #include "EventSystem.h"
 
 static constexpr int kResolutionChangedEventId = 0x01;
@@ -19,8 +21,9 @@ public:
 
 class PlaySoundEvent final : public IEvent {
 public:
-    PlaySoundEvent(const str& name, const Path& path, f32 gain = 0.5f, bool loop = false)
-        : IEvent(kPlaySoundEventId), Loop(loop), Name(name), FilePath(path), Gain(gain) {}
+    PlaySoundEvent(str name, Path path, f32 gain = 0.5f, bool loop = false)
+        : IEvent(kPlaySoundEventId), Loop(loop), Name(std::move(name)), FilePath(std::move(path)),
+          Gain(gain) {}
     bool Loop;
     str Name;
     Path FilePath;

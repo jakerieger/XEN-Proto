@@ -6,6 +6,7 @@
 
 #include "Camera.h"
 #include "EventSystem.h"
+#include "Events.h"
 #include "GameObject.h"
 #include "Shared/Types.h"
 
@@ -49,4 +50,13 @@ static T* FindGameObjectOf(const Shared<SceneContext>& context, const str& name)
     }
 
     return nullptr;
+}
+
+static void PlaySound(const Shared<SceneContext>& context,
+                      const str& name,
+                      const Path& path,
+                      f32 gain  = 0.5f,
+                      bool loop = false) {
+    const auto event = PlaySoundEvent(name, path, gain, loop);
+    context->EventSystem->Dispatch(event);
 }

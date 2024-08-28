@@ -42,6 +42,7 @@ private:
     Opponent* mOpponent;
     GameManager* mGameManager;
     glm::vec2 mVelocity = {0.f, 0.f};
+    Weak<SceneContext> mContext;
 
     void CheckCollision();
     void CheckOutOfBounds();

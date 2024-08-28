@@ -71,6 +71,10 @@ add_library(GameEngineCore STATIC
         Core/AudioContext.h
         Core/AudioChannel.h
         Core/AudioUtils.h
+        Core/Math/Vector2.cpp
+        Core/Math/Vector2.h
+        Core/Math/Matrix4x4.cpp
+        Core/Math/Matrix4x4.h
 )
 
 find_package(glfw3 CONFIG REQUIRED)
