@@ -23,7 +23,7 @@ else ()
     add_executable(Pong ${GAME_SOURCES})
 endif ()
 
-target_link_libraries(Pong PRIVATE GameEngineCore glfw)
+target_link_libraries(Pong PRIVATE XEN-Core glfw)
 
 # Copy default engine config
 add_custom_command(TARGET Pong PRE_BUILD

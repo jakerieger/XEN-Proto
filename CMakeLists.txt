@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(2DGameEngine)
+project(XEN-Proto)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -14,7 +14,7 @@ include_directories(
         ${CMAKE_SOURCE_DIR}/Shared/Vendor
 )
 
-add_library(GameEngineCore STATIC
+add_library(XEN-Core STATIC
         Shared/Vendor/glad.c
         Shared/Vendor/stb_image.cpp
         Shared/Types.h
@@ -86,6 +86,6 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(OpenAL CONFIG REQUIRED)
 find_package(AudioFile CONFIG REQUIRED)
-target_link_libraries(GameEngineCore PRIVATE glfw glm::glm-header-only OpenAL::OpenAL AudioFile)
+target_link_libraries(XEN-Core PRIVATE glfw glm::glm-header-only OpenAL::OpenAL AudioFile)
 
 add_subdirectory(Examples/Pong)

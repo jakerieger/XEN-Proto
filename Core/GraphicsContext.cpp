@@ -54,6 +54,7 @@ GraphicsContext::GraphicsContext(const Shared<Config>& config,
     });
 
     glfwSwapInterval(vsync);
+    SetWindowMode(windowMode);
 }
 
 GraphicsContext::~GraphicsContext() {
@@ -81,8 +82,52 @@ void GraphicsContext::SetWindowIcon(const Path& icon) const {
     stbi_image_free(img);
 }
 
+// Function to set the window mode to Windowed
+void SetWindowedMode(GLFWwindow* window, int width, int height) {
+    // Restore windowed mode by setting the window size
+    glfwSetWindowMonitor(window, nullptr, 0, 0, width, height, GLFW_DONT_CARE);
+}
+
+// Function to set the window mode to Borderless Fullscreen
+void SetBorderlessFullscreenMode(GLFWwindow* window) {
+    // Get the current monitor
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    if (monitor == nullptr) return;
+
+    // Get the monitor's video mode
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    if (mode == nullptr) return;
+
+    // Set the window to fullscreen mode with no borders
+    glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
+}
+
+// Function to set the window mode to Fullscreen
+void SetFullscreenMode(GLFWwindow* window) {
+    // Get the current monitor
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    if (monitor == nullptr) return;
+
+    // Get the monitor's video mode
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    if (mode == nullptr) return;
+
+    // Set the window to fullscreen mode
+    glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+}
+
 void GraphicsContext::SetWindowMode(const EWindowMode mode) const {
-    // TODO: Set window mode
+    switch (mode) {
+        case EWindowMode::Windowed:
+            SetWindowedMode(mWindow.get(), CAST<int>(mWidthCurrent), CAST<int>(mHeightCurrent));
+            break;
+        case EWindowMode::Borderless:
+            SetBorderlessFullscreenMode(mWindow.get());
+            break;
+        case EWindowMode::Fullscreen:
+            SetFullscreenMode(mWindow.get());
+            break;
+    }
 }
 
 void GraphicsContext::SetWindowTitle(const str& title) const {
