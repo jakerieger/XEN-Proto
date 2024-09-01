@@ -13,7 +13,7 @@
 
 class SpriteRenderer final : public IComponent {
 public:
-    SpriteRenderer(const Path& sprite, Transform* transform);
+    SpriteRenderer(const Path& sprite, Transform* transform, const glm::vec2& scale = {1.f, 1.f});
     ~SpriteRenderer() override;
     void Draw(const glm::mat4& view, const glm::mat4& proj, const glm::mat4& model) const;
 

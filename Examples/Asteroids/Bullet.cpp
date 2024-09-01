@@ -23,7 +23,7 @@ void Bullet::Draw(const Shared<SceneContext>& context) {
 
 void Bullet::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();
-    mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/bullet.png", mTransform);
+    mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/bullet.png", mTransform, glm::vec2{3.f, 3.f});
     mTransform->SetPosition(mInitialPosition);
 
     IGameObject::Awake(context);

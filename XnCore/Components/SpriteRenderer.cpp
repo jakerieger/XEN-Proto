@@ -14,13 +14,14 @@
 #include <glm/ext/matrix_transform.hpp>
 #pragma endregion
 
-SpriteRenderer::SpriteRenderer(const Path& sprite, Transform* transform) {
+SpriteRenderer::SpriteRenderer(const Path& sprite, Transform* transform, const glm::vec2& scale) {
     u32 width;
     u32 height;
     mTexture = LoadTextureFromFile(sprite, width, height);
     mShader  = std::make_unique<Shader>(Sprite_VS, Sprite_FS);
 
     transform->SetScale({CAST<f32>(width) / 4.f, CAST<f32>(height) / 4.f});
+    transform->SetScale(transform->GetScale() * scale);
 
     glGenVertexArrays(1, &mVAO);
     glGenBuffers(1, &mVBO);

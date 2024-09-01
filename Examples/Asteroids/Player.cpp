@@ -11,7 +11,7 @@
 
 void Player::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();
-    mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/ship.png", mTransform);
+    mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/ship.png", mTransform, glm::vec2(2.f, 2.f));
     mTransform->SetPosition({0.f, 0.f});
 
     mContext = context;
