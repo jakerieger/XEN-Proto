@@ -54,7 +54,7 @@ GraphicsContext::GraphicsContext(const Shared<Config>& config,
     });
 
     glfwSwapInterval(vsync);
-    SetWindowMode(windowMode);
+    SetWindowMode(EWindowMode::Windowed /*windowMode*/);
 }
 
 GraphicsContext::~GraphicsContext() {
@@ -92,11 +92,13 @@ void SetWindowedMode(GLFWwindow* window, int width, int height) {
 void SetBorderlessFullscreenMode(GLFWwindow* window) {
     // Get the current monitor
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    if (monitor == nullptr) return;
+    if (monitor == nullptr)
+        return;
 
     // Get the monitor's video mode
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    if (mode == nullptr) return;
+    if (mode == nullptr)
+        return;
 
     // Set the window to fullscreen mode with no borders
     glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
@@ -106,11 +108,13 @@ void SetBorderlessFullscreenMode(GLFWwindow* window) {
 void SetFullscreenMode(GLFWwindow* window) {
     // Get the current monitor
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    if (monitor == nullptr) return;
+    if (monitor == nullptr)
+        return;
 
     // Get the monitor's video mode
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    if (mode == nullptr) return;
+    if (mode == nullptr)
+        return;
 
     // Set the window to fullscreen mode
     glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
@@ -142,6 +146,11 @@ void GraphicsContext::SetResolution(int width, int height) {
     glfwSetWindowSize(GetWindow(), width, height);
     glViewport(0, 0, width, height);
     OnResize(width, height);
+}
+
+void GraphicsContext::GetResolution(int& width, int& height) const {
+    width  = CAST<int>(mWidthCurrent);
+    height = CAST<int>(mHeightCurrent);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic

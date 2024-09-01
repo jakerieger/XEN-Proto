@@ -6,9 +6,9 @@
 
 #include "GameManager.h"
 #include "Shared/Types.h"
-#include "Core/GameObject.h"
-#include "Core/Components/SpriteRenderer.h"
-#include "Core/Components/Transform.h"
+#include "XnCore/GameObject.h"
+#include "XnCore/Components/SpriteRenderer.h"
+#include "XnCore/Components/Transform.h"
 
 #include "Opponent.h"
 #include "Player.h"

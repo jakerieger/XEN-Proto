@@ -1,4 +1,5 @@
-#include "Core/Game.h"
+#include "XnCore/Game.h"
+#include "XnGUI/InterfaceContext.h"
 
 // Game Object classes
 #include "Ball.h"
@@ -20,6 +21,10 @@ public:
     Pong() : IGame(kGameName) {}
 
     void Create() override {
+        int width, height;
+        GetGraphicsContext()->GetResolution(width, height);
+        mGUI = std::make_unique<InterfaceContext>(GetGraphicsContext()->GetWindow(), width, height);
+
         // If you have a png file, you can set it as the window icon.
         // The executable icon is set via system-specific resource files,
         // not at runtime.
@@ -53,12 +58,15 @@ public:
     }
 
     void Destroy() override {
-        // TODO: Clean up any resources owned by this class here
+        mGUI.reset();
 
         // Make sure to call Shutdown on the parent too or internal engine resources will not be
         // cleaned up properly
         IGame::Destroy();
     }
+
+private:
+    Unique<InterfaceContext> mGUI;
 };
 
 int main() {

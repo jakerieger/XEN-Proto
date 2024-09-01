@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "Core/GameObject.h"
-#include "Core/Components/SpriteRenderer.h"
-#include "Core/Components/Transform.h"
+#include "XnCore/GameObject.h"
+#include "XnCore/Components/SpriteRenderer.h"
+#include "XnCore/Components/Transform.h"
 
 using namespace GameObject;
 

@@ -3,7 +3,7 @@
 //
 
 #include "Ball.h"
-#include "Core/SceneContext.h"
+#include "XnCore/SceneContext.h"
 
 #include <random>
 

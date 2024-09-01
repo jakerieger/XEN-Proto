@@ -4,6 +4,7 @@
 
 #include "Game.h"
 #include "Events.h"
+#include "XnProfiler/Profiler.h"
 
 #include <iostream>
 
@@ -40,28 +41,31 @@ void IGame::Run() {
 
     // Game loop
     mClock->Start();
+    Profiler::Begin(mTitle);
     while (IsRunning()) {
         mClock->Tick();
 
         if (!mPaused) {
+            Profiler::TimePoint start = Profiler::BeginContext();
             if (mActiveScene) {
                 mActiveScene->Update(mClock->GetDeltaTime());
             }
+            Profiler::EndContext(start, "SceneUpdate");
 
+            start = Profiler::BeginContext();
             RenderThread();
+            Profiler::EndContext(start, "Render");
 
+            start = Profiler::BeginContext();
             if (mActiveScene) {
                 mActiveScene->LateUpdate();
             }
+            Profiler::EndContext(start, "LateUpdate");
         }
 
-#ifndef NDEBUG
-        // Show the frame rate in the window title for debugging purposes
-        auto fmt = std::format("{} | FPS: {:.2f}", mTitle, mClock->GetFrameRate());
-        glfwSetWindowTitle(mGraphicsContext->GetWindow(), fmt.c_str());
-#endif
         mClock->Update();
     }
+    Profiler::End();
     mClock->Stop();
 
     RemoveAllScenes();

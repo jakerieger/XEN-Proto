@@ -3,8 +3,8 @@
 //
 
 #include "Player.h"
-#include "Core/InputMap.h"
-#include "Core/SceneContext.h"
+#include "XnCore/InputMap.h"
+#include "XnCore/SceneContext.h"
 
 Player::Player() : mSprite(None), mTransform(None), mStartPosition({540, 0}) {}
 

@@ -3,7 +3,7 @@
 //
 
 #include "Opponent.h"
-#include "Core/SceneContext.h"
+#include "XnCore/SceneContext.h"
 
 Opponent::Opponent() : mSprite(None), mTransform(None), mStartPosition({-540, 0}) {}
 

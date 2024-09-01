@@ -26,6 +26,7 @@ public:
     void SetWindowMode(EWindowMode mode) const;
     void SetWindowTitle(const str& title) const;
     void SetResolution(int width, int height);
+    void GetResolution(int& width, int& height) const;
 
     static void SetVSyncEnabled(bool enable);
 

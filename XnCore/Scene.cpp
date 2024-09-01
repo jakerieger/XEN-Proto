@@ -4,6 +4,8 @@
 
 #include "Scene.h"
 
+#include "XnProfiler/Profiler.h"
+
 using namespace GameObject::Traits;
 
 Scene::Scene(const Shared<EventDispatcher>& eventDispatcher) {
@@ -51,7 +53,9 @@ void Scene::Destroyed() const {
 
 void Scene::Render() const {
     for (const auto& go : FindAllGameObjectsOf<IDrawable>(mSceneContext)) {
+        auto start = Profiler::BeginContext();
         go->Draw(mSceneContext);
+        Profiler::EndContext(start, "Render | Draw GameObject");
     }
 }
 

@@ -4,6 +4,8 @@
 
 #include "InputManager.h"
 
+#include "XnProfiler/Profiler.h"
+
 #include <utility>
 
 static InputManager* gActiveManager = None;
@@ -11,6 +13,10 @@ static InputManager* gActiveManager = None;
 static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+
+    if (key == GLFW_KEY_F12 && action == GLFW_PRESS) {
+        Profiler::CaptureFrame();
     }
 
     if (!gActiveManager) {

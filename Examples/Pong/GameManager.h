@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Core/GameObject.h"
-#include "Core/GraphicsContext.h"
+#include "XnCore/GameObject.h"
+#include "XnCore/GraphicsContext.h"
 
 using namespace GameObject::Traits;
 

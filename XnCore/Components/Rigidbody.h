@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Core/Component.h"
+#include "XnCore/Component.h"
 
 class Rigidbody final : public IComponent {
 public:

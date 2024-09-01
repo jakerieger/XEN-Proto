@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Shared/Types.h"
-#include "Core/Component.h"
+#include "XnCore/Component.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

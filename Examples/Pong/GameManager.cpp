@@ -3,8 +3,8 @@
 //
 
 #include "GameManager.h"
-#include "Core/InputMap.h"
-#include "Core/SceneContext.h"
+#include "XnCore/InputMap.h"
+#include "XnCore/SceneContext.h"
 
 GameManager::GameManager(GraphicsContext* context) {
     mGraphicsContext = context;
