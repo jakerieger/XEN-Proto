@@ -14,7 +14,7 @@ Scene::Scene(const Shared<EventDispatcher>& eventDispatcher) {
 };
 
 void Scene::Awake() const {
-    for (const auto& go : mSceneContext->GameObjects) {
+    for (const auto& [name, go] : mSceneContext->GameObjects) {
         go->Awake(mSceneContext);
     }
 }
@@ -24,7 +24,7 @@ void Scene::Update(f32 dT) const {
         GetCamera()->Update();
     }
 
-    for (const auto& go : mSceneContext->GameObjects) {
+    for (const auto& [name, go] : mSceneContext->GameObjects) {
         go->Update(mSceneContext, dT);
     }
 }
@@ -36,13 +36,13 @@ void Scene::PhysicsUpdate() const {
 }
 
 void Scene::LateUpdate() const {
-    for (const auto& go : mSceneContext->GameObjects) {
+    for (const auto& [name, go] : mSceneContext->GameObjects) {
         go->LateUpdate(mSceneContext);
     }
 }
 
 void Scene::Destroyed() const {
-    for (const auto& go : mSceneContext->GameObjects) {
+    for (const auto& [name, go] : mSceneContext->GameObjects) {
         go->Destroyed(mSceneContext);
     }
 
@@ -59,7 +59,7 @@ void Scene::Render() const {
     }
 }
 
-Vector<Shared<IGameObject>> Scene::GetGameObjects() const {
+Dictionary<str, Shared<IGameObject>> Scene::GetGameObjects() const {
     return mSceneContext->GameObjects;
 }
 

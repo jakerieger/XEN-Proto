@@ -4,35 +4,29 @@
 
 #pragma once
 
+#include "Shared/Types.h"
 #include "Camera.h"
 #include "EventSystem.h"
 #include "Events.h"
 #include "GameObject.h"
-#include "Shared/Types.h"
 
-using namespace GameObject::Traits;
+#include <iostream>
 
 class SceneContext {
 public:
     SceneContext()  = default;
     ~SceneContext() = default;
 
-    Vector<Shared<IGameObject>> GameObjects;
+    Dictionary<str, Shared<IGameObject>> GameObjects;
     Shared<ICamera> MainCamera;
     Shared<EventDispatcher> EventSystem;
 };
 
-#define ASSERT_GAMEOBJECT                                                                          \
-    static_assert(std::is_base_of_v<IGameObject, T> || std::is_base_of_v<IPhysicsObject, T> ||     \
-                    std::is_base_of_v<IInputListener, T> || std::is_base_of_v<IDrawable, T>,       \
-                  "T must be a subclass of IGameObject or any of its traits.")
-
 template<typename T>
 static Vector<T*> FindAllGameObjectsOf(const Shared<SceneContext>& context) {
-    ASSERT_GAMEOBJECT;
     Vector<T*> gameObjects;
-    for (auto& go : context->GameObjects) {
-        if (auto casted = DCAST<T*>(go.get()); casted) {
+    for (auto& [name, obj] : context->GameObjects) {
+        if (auto casted = DCAST<T*>(obj.get()); casted) {
             gameObjects.push_back(casted);
         }
     }
@@ -42,14 +36,22 @@ static Vector<T*> FindAllGameObjectsOf(const Shared<SceneContext>& context) {
 
 template<typename T>
 static T* FindGameObjectOf(const Shared<SceneContext>& context, const str& name) {
-    ASSERT_GAMEOBJECT;
-    for (auto& go : context->GameObjects) {
-        if (auto casted = DCAST<T*>(go.get()); casted && casted->GetName() == name) {
+    for (auto& [name, obj] : context->GameObjects) {
+        if (auto casted = DCAST<T*>(obj.get()); casted) {
             return casted;
         }
     }
 
     return nullptr;
+}
+
+template<typename T, typename... Args>
+static void Instantiate(const str& name, const Shared<SceneContext>& context, Args&&... args) {
+    Shared<T> go               = std::make_shared<T>(name, std::forward<Args>(args)...);
+    context->GameObjects[name] = go;
+    go->Awake(context);
+
+    std::cout << "Instantiated game object\n";
 }
 
 static void PlaySound(const Shared<SceneContext>& context,

@@ -3,6 +3,7 @@
 //
 
 #include "XnCore/Game.h"
+#include "Player.h"
 
 #ifndef NDEBUG
 static const auto kGameName = "Asteroids <Debug>";
@@ -14,9 +15,21 @@ class Asteroids final : public IGame {
 public:
     Asteroids() : IGame(kGameName) {}
 
-    void Create() override {}
+    void Create() override {
+        SetWindowIcon("Res/icon.png");
 
-    void Destroy() override {}
+        const auto player = std::make_shared<Player>("Player");
+        mInputManager->RegisterListener(player);
+
+        const auto gameScene = CreateScene("game");
+        gameScene->AddGameObject(player);
+        gameScene->SetCamera(OrthoCamera::CreateDefault());
+        LoadScene("game");
+    }
+
+    void Destroy() override {
+        IGame::Destroy();
+    }
 };
 
 int main() {

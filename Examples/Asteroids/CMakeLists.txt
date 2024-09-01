@@ -9,6 +9,10 @@ include_directories(
 
 set(GAME_SOURCES
         main.cpp
+        Player.cpp
+        Player.h
+        Bullet.cpp
+        Bullet.h
 )
 
 if (WIN32)

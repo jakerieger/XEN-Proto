@@ -19,12 +19,12 @@ public:
     void Destroyed() const;
     void Render() const;
 
-    [[nodiscard]] Vector<Shared<IGameObject>> GetGameObjects() const;
+    [[nodiscard]] Dictionary<str, Shared<IGameObject>> GetGameObjects() const;
 
     template<typename T>
     void AddGameObject(const Shared<T>& gameObject) {
         static_assert(std::is_base_of_v<IGameObject, T>, "T must derive from IGameObject");
-        mSceneContext->GameObjects.push_back(gameObject);
+        mSceneContext->GameObjects[gameObject->GetName()] = gameObject;
     }
 
     void SetCamera(const Shared<ICamera>& camera) const;

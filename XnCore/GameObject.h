@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <utility>
+
 #include "Component.h"
 #include "Config.h"
 #include "Shared/Types.h"
@@ -14,6 +16,7 @@ class SceneContext;
 
 class IGameObject {
 public:
+    explicit IGameObject(str name) : mName(std::move(name)) {}
     virtual ~IGameObject() = default;
 
     virtual void Awake(const Shared<SceneContext>& context) {
@@ -35,12 +38,15 @@ public:
     }
 
     virtual void Destroyed(const Shared<SceneContext>& context) {
-        for (const auto& component : mComponents) {
+        for (auto& component : mComponents) {
             component->Destroyed();
+            component.reset();
         }
 
         mComponents.clear();
     }
+
+    virtual void Destroy(const Shared<SceneContext>& context);
 
     template<typename T>
     T* As() {
@@ -70,8 +76,13 @@ public:
         return componentPtr;
     }
 
+    [[nodiscard]] str GetName() const {
+        return mName;
+    }
+
 protected:
     Vector<Unique<IComponent>> mComponents;
+    str mName;
 };
 
 namespace GameObject::Traits {
