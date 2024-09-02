@@ -98,7 +98,7 @@ namespace Windows {
 
 class SceneEditor final : public ImguiApp {
 public:
-    SceneEditor() : ImguiApp("XEN Scene Editor", gTheme, "Data/logo_1x.png") {}
+    SceneEditor() : ImguiApp("XEN Editor", gTheme, "Data/logo_1x.png") {}
 
     void Draw(u32 sceneTexture) override {
         Windows::MenuBar();

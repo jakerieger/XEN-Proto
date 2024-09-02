@@ -23,4 +23,4 @@ add_library(ImguiApp STATIC
 
 target_link_libraries(ImguiApp PRIVATE glfw)
 
-add_subdirectory(SceneEditor)
+add_subdirectory(Editor)

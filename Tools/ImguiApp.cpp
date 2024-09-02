@@ -26,11 +26,11 @@ void ImguiApp::Run() {
     auto buffers = CreateRenderBuffers(mWindowSize.x, mWindowSize.y);
 
     while (!glfwWindowShouldClose(mWindow)) {
+        glfwPollEvents();
+
         glBindFramebuffer(GL_FRAMEBUFFER, buffers.FrameBuffer);
         glEnable(GL_DEPTH_TEST);
-
         glClear(GL_COLOR_BUFFER_BIT);
-        glfwPollEvents();
 
         // Render scene
 

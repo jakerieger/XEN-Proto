@@ -10,17 +10,17 @@ include_directories(
 )
 
 if (WIN32)
-    add_executable(XENSceneEditor ../Resources/app.rc)
+    add_executable(XENEditor ../Resources/app.rc)
 else ()
-    add_executable(XENSceneEditor)
+    add_executable(XENEditor)
 endif ()
 
-target_sources(XENSceneEditor PRIVATE
+target_sources(XENEditor PRIVATE
         main.cpp
 )
 
-target_link_libraries(XENSceneEditor PRIVATE glfw ImguiApp)
+target_link_libraries(XENEditor PRIVATE glfw ImguiApp)
 
-add_custom_command(TARGET XENSceneEditor PRE_BUILD
+add_custom_command(TARGET XENEditor PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
