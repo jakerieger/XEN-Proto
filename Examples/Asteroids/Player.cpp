@@ -16,6 +16,8 @@ void Player::Awake(const Shared<SceneContext>& context) {
 
     mContext = context;
 
+    mBulletPool = std::make_unique<ObjectPool<Bullet>>(100);
+
     IGameObject::Awake(context);
 }
 
@@ -24,6 +26,7 @@ void Player::Update(const Shared<SceneContext>& context, f32 dT) {
 }
 
 void Player::Destroyed(const Shared<SceneContext>& context) {
+    mBulletPool.reset();
     IGameObject::Destroyed(context);
 }
 
@@ -46,8 +49,8 @@ void Player::OnKeyDown(const FKeyEvent& event, const FInputMap& input) {
         // Get player rotation in radians
         constexpr auto rotation     = 1.f;
         constexpr auto baseVelocity = 4.f;
-        auto velocity               = rotation * baseVelocity;
+        constexpr auto velocity               = rotation * baseVelocity;
 
-        Instantiate<Bullet>(fmt, mContext.lock(), glm::vec2 {0.f, 0.f}, glm::vec2 {0.f, velocity});
+        mBulletPool->Spawn(mContext.lock(), fmt, glm::vec2 {0.f, 0.f}, glm::vec2 {0.f, velocity});
     }
 }

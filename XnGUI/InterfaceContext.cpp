@@ -3,10 +3,9 @@
 //
 
 #include "InterfaceContext.h"
-#include "Shared/IO.h"
 
 InterfaceContext::InterfaceContext(GLFWwindow* window, int width, int height) {
-    Rml::String renderMsg;
+    /*Rml::String renderMsg;
     if (!RmlGL3::Initialize(&renderMsg)) {
         throw RuntimeError(renderMsg);
     }
@@ -44,14 +43,14 @@ InterfaceContext::InterfaceContext(GLFWwindow* window, int width, int height) {
                            Rml::Style::FontStyle::Normal)) {
         Rml::Shutdown();
         throw RuntimeError("Failed to load font file");
-    }
+    }*/
 }
 
 InterfaceContext::~InterfaceContext() {
-    Rml::Shutdown();
+    /*Rml::Shutdown();
     RmlGL3::Shutdown();
 
     mSystemInterface.reset();
     mRenderInterface.reset();
-    mRmlContext.reset();
+    mRmlContext.reset();*/
 }

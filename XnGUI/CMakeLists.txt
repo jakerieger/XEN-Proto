@@ -11,7 +11,3 @@ add_library(XnGUI STATIC
 )
 
 target_link_libraries(XnGUI PRIVATE RmlCore RmlDebugger)
-
-add_custom_command(TARGET XnGUI PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/BuiltinAssets ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Pong/BuiltinAssets)

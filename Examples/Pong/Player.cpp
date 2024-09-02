@@ -6,7 +6,7 @@
 #include "XnCore/InputMap.h"
 #include "XnCore/SceneContext.h"
 
-Player::Player() : mSprite(None), mTransform(None), mStartPosition({540, 0}) {}
+Player::Player() :IGameObject("Player"), mSprite(None), mTransform(None), mStartPosition({540, 0}) {}
 
 void Player::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();

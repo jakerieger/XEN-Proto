@@ -10,8 +10,8 @@
 static constexpr auto kBallSpeed = 10.f;
 
 Ball::Ball(Player* player, Opponent* opponent, GameManager* manager)
-    : mSprite(None), mTransform(None), mStartPosition({0.f, 0.f}), mPlayer(player),
-      mOpponent(opponent), mGameManager(manager) {}
+    : IGameObject("Ball"), mSprite(None), mTransform(None), mStartPosition({0.f, 0.f}),
+      mPlayer(player), mOpponent(opponent), mGameManager(manager) {}
 
 void Ball::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();

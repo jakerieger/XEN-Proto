@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(2DGameEngine)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Pong)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Examples/Pong)
 
 include_directories(
         ${CMAKE_SOURCE_DIR}
@@ -16,7 +16,7 @@ set(GAME_SOURCES main.cpp
         Opponent.cpp
         GameManager.cpp
         GameManager.h
-        ../Asteroids/main.cpp)
+)
 
 if (WIN32)
     add_executable(Pong ${GAME_SOURCES} Res/XenGame.rc)
@@ -24,7 +24,7 @@ else ()
     add_executable(Pong ${GAME_SOURCES})
 endif ()
 
-target_link_libraries(Pong PRIVATE XnCore XnGUI glfw)
+target_link_libraries(Pong PRIVATE XnCore glfw)
 
 # Copy default engine config
 add_custom_command(TARGET Pong PRE_BUILD

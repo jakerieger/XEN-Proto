@@ -36,7 +36,7 @@ void Bullet::Update(const Shared<SceneContext>& context, f32 dT) {
 void Bullet::PhysicsUpdate(const Shared<SceneContext>& context) {
     // TODO: This causes crashes occasionally, probably a dangling pointer somewhere
     if (mFrame >= mLifetime) {
-        Destroy(context);
+        //Destroy(context);
         return;
     }
 

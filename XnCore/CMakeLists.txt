@@ -66,6 +66,8 @@ add_library(XnCore STATIC
         Math/Vector4.cpp
         Math/Vector4.h
         Math/MatrixOperations.h
+        ObjectPool.cpp
+        ObjectPool.h
 )
 
 target_link_libraries(XnCore PRIVATE XnProfiler glfw glm::glm-header-only OpenAL::OpenAL AudioFile)

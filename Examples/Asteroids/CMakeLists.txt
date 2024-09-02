@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(2DGameEngine)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Asteroids)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Examples/Asteroids)
 
 include_directories(
         ${CMAKE_SOURCE_DIR}

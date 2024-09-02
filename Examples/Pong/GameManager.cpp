@@ -6,7 +6,7 @@
 #include "XnCore/InputMap.h"
 #include "XnCore/SceneContext.h"
 
-GameManager::GameManager(GraphicsContext* context) {
+GameManager::GameManager(GraphicsContext* context) : IGameObject("GameManager") {
     mGraphicsContext = context;
 }
 

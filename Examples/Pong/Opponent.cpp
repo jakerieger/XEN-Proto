@@ -5,7 +5,7 @@
 #include "Opponent.h"
 #include "XnCore/SceneContext.h"
 
-Opponent::Opponent() : mSprite(None), mTransform(None), mStartPosition({-540, 0}) {}
+Opponent::Opponent() : IGameObject("Opponent"), mSprite(None), mTransform(None), mStartPosition({-540, 0}) {}
 
 void Opponent::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();

@@ -22,9 +22,13 @@ find_package(OpenAL CONFIG REQUIRED)
 find_package(AudioFile CONFIG REQUIRED)
 find_package(RmlUi CONFIG REQUIRED)
 
+## LIBRARIES ##
 add_subdirectory(XnCore)
 add_subdirectory(XnGUI)
 add_subdirectory(XnProfiler)
+
+## TOOLS ##
+add_subdirectory(Tools/SceneEditor)
 
 if (${BUILD_EXAMPLES})
     add_subdirectory(Examples/Pong)

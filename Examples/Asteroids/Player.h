@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include "Bullet.h"
 #include "XnCore/GameObject.h"
+#include "XnCore/ObjectPool.h"
 #include "XnCore/Components/SpriteRenderer.h"
 
 using namespace GameObject::Traits;
@@ -25,4 +27,5 @@ private:
     SpriteRenderer* mSprite = None;
     Transform* mTransform   = None;
     Weak<SceneContext> mContext;
+    Unique<ObjectPool<Bullet>> mBulletPool;
 };
