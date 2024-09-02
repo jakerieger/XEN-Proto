@@ -27,6 +27,7 @@ find_package(glm CONFIG REQUIRED)
 find_package(OpenAL CONFIG REQUIRED)
 find_package(AudioFile CONFIG REQUIRED)
 find_package(RmlUi CONFIG REQUIRED)
+find_package(unofficial-nativefiledialog CONFIG REQUIRED)
 
 ## LIBRARIES ##
 add_subdirectory(XnCore)

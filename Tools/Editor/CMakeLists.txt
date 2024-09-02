@@ -19,7 +19,7 @@ target_sources(XENEditor PRIVATE
         main.cpp
 )
 
-target_link_libraries(XENEditor PRIVATE glfw ImguiApp)
+target_link_libraries(XENEditor PRIVATE glfw ImguiApp unofficial::nativefiledialog::nfd)
 
 add_custom_command(TARGET XENEditor PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

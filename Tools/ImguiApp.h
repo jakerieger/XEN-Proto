@@ -26,15 +26,15 @@ public:
              const ImVec2& initSize = ImVec2(1280, 720));
     virtual ~ImguiApp() = default;
 
-    void LoadFontTTF(const Path& ttfFile);
     void Run();
+    [[nodiscard]] GLFWwindow* GetWindow() const;
 
     virtual void Draw(u32 sceneTexture) = 0;
 
 private:
     void Initialize(const ImVec2& initSize);
     void Shutdown() const;
-    RenderBuffers CreateRenderBuffers(i32 width, i32 height) const;
+    [[nodiscard]] static RenderBuffers CreateRenderBuffers(i32 width, i32 height);
 
     GLFWwindow* mWindow = None;
     str mWindowTitle;

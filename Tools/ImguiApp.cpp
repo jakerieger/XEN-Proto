@@ -15,16 +15,10 @@ ImguiApp::ImguiApp(const str& title, const Theme& theme, const Path& icon, const
     mWindowSize  = initSize;
 }
 
-void ImguiApp::LoadFontTTF(const Path& ttfFile) {
-    const ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->AddFontFromFileTTF(ttfFile.string().c_str(), 20.f);
-}
-
 void ImguiApp::Run() {
     Initialize(mWindowSize);
 
-    auto buffers = CreateRenderBuffers(mWindowSize.x, mWindowSize.y);
-
+    const auto buffers = CreateRenderBuffers(CAST<int>(mWindowSize.x), CAST<int>(mWindowSize.y));
     while (!glfwWindowShouldClose(mWindow)) {
         glfwPollEvents();
 
@@ -57,7 +51,11 @@ void ImguiApp::Run() {
     Shutdown();
 }
 
-ImguiApp::RenderBuffers ImguiApp::CreateRenderBuffers(i32 width, i32 height) const {
+GLFWwindow* ImguiApp::GetWindow() const {
+    return mWindow;
+}
+
+ImguiApp::RenderBuffers ImguiApp::CreateRenderBuffers(i32 width, i32 height) {
     u32 frameBuffer;
     glGenFramebuffers(1, &frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -126,7 +124,7 @@ void ImguiApp::Initialize(const ImVec2& initSize) {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_DockingEnable;
-    LoadFontTTF("Data/Fonts/ChakraPetch-Regular.ttf");
+    io.Fonts->AddFontFromFileTTF("Data/Fonts/ChakraPetch-Regular.ttf", 18.f);
 
     // Define ui theme
     {
@@ -171,7 +169,7 @@ void ImguiApp::Initialize(const ImVec2& initSize) {
         styleColors[ImGuiCol_Header]               = mTheme["header"];
         styleColors[ImGuiCol_HeaderHovered]        = mTheme["header"];
         styleColors[ImGuiCol_HeaderActive]         = mTheme["header"];
-        styleColors[ImGuiCol_Separator]            = styleColors[ImGuiCol_Border];
+        styleColors[ImGuiCol_Separator]            = mTheme["separator"];
         styleColors[ImGuiCol_SeparatorHovered]     = mTheme["accent"];
         styleColors[ImGuiCol_SeparatorActive]      = mTheme["accent"];
         styleColors[ImGuiCol_ResizeGrip]           = ImVec4(0.26f, 0.59f, 0.98f, 0.20f);
