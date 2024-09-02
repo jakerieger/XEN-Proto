@@ -18,3 +18,7 @@ add_executable(XENSceneEditor
 )
 
 target_link_libraries(XENSceneEditor PRIVATE glfw)
+
+add_custom_command(TARGET XENSceneEditor PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
