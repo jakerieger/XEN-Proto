@@ -1,0 +1,6 @@
+CMakeLists.txt linguist-vendored
+*/CMakeLists.txt linguist-vendored
+*.rc linguist-vendored
+*.inl linguist-language=C++
+*.h linguist-language=C++
+.doxyfile linguist-vendored
