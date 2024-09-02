@@ -11,6 +11,7 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <imgui_internal.h>
 
 GLFWwindow* gWindow = None;
 int gWidth          = 1280;
@@ -35,23 +36,24 @@ void Initialize() {
     ImGui::CreateContext();
 
     ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_DockingEnable;
     io.Fonts->AddFontFromFileTTF("Data/Fonts/ChakraPetch-Regular.ttf", 20.f);
 
     // Define ui theme
     {
         static std::map<std::string, ImVec4> colors {
-          {"panel", HexToRGBA(0xFFFFFFFF)},
+          {"panel", HexToRGBA(0xFF161722)},
           {"scene", HexToRGBA(0xFFFFFFFF)},
-          {"frame", HexToRGBA(0xFFFFFFFF)},
+          {"frame", HexToRGBA(0xFF0a0b10)},
           {"accent", HexToRGBA(0xFFFFFFFF)},
-          {"border", HexToRGBA(0xFFFFFFFF)},
-          {"text", HexToRGBA(0xFFFFFFFF)},
-          {"text_inactive", HexToRGBA(0xFFFFFFFF)},
+          {"border", HexToRGBA(0xFF565f89)},
+          {"text", HexToRGBA(0xFFc0caf5)},
+          {"text_inactive", HexToRGBA(0xFF414868)},
           {"button", HexToRGBA(0xFFFFFFFF)},
           {"button_hover", HexToRGBA(0xFFFFFFFF)},
           {"selected", HexToRGBA(0xFFFFFFFF)},
           {"header", HexToRGBA(0xFFFFFFFF)},
-          {"menu", HexToRGBA(0xFFFFFFFF)},
+          {"menu", HexToRGBA(0xFF0A0B10)},
           {"success", HexToRGBA(0xFFFFFFFF)},
           {"warning", HexToRGBA(0xFFFFFFFF)},
           {"error", HexToRGBA(0xFFFFFFFF)},
@@ -60,7 +62,7 @@ void Initialize() {
         // Initialize our window style vars
         static float window_rounding = 0.0f;
         static float frame_rounding  = 0.0f;
-        static float border_size     = 1.0f;
+        static float border_size     = 0.0f;
 
         ImGuiStyle* style   = &ImGui::GetStyle();
         ImVec4* styleColors = style->Colors;
@@ -139,13 +141,31 @@ void Draw() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID,
+                                 ImGui::GetMainViewport(),
+                                 ImGuiDockNodeFlags_PassthruCentralNode);
 
     // ImGui::SetNextWindowPos(ImVec2(10, 10));
 
-    ImGui::Begin("Debug",
-                 nullptr,
-                 0 /*ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove*/);
-    { ImGui::Text("FPS"); }
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar;
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    if (ImGui::BeginViewportSideBar("##toolbar",
+                                    ImGui::GetMainViewport(),
+                                    ImGuiDir_Up,
+                                    ImGui::GetFrameHeight(),
+                                    window_flags)) {
+        if (ImGui::BeginMenuBar()) {
+            ImGui::Text("Hello, World!");
+
+            ImGui::EndMenuBar();
+        }
+
+        ImGui::End();
+    }
+    ImGui::PopStyleVar();
+
+    ImGui::Begin("Scene");
+    ImGui::Text("Hello, world!");
     ImGui::End();
 
     ImGui::Render();
