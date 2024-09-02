@@ -2,20 +2,20 @@
 // Created: 9/1/2024.
 //
 
-#include "ImguiApp.h"
+#include "App.h"
 
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <stb_image.h>
 
-ImguiApp::ImguiApp(const str& title, const Theme& theme, const Path& icon, const ImVec2& initSize) {
+IApp::IApp(const str& title, const Theme& theme, const Path& icon, const ImVec2& initSize) {
     mWindowTitle = title;
     mTheme       = theme;
     mIconPath    = icon;
     mWindowSize  = initSize;
 }
 
-void ImguiApp::Run() {
+void IApp::Run() {
     Initialize(mWindowSize);
 
     const auto buffers = CreateRenderBuffers(CAST<int>(mWindowSize.x), CAST<int>(mWindowSize.y));
@@ -51,11 +51,11 @@ void ImguiApp::Run() {
     Shutdown();
 }
 
-GLFWwindow* ImguiApp::GetWindow() const {
+GLFWwindow* IApp::GetWindow() const {
     return mWindow;
 }
 
-ImguiApp::RenderBuffers ImguiApp::CreateRenderBuffers(i32 width, i32 height) {
+IApp::RenderBuffers IApp::CreateRenderBuffers(i32 width, i32 height) {
     u32 frameBuffer;
     glGenFramebuffers(1, &frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -80,7 +80,7 @@ ImguiApp::RenderBuffers ImguiApp::CreateRenderBuffers(i32 width, i32 height) {
     return {frameBuffer, renderBuffer, sceneTexture};
 }
 
-void ImguiApp::Initialize(const ImVec2& initSize) {
+void IApp::Initialize(const ImVec2& initSize) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -206,7 +206,7 @@ void ImguiApp::Initialize(const ImVec2& initSize) {
     ImGui_ImplOpenGL3_Init();
 }
 
-void ImguiApp::Shutdown() const {
+void IApp::Shutdown() const {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

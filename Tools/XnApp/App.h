@@ -10,7 +10,7 @@
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 
-class ImguiApp {
+class IApp {
 public:
     using Theme = Dictionary<std::string, ImVec4>;
 
@@ -20,11 +20,11 @@ public:
         u32 SceneTexture = 0;
     };
 
-    ImguiApp(const str& title,
-             const Theme& theme,
-             const Path& icon,
-             const ImVec2& initSize = ImVec2(1280, 720));
-    virtual ~ImguiApp() = default;
+    IApp(const str& title,
+         const Theme& theme,
+         const Path& icon,
+         const ImVec2& initSize = ImVec2(1280, 720));
+    virtual ~IApp() = default;
 
     void Run();
     [[nodiscard]] GLFWwindow* GetWindow() const;

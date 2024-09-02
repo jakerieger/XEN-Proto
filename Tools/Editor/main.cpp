@@ -5,7 +5,7 @@
 #pragma warning(disable : 4996)
 
 #include "Shared/Types.h"
-#include "Tools/ImguiApp.h"
+#include "Tools/XnApp/App.h"
 
 #include <imgui_internal.h>
 #include <nfd.h>
@@ -42,7 +42,7 @@ static Dictionary<std::string, ImVec4> gTheme {{"panel", HexToRGBA(0xFF161722)},
                                                {"separator", HexToRGBA(0xFF24283b)}};
 
 namespace Windows {
-    void MenuBar(ImguiApp* app) {
+    void MenuBar(IApp* app) {
         constexpr ImGuiWindowFlags window_flags =
           ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar;
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
@@ -58,21 +58,28 @@ namespace Windows {
                     if (ImGui::MenuItem("New Scene", "Ctrl+N")) {
                     }
                     if (ImGui::MenuItem("Open Scene", "Ctrl+O")) {
-                        nfdchar_t* outPath       = None;
-                        const nfdresult_t result = NFD_OpenDialog(None, None, &outPath);
-                        if (result == NFD_OKAY) {
-                            free(outPath);
-                        }
                     }
                     if (ImGui::MenuItem("Save Scene", "Ctrl+S")) {
-                        nfdchar_t* savePath = None;
-                        nfdresult_t result  = NFD_SaveDialog(None, None, &savePath);
                     }
 
                     ImGui::Separator();
 
-                    if (ImGui::MenuItem("Export to engine", "Ctrl+E")) {
-                        menuAction = "Export";
+                    if (ImGui::MenuItem("New Project", "Ctrl+Shift+N")) {
+                    }
+                    if (ImGui::MenuItem("Open Project", "Ctrl+Shift+O")) {
+                    }
+                    if (ImGui::MenuItem("Save Project", "Ctrl+Shift+S")) {
+                    }
+
+                    ImGui::Separator();
+
+                    if (ImGui::MenuItem("Open C++ Project", "Ctrl+Alt+P")) {
+                    }
+                    if (ImGui::MenuItem("Build All", "Ctrl+E")) {
+                        menuAction = "BuildAll";
+                    }
+                    if (ImGui::MenuItem("Build and Run", "Ctrl+E")) {
+                        menuAction = "BuildAndRun";
                     }
 
                     ImGui::Separator();
@@ -81,6 +88,45 @@ namespace Windows {
                         glfwSetWindowShouldClose(app->GetWindow(), true);
                     }
 
+                    ImGui::EndMenu();
+                }
+
+                if (ImGui::BeginMenu("Edit")) {
+                    if (ImGui::MenuItem("Undo", "Ctrl+Z")) {
+                    }
+                    if (ImGui::MenuItem("Redo", "Ctrl+Y")) {
+                    }
+
+                    ImGui::Separator();
+
+                    if (ImGui::MenuItem("Editor Preferences...", "Shift+F12")) {
+                    }
+
+                    ImGui::EndMenu();
+                }
+
+                if (ImGui::BeginMenu("Create")) {
+                    if (ImGui::MenuItem("New GameObject", "Ctrl+Alt+N")) {
+                    }
+                    if (ImGui::MenuItem("New Component", "Ctrl+Alt+C")) {
+                    }
+                    if (ImGui::MenuItem("Import Asset", "Ctrl+I")) {
+                    }
+
+                    ImGui::EndMenu();
+                }
+
+                if (ImGui::BeginMenu("View")) {
+                    if (ImGui::MenuItem("Windows", "")) {
+                    }
+                    ImGui::EndMenu();
+                }
+
+                if (ImGui::BeginMenu("Help")) {
+                    if (ImGui::MenuItem("Check for Updates", "")) {
+                    }
+                    if (ImGui::MenuItem("About XEN Editor", "")) {
+                    }
                     ImGui::EndMenu();
                 }
 
@@ -128,8 +174,8 @@ namespace Windows {
         ImGui::End();
     }
 
-    void Settings() {
-        ImGui::Begin("Settings");
+    void Inspector() {
+        ImGui::Begin("Inspector");
         ImGui::Text("Hello, world!");
         ImGui::End();
     }
@@ -141,16 +187,16 @@ namespace Windows {
     }
 }  // namespace Windows
 
-class Editor final : public ImguiApp {
+class Editor final : public IApp {
 public:
-    Editor() : ImguiApp("XEN Editor", gTheme, "Data/logo_1x.png") {}
+    Editor() : IApp("XEN Editor", gTheme, "Data/logo_1x.png") {}
 
     void Draw(u32 sceneTexture) override {
         Windows::MenuBar(this);
         Windows::Scene(sceneTexture);
         Windows::Analytics();
         Windows::Hierarchy();
-        Windows::Settings();
+        Windows::Inspector();
     }
 };
 
