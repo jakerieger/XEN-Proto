@@ -27,12 +27,12 @@ ImVec4 HexToRGBA(const u32 hex) {
 static Dictionary<std::string, ImVec4> gTheme {{"panel", HexToRGBA(0xFF161722)},
                                                {"scene", HexToRGBA(0xFFFFFFFF)},
                                                {"frame", HexToRGBA(0xFF0a0b10)},
-                                               {"accent", HexToRGBA(0xFF4493f8)},
+                                               {"accent", HexToRGBA(0xFF8957e5)},
                                                {"border", HexToRGBA(0xFF0A0B10)},
                                                {"text", HexToRGBA(0xFFc0caf5)},
                                                {"text_inactive", HexToRGBA(0xFF414868)},
-                                               {"button", HexToRGBA(0xFF4493f8)},
-                                               {"button_hover", HexToRGBA(0xF04493f8)},
+                                               {"button", HexToRGBA(0xFF8957e5)},
+                                               {"button_hover", HexToRGBA(0xF08957e5)},
                                                {"selected", HexToRGBA(0xFF101118)},
                                                {"header", HexToRGBA(0xFF1a1b26)},
                                                {"menu", HexToRGBA(0xFF0A0B10)},
@@ -46,6 +46,8 @@ namespace Windows {
         constexpr ImGuiWindowFlags window_flags =
           ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar;
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
+        str menuAction;
         if (ImGui::BeginViewportSideBar("##toolbar",
                                         ImGui::GetMainViewport(),
                                         ImGuiDir_Up,
@@ -56,15 +58,21 @@ namespace Windows {
                     if (ImGui::MenuItem("New Scene", "Ctrl+N")) {
                     }
                     if (ImGui::MenuItem("Open Scene", "Ctrl+O")) {
-                        nfdchar_t* outPath = None;
-                        nfdresult_t result = NFD_OpenDialog(None, None, &outPath);
+                        nfdchar_t* outPath       = None;
+                        const nfdresult_t result = NFD_OpenDialog(None, None, &outPath);
+                        if (result == NFD_OKAY) {
+                            free(outPath);
+                        }
                     }
                     if (ImGui::MenuItem("Save Scene", "Ctrl+S")) {
+                        nfdchar_t* savePath = None;
+                        nfdresult_t result  = NFD_SaveDialog(None, None, &savePath);
                     }
 
                     ImGui::Separator();
 
                     if (ImGui::MenuItem("Export to engine", "Ctrl+E")) {
+                        menuAction = "Export";
                     }
 
                     ImGui::Separator();
@@ -82,6 +90,21 @@ namespace Windows {
             ImGui::End();
         }
         ImGui::PopStyleVar();
+
+        if (menuAction == "Export") {
+            ImGui::OpenPopup("Export");
+        }
+
+        if (ImGui::BeginPopupModal("Export")) {
+            ImGui::Text("Export to engine");
+            if (ImGui::Button("Cancel")) {
+                ImGui::CloseCurrentPopup();
+            }
+            if (ImGui::Button("Export")) {
+                // DO export stuff
+            }
+            ImGui::EndPopup();
+        }
     }
 
     void Scene(u32 sceneTexture) {
