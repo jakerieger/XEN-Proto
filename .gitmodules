@@ -1,0 +1,3 @@
+[submodule "Shared/Vendor/imgui"]
+	path = Shared/Vendor/imgui
+	url = https://github.com/ocornut/imgui.git

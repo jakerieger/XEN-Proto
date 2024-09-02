@@ -6,5 +6,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Tools/SceneEditor)
 
 add_executable(XENSceneEditor
-    main.cpp
+        ../../Shared/Vendor/glad/glad.h
+        ../../Shared/Vendor/glad.c
+        main.cpp
 )
+
+target_link_libraries(XENSceneEditor PRIVATE glfw)
