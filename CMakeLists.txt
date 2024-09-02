@@ -34,7 +34,7 @@ add_subdirectory(XnGUI)
 add_subdirectory(XnProfiler)
 
 ## TOOLS ##
-add_subdirectory(Tools/SceneEditor)
+add_subdirectory(Tools)
 
 if (${BUILD_EXAMPLES})
     add_subdirectory(Examples/Pong)
