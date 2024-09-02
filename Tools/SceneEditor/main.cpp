@@ -8,10 +8,44 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 GLFWwindow* gWindow = None;
 int gWidth          = 1280;
 int gHeight         = 720;
+
+void Initialize() {
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    ImGui_ImplGlfw_InitForOpenGL(gWindow, true);
+    ImGui_ImplOpenGL3_Init();
+}
+
+void Draw() {
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    // ImGui::SetNextWindowPos(ImVec2(10, 10));
+
+    ImGui::Begin("Debug",
+                 nullptr,
+                 0 /*ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove*/);
+    { ImGui::Text("FPS"); }
+    ImGui::End();
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void Shutdown() {
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+}
 
 int main() {
     glfwInit();
@@ -32,11 +66,16 @@ int main() {
 
     glfwSwapInterval(1);
 
+    Initialize();
     while (!glfwWindowShouldClose(gWindow)) {
         glClear(GL_COLOR_BUFFER_BIT);
-        glfwSwapBuffers(gWindow);
         glfwPollEvents();
+
+        Draw();
+
+        glfwSwapBuffers(gWindow);
     }
+    Shutdown();
 
     glfwDestroyWindow(gWindow);
     glfwTerminate();

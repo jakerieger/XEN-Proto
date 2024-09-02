@@ -11,6 +11,12 @@ set(BUILD_EXAMPLES ON)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+file(GLOB IMGUI_SRCS
+        Shared/Vendor/imgui/*.cpp
+        Shared/Vendor/imgui/backends/imgui_impl_opengl3.cpp
+        Shared/Vendor/imgui/backends/imgui_impl_glfw.cpp
+)
+
 include_directories(
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/Shared/Vendor
