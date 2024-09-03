@@ -55,6 +55,10 @@ GLFWwindow* IApp::GetWindow() const {
     return mWindow;
 }
 
+void IApp::Quit() const {
+    glfwSetWindowShouldClose(mWindow, true);
+}
+
 IApp::RenderBuffers IApp::CreateRenderBuffers(i32 width, i32 height) {
     u32 frameBuffer;
     glGenFramebuffers(1, &frameBuffer);

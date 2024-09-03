@@ -16,6 +16,8 @@ add_library(XnApp STATIC
         ../../Shared/Vendor/glad.c
         App.h
         App.cpp
+        MenuBar.cpp
+        MenuBar.h
 )
 
 target_link_libraries(XnApp PRIVATE glfw)

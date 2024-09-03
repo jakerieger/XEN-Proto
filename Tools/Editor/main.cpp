@@ -6,6 +6,7 @@
 
 #include "Shared/Types.h"
 #include "Tools/XnApp/App.h"
+#include "Tools/XnApp/MenuBar.h"
 
 #include <imgui_internal.h>
 #include <nfd.h>
@@ -27,12 +28,12 @@ ImVec4 HexToRGBA(const u32 hex) {
 static Dictionary<std::string, ImVec4> gTheme {{"panel", HexToRGBA(0xFF161722)},
                                                {"scene", HexToRGBA(0xFFFFFFFF)},
                                                {"frame", HexToRGBA(0xFF0a0b10)},
-                                               {"accent", HexToRGBA(0xFF8957e5)},
+                                               {"accent", HexToRGBA(0xFF4680fa)},
                                                {"border", HexToRGBA(0xFF0A0B10)},
                                                {"text", HexToRGBA(0xFFc0caf5)},
                                                {"text_inactive", HexToRGBA(0xFF414868)},
-                                               {"button", HexToRGBA(0xFF8957e5)},
-                                               {"button_hover", HexToRGBA(0xF08957e5)},
+                                               {"button", HexToRGBA(0xFF4680fa)},
+                                               {"button_hover", HexToRGBA(0xF04680fa)},
                                                {"selected", HexToRGBA(0xFF101118)},
                                                {"header", HexToRGBA(0xFF1a1b26)},
                                                {"menu", HexToRGBA(0xFF0A0B10)},
@@ -42,117 +43,6 @@ static Dictionary<std::string, ImVec4> gTheme {{"panel", HexToRGBA(0xFF161722)},
                                                {"separator", HexToRGBA(0xFF24283b)}};
 
 namespace Windows {
-    void MenuBar(IApp* app) {
-        constexpr ImGuiWindowFlags window_flags =
-          ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar;
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-
-        str menuAction;
-        if (ImGui::BeginViewportSideBar("##toolbar",
-                                        ImGui::GetMainViewport(),
-                                        ImGuiDir_Up,
-                                        ImGui::GetFrameHeight(),
-                                        window_flags)) {
-            if (ImGui::BeginMenuBar()) {
-                if (ImGui::BeginMenu("File")) {
-                    if (ImGui::MenuItem("New Scene", "Ctrl+N")) {
-                    }
-                    if (ImGui::MenuItem("Open Scene", "Ctrl+O")) {
-                    }
-                    if (ImGui::MenuItem("Save Scene", "Ctrl+S")) {
-                    }
-
-                    ImGui::Separator();
-
-                    if (ImGui::MenuItem("New Project", "Ctrl+Shift+N")) {
-                    }
-                    if (ImGui::MenuItem("Open Project", "Ctrl+Shift+O")) {
-                    }
-                    if (ImGui::MenuItem("Save Project", "Ctrl+Shift+S")) {
-                    }
-
-                    ImGui::Separator();
-
-                    if (ImGui::MenuItem("Open C++ Project", "Ctrl+Alt+P")) {
-                    }
-                    if (ImGui::MenuItem("Build All", "Ctrl+E")) {
-                        menuAction = "BuildAll";
-                    }
-                    if (ImGui::MenuItem("Build and Run", "Ctrl+E")) {
-                        menuAction = "BuildAndRun";
-                    }
-
-                    ImGui::Separator();
-
-                    if (ImGui::MenuItem("Exit", "Ctrl+Q")) {
-                        glfwSetWindowShouldClose(app->GetWindow(), true);
-                    }
-
-                    ImGui::EndMenu();
-                }
-
-                if (ImGui::BeginMenu("Edit")) {
-                    if (ImGui::MenuItem("Undo", "Ctrl+Z")) {
-                    }
-                    if (ImGui::MenuItem("Redo", "Ctrl+Y")) {
-                    }
-
-                    ImGui::Separator();
-
-                    if (ImGui::MenuItem("Editor Preferences...", "Shift+F12")) {
-                    }
-
-                    ImGui::EndMenu();
-                }
-
-                if (ImGui::BeginMenu("Create")) {
-                    if (ImGui::MenuItem("New GameObject", "Ctrl+Alt+N")) {
-                    }
-                    if (ImGui::MenuItem("New Component", "Ctrl+Alt+C")) {
-                    }
-                    if (ImGui::MenuItem("Import Asset", "Ctrl+I")) {
-                    }
-
-                    ImGui::EndMenu();
-                }
-
-                if (ImGui::BeginMenu("View")) {
-                    if (ImGui::MenuItem("Windows", "")) {
-                    }
-                    ImGui::EndMenu();
-                }
-
-                if (ImGui::BeginMenu("Help")) {
-                    if (ImGui::MenuItem("Check for Updates", "")) {
-                    }
-                    if (ImGui::MenuItem("About XEN Editor", "")) {
-                    }
-                    ImGui::EndMenu();
-                }
-
-                ImGui::EndMenuBar();
-            }
-
-            ImGui::End();
-        }
-        ImGui::PopStyleVar();
-
-        if (menuAction == "Export") {
-            ImGui::OpenPopup("Export");
-        }
-
-        if (ImGui::BeginPopupModal("Export")) {
-            ImGui::Text("Export to engine");
-            if (ImGui::Button("Cancel")) {
-                ImGui::CloseCurrentPopup();
-            }
-            if (ImGui::Button("Export")) {
-                // DO export stuff
-            }
-            ImGui::EndPopup();
-        }
-    }
-
     void Scene(u32 sceneTexture) {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGui::Begin("Scene");
@@ -189,15 +79,81 @@ namespace Windows {
 
 class Editor final : public IApp {
 public:
-    Editor() : IApp("XEN Editor", gTheme, "Data/logo_1x.png") {}
+    Editor() : IApp("XEN Editor", gTheme, "Data/logo_1x.png") {
+        const Menu fileMenu = {"File",
+                               {{
+                                  "New Scene",
+                                  "Ctrl+N",
+                                  [] {},
+                                },
+                                {
+                                  "Open Scene",
+                                  "Ctrl+O",
+                                  [] {},
+                                },
+                                {
+                                  "Save Scene",
+                                  "Ctrl+S",
+                                  [] {},
+                                },
+                                {
+                                  "Save Scene As",
+                                  "Ctrl+Shift+S",
+                                  [] {},
+                                  true,
+                                },
+                                {
+                                  "New Project",
+                                  "Ctrl+Alt+N",
+                                  [] {},
+                                },
+                                {
+                                  "Open Project",
+                                  "Ctrl+Alt+O",
+                                  [] {},
+                                },
+                                {
+                                  "Save Project",
+                                  "Ctrl+Alt+S",
+                                  [] {},
+                                  true,
+                                },
+                                {
+                                  "Open C++ Project",
+                                  "",
+                                  [] {},
+                                },
+                                {
+                                  "Build All",
+                                  "Ctrl+B",
+                                  [] {},
+                                },
+                                {
+                                  "Build and Run",
+                                  "Ctrl+Shift+B",
+                                  [] {},
+                                  true,
+                                },
+                                {
+                                  "Exit",
+                                  "Ctrl+Q",
+                                  [this] { Quit(); },
+                                }}};
+
+        Vector<Menu> menus = {fileMenu};
+        mMenuBar           = std::make_unique<MenuBar>(menus);
+    }
 
     void Draw(u32 sceneTexture) override {
-        Windows::MenuBar(this);
+        mMenuBar->Draw();
         Windows::Scene(sceneTexture);
         Windows::Analytics();
         Windows::Hierarchy();
         Windows::Inspector();
     }
+
+private:
+    Unique<MenuBar> mMenuBar;
 };
 
 int main() {

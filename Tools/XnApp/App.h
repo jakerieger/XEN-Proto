@@ -28,6 +28,7 @@ public:
 
     void Run();
     [[nodiscard]] GLFWwindow* GetWindow() const;
+    void Quit() const;
 
     virtual void Draw(u32 sceneTexture) = 0;
 
