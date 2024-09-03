@@ -9,13 +9,18 @@
 
 MenuBar::MenuBar(const Vector<Menu>& menus) {
     mMenus = menus;
+
+    for (auto& menu : mMenus) {
+        for (auto& action : menu.Actions) {
+            mActions[action.Name] = action.Action;
+        }
+    }
 }
 
 void MenuBar::Draw() {
     constexpr ImGuiWindowFlags window_flags =
       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar;
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-
     if (ImGui::BeginViewportSideBar("##toolbar",
                                     ImGui::GetMainViewport(),
                                     ImGuiDir_Up,
@@ -26,7 +31,7 @@ void MenuBar::Draw() {
                 if (ImGui::BeginMenu(menuName.c_str())) {
                     for (auto& [itemName, itemShortcut, itemAction, itemSeparated] : menuActions) {
                         if (ImGui::MenuItem(itemName.c_str(), itemShortcut.c_str())) {
-                            itemAction();
+                            mCurrentAction = itemName;
                         }
 
                         if (itemSeparated) {
@@ -43,6 +48,12 @@ void MenuBar::Draw() {
 
         ImGui::End();
     }
-
     ImGui::PopStyleVar();
+
+    // Call the selected action from the menu
+    const auto it = mActions.find(mCurrentAction);
+    if (it != mActions.end()) {
+        it->second();
+    }
+    mCurrentAction = "";
 }

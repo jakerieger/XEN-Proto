@@ -24,5 +24,7 @@ public:
     void Draw();
 
 private:
-    Vector<Menu> mMenus = {};
+    str mCurrentAction;
+    Vector<Menu> mMenus                        = {};
+    Dictionary<str, Function<void()>> mActions = {};
 };

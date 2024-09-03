@@ -140,7 +140,63 @@ public:
                                   [this] { Quit(); },
                                 }}};
 
-        Vector<Menu> menus = {fileMenu};
+        const Menu editMenu = {"Edit",
+                               {{
+                                  "Undo",
+                                  "Ctrl+Z",
+                                  [] {},
+                                },
+                                {
+                                  "Redo",
+                                  "Ctrl+Y",
+                                  [] {},
+                                },
+                                {
+                                  "Select All",
+                                  "Ctrl+A",
+                                  [] {},
+                                },
+                                {
+                                  "Deselect All",
+                                  "Shift+D",
+                                  [] {},
+                                  true,
+                                },
+                                {
+                                  "Project Settings...",
+                                  "Ctrl+Alt+N",
+                                  [] {},
+                                },
+                                {
+                                  "Editor Preferences...",
+                                  "Ctrl+Alt+O",
+                                  [] {},
+                                }}};
+
+        const Menu createMenu = {"Create",
+                                 {{
+                                    "GameObject...",
+                                    "Ctrl+Shift+G",
+                                    [] {},
+                                  },
+                                  {
+                                    "Component...",
+                                    "Ctrl+Shift+F",
+                                    [] {},
+                                  },
+                                  {
+                                    "Camera...",
+                                    "Ctrl+Shift+D",
+                                    [] {},
+                                    true,
+                                  },
+                                  {
+                                    "Import Asset",
+                                    "Shift+I",
+                                    [] {},
+                                  }}};
+
+        Vector<Menu> menus = {fileMenu, editMenu, createMenu};
         mMenuBar           = std::make_unique<MenuBar>(menus);
     }
 
