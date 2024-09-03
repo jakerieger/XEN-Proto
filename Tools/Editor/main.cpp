@@ -7,6 +7,7 @@
 #include "Shared/Types.h"
 #include "Tools/XnApp/App.h"
 #include "Tools/XnApp/MenuBar.h"
+#include "Tools/XnApp/Window.h"
 
 #include <imgui_internal.h>
 #include <nfd.h>
@@ -27,7 +28,7 @@ ImVec4 HexToRGBA(const u32 hex) {
 
 static Dictionary<std::string, ImVec4> gTheme {{"panel", HexToRGBA(0xFF161722)},
                                                {"scene", HexToRGBA(0xFFFFFFFF)},
-                                               {"frame", HexToRGBA(0xFF0a0b10)},
+                                               {"frame", HexToRGBA(0xFF1a1c29)},
                                                {"accent", HexToRGBA(0xFF4680fa)},
                                                {"border", HexToRGBA(0xFF0A0B10)},
                                                {"text", HexToRGBA(0xFFc0caf5)},
@@ -43,38 +44,63 @@ static Dictionary<std::string, ImVec4> gTheme {{"panel", HexToRGBA(0xFF161722)},
                                                {"separator", HexToRGBA(0xFF24283b)}};
 
 namespace Windows {
-    void Scene(u32 sceneTexture) {
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-        ImGui::Begin("Scene");
-        ImGui::BeginChild("SceneTexture");
-        const ImVec2 viewportSize = ImGui::GetWindowSize();
+    class NewGameObjectModal final : public IWindow {
+    public:
+        void Draw(u32 sceneTexture) override {
+            if (ImGui::BeginPopupModal("Create new GameObject")) {
+                ImGui::InputText("##Name", mNameBuffer, IM_ARRAYSIZE(mNameBuffer));
+                ImGui::EndPopup();
+            }
+        }
+
+    private:
+        char mNameBuffer[256] = {'\0'};
+    };
+
+    class SceneWindow final : public IWindow {
+    public:
+        void Draw(u32 sceneTexture) override {
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+            ImGui::Begin("Scene");
+            ImGui::BeginChild("SceneTexture");
+            const ImVec2 viewportSize = ImGui::GetWindowSize();
 
 // Ignore this warning ''type cast': conversion from 'unsigned int' to 'void *' of greater size'
 // ImGui uses void* to represent generic types, so we can just cast our texture id to void*
 #pragma warning(suppress : 4312)
-        ImGui::Image((void*)sceneTexture, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
-        ImGui::EndChild();
-        ImGui::End();
-        ImGui::PopStyleVar();
-    }
+            ImGui::Image((void*)sceneTexture, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
+            ImGui::EndChild();
+            ImGui::End();
+            ImGui::PopStyleVar();
+        }
+    };
 
-    void Hierarchy() {
-        ImGui::Begin("Hierarchy");
-        ImGui::Text("Hello, world!");
-        ImGui::End();
-    }
+    class HierarchyWindow final : public IWindow {
+    public:
+        void Draw(u32 sceneTexture) override {
+            ImGui::Begin("Hierarchy");
+            ImGui::Text("Hello, world!");
+            ImGui::End();
+        }
+    };
 
-    void Inspector() {
-        ImGui::Begin("Inspector");
-        ImGui::Text("Hello, world!");
-        ImGui::End();
-    }
+    class InspectorWindow final : public IWindow {
+    public:
+        void Draw(u32 sceneTexture) override {
+            ImGui::Begin("Inspector");
+            ImGui::Text("Hello, world!");
+            ImGui::End();
+        }
+    };
 
-    void Analytics() {
-        ImGui::Begin("Analytics");
-        ImGui::Text("Hello, world!");
-        ImGui::End();
-    }
+    class AnalyticsWindow final : public IWindow {
+    public:
+        void Draw(u32 sceneTexture) override {
+            ImGui::Begin("Analytics");
+            ImGui::Text("Hello, world!");
+            ImGui::End();
+        }
+    };
 }  // namespace Windows
 
 class Editor final : public IApp {
@@ -177,7 +203,7 @@ public:
                                  {{
                                     "GameObject...",
                                     "Ctrl+Shift+G",
-                                    [] {},
+                                    [] { ImGui::OpenPopup("Create new GameObject"); },
                                   },
                                   {
                                     "Component...",
@@ -198,14 +224,20 @@ public:
 
         Vector<Menu> menus = {fileMenu, editMenu, createMenu};
         mMenuBar           = std::make_unique<MenuBar>(menus);
+
+        CreateWindow<Windows::NewGameObjectModal>();
+        CreateWindow<Windows::SceneWindow>();
+        CreateWindow<Windows::HierarchyWindow>();
+        CreateWindow<Windows::InspectorWindow>();
+        CreateWindow<Windows::AnalyticsWindow>();
     }
 
     void Draw(u32 sceneTexture) override {
         mMenuBar->Draw();
-        Windows::Scene(sceneTexture);
-        Windows::Analytics();
-        Windows::Hierarchy();
-        Windows::Inspector();
+
+        for (const auto& window : mWindows) {
+            window->Draw(sceneTexture);
+        }
     }
 
 private:

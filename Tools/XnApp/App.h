@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include <Shared/Types.h>
+#include "Shared/Types.h"
+#include "Window.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -32,7 +33,12 @@ public:
 
     virtual void Draw(u32 sceneTexture) = 0;
 
-private:
+    template<typename T, typename... Args>
+    void CreateWindow(Args&&... args) {
+        mWindows.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
+    }
+
+protected:
     void Initialize(const ImVec2& initSize);
     void Shutdown() const;
     [[nodiscard]] static RenderBuffers CreateRenderBuffers(i32 width, i32 height);
@@ -42,4 +48,5 @@ private:
     Path mIconPath;
     Theme mTheme;
     ImVec2 mWindowSize;
+    Vector<Unique<IWindow>> mWindows;
 };

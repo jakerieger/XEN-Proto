@@ -17,6 +17,7 @@ endif ()
 
 target_sources(XENEditor PRIVATE
         main.cpp
+        CachedLayout.h
 )
 
 target_link_libraries(XENEditor PRIVATE glfw XnApp unofficial::nativefiledialog::nfd)
