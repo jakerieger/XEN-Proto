@@ -20,7 +20,7 @@ target_sources(XENEditor PRIVATE
         CachedLayout.h
 )
 
-target_link_libraries(XENEditor PRIVATE glfw XnApp unofficial::nativefiledialog::nfd)
+target_link_libraries(XENEditor PRIVATE XnCore glfw XnApp unofficial::nativefiledialog::nfd)
 
 add_custom_command(TARGET XENEditor PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

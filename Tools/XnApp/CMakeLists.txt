@@ -14,6 +14,7 @@ add_library(XnApp STATIC
         ../../Shared/Vendor/stb_image.cpp
         ../../Shared/Vendor/glad/glad.h
         ../../Shared/Vendor/glad.c
+        ../Resources/XenTheme.h
         App.h
         App.cpp
         MenuBar.cpp
