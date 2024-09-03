@@ -33,11 +33,19 @@ namespace Windows {
         }
 
         void Draw(u32 sceneTexture, IApp* app) override {
-            if (ImGui::BeginPopupModal("Create new GameObject")) {
-                ImGui::InputText("Name", mNameBuffer, IM_ARRAYSIZE(mNameBuffer));
-                ImGui::InputText("Path", mPathBuffer, IM_ARRAYSIZE(mPathBuffer));
+            ImGui::SetNextWindowSize(ImVec2(800, 280));
+            if (ImGui::BeginPopupModal("Create new GameObject",
+                                       nullptr,
+                                       ImGuiWindowFlags_NoResize)) {
+                ImGui::Text("Name: ");
+                ImGui::SameLine(100);
+                ImGui::InputText("##Name", mNameBuffer, IM_ARRAYSIZE(mNameBuffer));
+
+                ImGui::Text("Path: ");
+                ImGui::SameLine(100);
+                ImGui::InputText("##Path", mPathBuffer, IM_ARRAYSIZE(mPathBuffer));
                 ImGui::SameLine();
-                if (ImGui::Button("...")) {
+                if (ImGui::Button("...", ImVec2(32, 24))) {
                     // Open folder browser dialog or whatever its called
                     nfdchar_t* outPath       = None;
                     const auto startDir      = mProject.RootDir.append("Source");
@@ -51,29 +59,49 @@ namespace Windows {
                 const auto headerPath = std::format("{}\\{}.h", mPathBuffer, mNameBuffer);
                 const auto sourcePath = std::format("{}\\{}.cpp", mPathBuffer, mNameBuffer);
 
+                ImGui::Text("Traits: ");
+                ImGui::SameLine(100);
                 ImGui::Checkbox("Drawable", &mDrawable);
+
+                ImGui::Text("");
+                ImGui::SameLine(100);
                 ImGui::Checkbox("Input Listener", &mInputListener);
+
+                ImGui::Text("");
+                ImGui::SameLine(100);
                 ImGui::Checkbox("Physics Object", &mPhysicsObject);
 
-                ImGui::Text("Header file: %s", headerPath.c_str());
-                ImGui::Text("Source file: %s", sourcePath.c_str());
+                ImGui::Text("Header File: ");
+                ImGui::SameLine(100);
+                ImGui::TextDisabled("%s", headerPath.c_str());
 
-                if (ImGui::Button("Create")) {
-                    IO::Write(sourcePath, "PISS IN MY ASS");
-                    IO::Write(headerPath,
-                              FileTemplates::GameObjectSourceFile(mNameBuffer,
-                                                                  mDrawable,
-                                                                  mInputListener,
-                                                                  mPhysicsObject));
+                ImGui::Text("Source File: ");
+                ImGui::SameLine(100);
+                ImGui::TextDisabled("%s", sourcePath.c_str());
+
+                ImGui::Spacing();
+
+                ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 220.f);
+                if (ImGui::Button("Create", ImVec2(100, 32))) {
+                    // IO::Write(sourcePath, "PISS IN MY ASS");
+                    // IO::Write(headerPath,
+                    //           FileTemplates::GameObjectSourceFile(mNameBuffer,
+                    //                                               mDrawable,
+                    //                                               mInputListener,
+                    //                                               mPhysicsObject));
                     ResetState();
                     ImGui::CloseCurrentPopup();
                 }
+
                 ImGui::SameLine();
 
-                if (ImGui::Button("Cancel")) {
+                ImGui::PushStyleColor(ImGuiCol_Button, HexToRGBA(0xFF1A1C29));
+                if (ImGui::Button("Cancel", ImVec2(100, 32))) {
                     ResetState();
                     ImGui::CloseCurrentPopup();
                 }
+                ImGui::PopStyleColor();
+
                 ImGui::EndPopup();
             }
         }
