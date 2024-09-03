@@ -4,31 +4,100 @@
 
 #pragma warning(disable : 4996)
 
+#include "CachedLayout.h"
+#include "FileTemplates.h"
+#include "Shared/IO.h"
 #include "Shared/Types.h"
 #include "Tools/XnApp/App.h"
 #include "Tools/XnApp/MenuBar.h"
 #include "Tools/XnApp/Window.h"
 #include "Tools/Resources/XenTheme.h"
 
+#include <iostream>
 #include <nfd.h>
+
+struct Project {
+    Path RootDir;
+    str Name;
+    str XenVersion;
+};
 
 namespace Windows {
     class NewGameObjectModal final : public IWindow {
     public:
-        void Draw(u32 sceneTexture) override {
+        explicit NewGameObjectModal(const Project& project) : mProject(project) {
+            const auto rootDir = project.RootDir.string() + "/Source";
+            std::cout << rootDir << std::endl;
+            std::strncpy(mPathBuffer, rootDir.c_str(), sizeof(mPathBuffer) - 1);
+            mPathBuffer[sizeof(mPathBuffer) - 1] = '\0';
+        }
+
+        void Draw(u32 sceneTexture, IApp* app) override {
             if (ImGui::BeginPopupModal("Create new GameObject")) {
-                ImGui::InputText("##Name", mNameBuffer, IM_ARRAYSIZE(mNameBuffer));
+                ImGui::InputText("Name", mNameBuffer, IM_ARRAYSIZE(mNameBuffer));
+                ImGui::InputText("Path", mPathBuffer, IM_ARRAYSIZE(mPathBuffer));
+                ImGui::SameLine();
+                if (ImGui::Button("...")) {
+                    // Open folder browser dialog or whatever its called
+                    nfdchar_t* outPath       = None;
+                    const auto startDir      = mProject.RootDir.append("Source");
+                    const nfdresult_t result = NFD_PickFolder(startDir.string().c_str(), &outPath);
+                    if (result == NFD_OKAY) {
+                        std::strncpy(mPathBuffer, outPath, sizeof(mPathBuffer) - 1);
+                        mPathBuffer[sizeof(mPathBuffer) - 1] = '\0';
+                    }
+                }
+
+                const auto headerPath = std::format("{}\\{}.h", mPathBuffer, mNameBuffer);
+                const auto sourcePath = std::format("{}\\{}.cpp", mPathBuffer, mNameBuffer);
+
+                ImGui::Checkbox("Drawable", &mDrawable);
+                ImGui::Checkbox("Input Listener", &mInputListener);
+                ImGui::Checkbox("Physics Object", &mPhysicsObject);
+
+                ImGui::Text("Header file: %s", headerPath.c_str());
+                ImGui::Text("Source file: %s", sourcePath.c_str());
+
+                if (ImGui::Button("Create")) {
+                    IO::Write(sourcePath, "PISS IN MY ASS");
+                    IO::Write(headerPath,
+                              FileTemplates::GameObjectSourceFile(mNameBuffer,
+                                                                  mDrawable,
+                                                                  mInputListener,
+                                                                  mPhysicsObject));
+                    ResetState();
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::SameLine();
+
+                if (ImGui::Button("Cancel")) {
+                    ResetState();
+                    ImGui::CloseCurrentPopup();
+                }
                 ImGui::EndPopup();
             }
         }
 
+        void ResetState() override {
+            mNameBuffer[0] = '\0';
+            mDrawable      = false;
+            mInputListener = false;
+            mPhysicsObject = false;
+        }
+
     private:
         char mNameBuffer[256] = {'\0'};
+        char mPathBuffer[256] = {'\0'};
+        bool mDrawable        = false;
+        bool mInputListener   = false;
+        bool mPhysicsObject   = false;
+
+        Project mProject;
     };
 
     class SceneWindow final : public IWindow {
     public:
-        void Draw(u32 sceneTexture) override {
+        void Draw(u32 sceneTexture, IApp* app) override {
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
             ImGui::Begin("Scene");
             ImGui::BeginChild("SceneTexture");
@@ -42,39 +111,49 @@ namespace Windows {
             ImGui::End();
             ImGui::PopStyleVar();
         }
+
+        void ResetState() override {}
     };
 
     class HierarchyWindow final : public IWindow {
     public:
-        void Draw(u32 sceneTexture) override {
+        void Draw(u32 sceneTexture, IApp* app) override {
             ImGui::Begin("Hierarchy");
             ImGui::Text("Hello, world!");
             ImGui::End();
         }
+
+        void ResetState() override {}
     };
 
     class InspectorWindow final : public IWindow {
     public:
-        void Draw(u32 sceneTexture) override {
+        void Draw(u32 sceneTexture, IApp* app) override {
             ImGui::Begin("Inspector");
             ImGui::Text("Hello, world!");
             ImGui::End();
         }
+
+        void ResetState() override {}
     };
 
     class AnalyticsWindow final : public IWindow {
     public:
-        void Draw(u32 sceneTexture) override {
+        void Draw(u32 sceneTexture, IApp* app) override {
             ImGui::Begin("Analytics");
             ImGui::Text("Hello, world!");
             ImGui::End();
         }
+
+        void ResetState() override {}
     };
 }  // namespace Windows
 
 class Editor final : public IApp {
 public:
     Editor() : IApp("XEN Editor", kXenTheme, "Data/logo_1x.png") {
+        LoadProject(R"(C:\Users\conta\Code\CPP\2DGameEngine\Templates\Empty\Empty.xenproj)");
+
         const Menu fileMenu = {"File",
                                {{
                                   "New Scene",
@@ -194,7 +273,7 @@ public:
         Vector<Menu> menus = {fileMenu, editMenu, createMenu};
         mMenuBar           = std::make_unique<MenuBar>(menus);
 
-        CreateWindow<Windows::NewGameObjectModal>();
+        CreateWindow<Windows::NewGameObjectModal>(mProject);
         CreateWindow<Windows::SceneWindow>();
         CreateWindow<Windows::HierarchyWindow>();
         CreateWindow<Windows::InspectorWindow>();
@@ -205,12 +284,23 @@ public:
         mMenuBar->Draw();
 
         for (const auto& window : mWindows) {
-            window->Draw(sceneTexture);
+            window->Draw(sceneTexture, this);
         }
 
         ImGui::Begin("Performance");
         ImGui::Text("FPS: %d", (int)ImGui::GetIO().Framerate);
         ImGui::End();
+    }
+
+    void LoadProject(const Path& projectPath) {
+        mProject            = Project();
+        mProject.RootDir    = projectPath.parent_path();  // Don't include project file
+        mProject.Name       = projectPath.filename().string();
+        mProject.XenVersion = "0.0.1";
+    }
+
+    [[nodiscard]] Project& GetProject() {
+        return mProject;
     }
 
     ~Editor() override {
@@ -219,6 +309,7 @@ public:
 
 private:
     Unique<MenuBar> mMenuBar;
+    Project mProject;
 };
 
 int main() {

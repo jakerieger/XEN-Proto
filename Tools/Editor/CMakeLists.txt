@@ -12,12 +12,15 @@ include_directories(
 if (WIN32)
     add_executable(XENEditor ../Resources/app.rc)
 else ()
-    add_executable(XENEditor)
+    add_executable(XENEditor
+            FileTemplates.h)
 endif ()
 
 target_sources(XENEditor PRIVATE
+        ../../Shared/IO.h
         main.cpp
         CachedLayout.h
+        FileTemplates.h
 )
 
 target_link_libraries(XENEditor PRIVATE XnCore glfw XnApp unofficial::nativefiledialog::nfd)

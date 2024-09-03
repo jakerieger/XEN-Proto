@@ -6,6 +6,8 @@
 
 #include "Types.h"
 
+#include <fstream>
+
 namespace IO {
     inline Option<str> Read(const Path& filename) {
         if (!exists(filename) || is_directory(filename)) {

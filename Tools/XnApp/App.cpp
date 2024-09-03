@@ -133,7 +133,7 @@ void IApp::Initialize(const ImVec2& initSize) {
     // Define ui theme
     {
         // Initialize our window style vars
-        static float window_rounding = 0.0f;
+        static float window_rounding = 4.0f;
         static float frame_rounding  = 4.0f;
         static float border_size     = 2.0f;
 
@@ -145,6 +145,7 @@ void IApp::Initialize(const ImVec2& initSize) {
         style->WindowBorderSize = border_size;
         style->FrameBorderSize  = border_size;
         style->TabRounding      = frame_rounding;
+        style->FramePadding     = ImVec2(4.f, 4.f);
 
         styleColors[ImGuiCol_Text]                 = mTheme["text"];
         styleColors[ImGuiCol_TextDisabled]         = mTheme["text_inactive"];
