@@ -38,6 +38,9 @@ public:
         mWindows.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
     }
 
+    void LoadFont(const str& name, const Path& ttfFile, f32 size = 20.f);
+    [[nodiscard]] ImFont* GetFont(const str& name) const;
+
 protected:
     void Initialize(const ImVec2& initSize);
     void Shutdown() const;
@@ -49,4 +52,5 @@ protected:
     Theme mTheme;
     ImVec2 mWindowSize;
     Vector<Unique<IWindow>> mWindows;
+    Dictionary<str, ImFont*> mFonts;
 };

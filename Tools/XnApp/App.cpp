@@ -3,6 +3,7 @@
 //
 
 #include "App.h"
+#include "Tools/Resources/IconsFontAwesome6Pro.h"
 
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -13,11 +14,11 @@ IApp::IApp(const str& title, const Theme& theme, const Path& icon, const ImVec2&
     mTheme       = theme;
     mIconPath    = icon;
     mWindowSize  = initSize;
+
+    Initialize(initSize);
 }
 
 void IApp::Run() {
-    Initialize(mWindowSize);
-
     const auto buffers = CreateRenderBuffers(CAST<int>(mWindowSize.x), CAST<int>(mWindowSize.y));
     while (!glfwWindowShouldClose(mWindow)) {
         glfwPollEvents();
@@ -84,6 +85,27 @@ IApp::RenderBuffers IApp::CreateRenderBuffers(i32 width, i32 height) {
     return {frameBuffer, renderBuffer, sceneTexture};
 }
 
+void IApp::LoadFont(const str& name, const Path& ttfFile, f32 size) {
+    const ImGuiIO& io = ImGui::GetIO();
+    const auto font   = io.Fonts->AddFontFromFileTTF(ttfFile.string().c_str(), size);
+    const auto it     = mFonts.find(name);
+    if (it == mFonts.end()) {
+        mFonts.insert_or_assign(name, font);
+    } else {
+        delete it->second;
+        it->second = font;
+    }
+}
+
+ImFont* IApp::GetFont(const str& name) const {
+    const auto it = mFonts.find(name);
+    if (it == mFonts.end()) {
+        return None;
+    }
+
+    return it->second;
+}
+
 void IApp::Initialize(const ImVec2& initSize) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -128,7 +150,6 @@ void IApp::Initialize(const ImVec2& initSize) {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_DockingEnable;
-    io.Fonts->AddFontFromFileTTF("Data/Fonts/ChakraPetch-Regular.ttf", 18.f);
 
     // Define ui theme
     {

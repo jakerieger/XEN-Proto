@@ -8,6 +8,8 @@
 #include "SceneContext.h"
 #include "Shared/Types.h"
 
+#include <RmlUi/Config/Config.h>
+
 class Scene {
 public:
     explicit Scene(const Shared<EventDispatcher>& eventDispatcher);
@@ -34,6 +36,9 @@ public:
     T* GetCameraAs() {
         return DCAST<T*>(GetCamera().get());
     }
+
+    // TODO: Implement YAML-based scene descriptor files
+    void LoadFromFile(const Path& sceneFile);
 
 private:
     Shared<SceneContext> mSceneContext;

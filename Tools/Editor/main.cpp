@@ -12,7 +12,10 @@
 #include "Tools/XnApp/MenuBar.h"
 #include "Tools/XnApp/Window.h"
 #include "Tools/Resources/XenTheme.h"
+#include "Tools/XnApp/Widgets.h"
+#include "Tools/Resources/IconsFontAwesome6Pro.h"
 
+#include <imgui_internal.h>
 #include <iostream>
 #include <nfd.h>
 
@@ -82,25 +85,15 @@ namespace Windows {
                 ImGui::Spacing();
 
                 ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 220.f);
-                if (ImGui::Button("Create", ImVec2(100, 32))) {
-                    // IO::Write(sourcePath, "PISS IN MY ASS");
-                    // IO::Write(headerPath,
-                    //           FileTemplates::GameObjectSourceFile(mNameBuffer,
-                    //                                               mDrawable,
-                    //                                               mInputListener,
-                    //                                               mPhysicsObject));
+                Widgets::PrimaryButton("Create", {100, 32}, [this] {
                     ResetState();
                     ImGui::CloseCurrentPopup();
-                }
-
+                });
                 ImGui::SameLine();
-
-                ImGui::PushStyleColor(ImGuiCol_Button, HexToRGBA(0xFF1A1C29));
-                if (ImGui::Button("Cancel", ImVec2(100, 32))) {
+                Widgets::SecondaryButton("Cancel", {100, 32}, [this] {
                     ResetState();
                     ImGui::CloseCurrentPopup();
-                }
-                ImGui::PopStyleColor();
+                });
 
                 ImGui::EndPopup();
             }
@@ -127,7 +120,7 @@ namespace Windows {
     public:
         void Draw(u32 sceneTexture, IApp* app) override {
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-            ImGui::Begin("Scene");
+            ImGui::Begin(ICON_FA_IMAGE " Scene");
             ImGui::BeginChild("SceneTexture");
             const ImVec2 viewportSize = ImGui::GetWindowSize();
 
@@ -146,7 +139,7 @@ namespace Windows {
     class HierarchyWindow final : public IWindow {
     public:
         void Draw(u32 sceneTexture, IApp* app) override {
-            ImGui::Begin("Hierarchy");
+            ImGui::Begin(ICON_FA_LIST " Hierarchy");
             ImGui::Text("Hello, world!");
             ImGui::End();
         }
@@ -157,7 +150,7 @@ namespace Windows {
     class InspectorWindow final : public IWindow {
     public:
         void Draw(u32 sceneTexture, IApp* app) override {
-            ImGui::Begin("Inspector");
+            ImGui::Begin(ICON_FA_CIRCLE_INFO " Inspector");
             ImGui::Text("Hello, world!");
             ImGui::End();
         }
@@ -165,10 +158,10 @@ namespace Windows {
         void ResetState() override {}
     };
 
-    class AnalyticsWindow final : public IWindow {
+    class ProjectWindow final : public IWindow {
     public:
         void Draw(u32 sceneTexture, IApp* app) override {
-            ImGui::Begin("Analytics");
+            ImGui::Begin(ICON_FA_FOLDER " Project");
             ImGui::Text("Hello, world!");
             ImGui::End();
         }
@@ -181,6 +174,15 @@ class Editor final : public IApp {
 public:
     Editor() : IApp("XEN Editor", kXenTheme, "Data/logo_1x.png") {
         LoadProject(R"(C:\Users\conta\Code\CPP\2DGameEngine\Templates\Empty\Empty.xenproj)");
+
+        LoadFont("Inter_18", "Data/Fonts/Inter_18pt-Medium.ttf", 18.f);
+
+        ImFontConfig config;
+        config.MergeMode             = true;
+        config.GlyphMinAdvanceX      = 13.f;
+        static const ImWchar icons[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
+        ImGuiIO& io                  = ImGui::GetIO();
+        io.Fonts->AddFontFromFileTTF("Data/Fonts/fa-solid-900.ttf", 13.f, &config, icons);
 
         const Menu fileMenu = {"File",
                                {{
@@ -212,7 +214,15 @@ public:
                                 {
                                   "Open Project",
                                   "Ctrl+Alt+O",
-                                  [] {},
+                                  [this] {
+                                      nfdchar_t* outPath = None;
+                                      const nfdresult_t result =
+                                        NFD_OpenDialog("xenproj", None, &outPath);
+
+                                      if (result == NFD_OKAY) {
+                                          LoadProject(outPath);
+                                      }
+                                  },
                                 },
                                 {
                                   "Save Project",
@@ -305,11 +315,32 @@ public:
         CreateWindow<Windows::SceneWindow>();
         CreateWindow<Windows::HierarchyWindow>();
         CreateWindow<Windows::InspectorWindow>();
-        CreateWindow<Windows::AnalyticsWindow>();
+        CreateWindow<Windows::ProjectWindow>();
     }
 
     void Draw(u32 sceneTexture) override {
         mMenuBar->Draw();
+
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar;
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+        if (ImGui::BeginViewportSideBar("##toolbar",
+                                        ImGui::GetMainViewport(),
+                                        ImGuiDir_Up,
+                                        /*ImGui::GetFrameHeight()*/ 36.f,
+                                        window_flags)) {
+            if (ImGui::BeginMenuBar()) {
+                ImGui::SetCursorPosX((ImGui::GetWindowWidth() / 2.f) - 48.f);
+                ImGui::PushStyleVarX(ImGuiStyleVar_ItemSpacing, 0.f);
+                Widgets::SecondaryButton(ICON_FA_PLAY, {48.f, 0.f}, [] {});
+                Widgets::SecondaryButton(ICON_FA_STOP, {48.f, 0.f}, [] {});
+                Widgets::SecondaryButton(ICON_FA_FORWARD_STEP, {48.f, 0.f}, [] {});
+                ImGui::PopStyleVar();
+                ImGui::EndMenuBar();
+            }
+
+            ImGui::End();
+        }
+        ImGui::PopStyleVar();
 
         for (const auto& window : mWindows) {
             window->Draw(sceneTexture, this);
@@ -325,6 +356,9 @@ public:
         mProject.RootDir    = projectPath.parent_path();  // Don't include project file
         mProject.Name       = projectPath.filename().string();
         mProject.XenVersion = "0.0.1";
+
+        const auto titleFmt = std::format("XEN Editor | {}", mProject.Name);
+        glfwSetWindowTitle(mWindow, titleFmt.c_str());
     }
 
     [[nodiscard]] Project& GetProject() {

@@ -21,6 +21,8 @@ add_library(XnApp STATIC
         MenuBar.h
         Window.cpp
         Window.h
+        Widgets.cpp
+        Widgets.h
 )
 
 target_link_libraries(XnApp PRIVATE glfw)

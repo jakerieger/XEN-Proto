@@ -70,3 +70,7 @@ void Scene::SetCamera(const Shared<ICamera>& camera) const {
 Shared<ICamera> Scene::GetCamera() const {
     return mSceneContext->MainCamera;
 }
+
+void Scene::LoadFromFile(const Path& sceneFile) {
+    mSceneContext = {};
+}
