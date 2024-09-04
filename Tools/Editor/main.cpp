@@ -4,7 +4,6 @@
 
 #pragma warning(disable : 4996)
 
-#include "CachedLayout.h"
 #include "FileTemplates.h"
 #include "Shared/IO.h"
 #include "Shared/Types.h"
