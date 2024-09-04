@@ -22,12 +22,14 @@ include_directories(
         ${CMAKE_SOURCE_DIR}/Shared/Vendor
 )
 
+## THIRD PARTY DEPENDENCIES (VCPKG) ##
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(OpenAL CONFIG REQUIRED)
 find_package(AudioFile CONFIG REQUIRED)
 find_package(RmlUi CONFIG REQUIRED)
 find_package(unofficial-nativefiledialog CONFIG REQUIRED)
+find_package(yaml-cpp CONFIG REQUIRED)
 
 ## LIBRARIES ##
 add_subdirectory(XnCore)
