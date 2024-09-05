@@ -1,6 +1,3 @@
 [submodule "Shared/Vendor/imgui"]
 	path = Shared/Vendor/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "Shared/Vendor/rttr"]
-	path = Shared/Vendor/rttr
-	url = https://github.com/rttrorg/rttr
