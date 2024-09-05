@@ -70,4 +70,11 @@ add_library(XnCore STATIC
         ObjectPool.h
 )
 
-target_link_libraries(XnCore PRIVATE XnProfiler glfw glm::glm-header-only OpenAL::OpenAL AudioFile)
+target_link_libraries(XnCore PRIVATE
+        XnProfiler
+        glfw
+        glm::glm-header-only
+        OpenAL::OpenAL
+        AudioFile
+        RTTR::Core
+)

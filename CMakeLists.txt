@@ -30,6 +30,7 @@ find_package(AudioFile CONFIG REQUIRED)
 find_package(RmlUi CONFIG REQUIRED)
 find_package(unofficial-nativefiledialog CONFIG REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
+find_package(rttr CONFIG REQUIRED)
 
 ## LIBRARIES ##
 add_subdirectory(XnCore)

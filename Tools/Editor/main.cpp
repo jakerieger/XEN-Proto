@@ -5,13 +5,14 @@
 #pragma warning(disable : 4996)
 
 #include "FileTemplates.h"
-#include "Shared/IO.h"
 #include "Shared/Types.h"
+
 #include "Tools/XnApp/App.h"
 #include "Tools/XnApp/MenuBar.h"
 #include "Tools/XnApp/Window.h"
-#include "Tools/Resources/XenTheme.h"
 #include "Tools/XnApp/Widgets.h"
+
+#include "Tools/Resources/XenTheme.h"
 #include "Tools/Resources/IconsFontAwesome6Pro.h"
 
 #include <imgui_internal.h>
