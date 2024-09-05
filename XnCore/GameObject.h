@@ -5,7 +5,6 @@
 #pragma once
 
 #include <utility>
-#include <rttr/registration.h>
 
 #include "Component.h"
 #include "Config.h"
@@ -69,10 +68,6 @@ public:
         return mComponents;
     }
 
-    void SetComponents(const Vector<Unique<IComponent>>& components) {
-        mComponents = components;
-    }
-
     template<typename T, typename... Args>
     T* AddComponent(Args&&... args) {
         auto component  = std::make_unique<T>(std::forward<Args>(args)...);
@@ -81,7 +76,7 @@ public:
         return componentPtr;
     }
 
-    str GetName() const {
+    [[nodiscard]] str GetName() const {
         return mName;
     }
 
@@ -92,14 +87,7 @@ public:
 protected:
     Vector<Unique<IComponent>> mComponents;
     str mName;
-
-    RTTR_ENABLE()
 };
-
-RTTR_REGISTRATION {
-    rttr::registration::class_<IGameObject>("GameObject")
-      .property("name", &IGameObject::GetName, &IGameObject::SetName);
-}
 
 namespace GameObject::Traits {
     class IPhysicsObject {

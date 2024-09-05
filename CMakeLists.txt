@@ -30,7 +30,9 @@ find_package(AudioFile CONFIG REQUIRED)
 find_package(RmlUi CONFIG REQUIRED)
 find_package(unofficial-nativefiledialog CONFIG REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
-find_package(rttr CONFIG REQUIRED)
+
+## THIRD PARTY DEPENDENCIES (LOCAL) ##
+add_subdirectory(Shared/Vendor/rttr)
 
 ## LIBRARIES ##
 add_subdirectory(XnCore)

@@ -76,5 +76,4 @@ target_link_libraries(XnCore PRIVATE
         glm::glm-header-only
         OpenAL::OpenAL
         AudioFile
-        RTTR::Core
 )
