@@ -4,12 +4,13 @@
 
 #pragma once
 
-#include <utility>
-
 #include "Component.h"
 #include "Config.h"
 #include "Shared/Types.h"
 #include "InputEvents.h"
+
+#include <rttr/type>
+#include <rttr/registration_friend.h>
 
 // Forward declarations
 class SceneContext;
@@ -64,8 +65,16 @@ public:
         return None;
     }
 
-    Vector<Unique<IComponent>>& GetComponents() {
+    [[nodiscard]] const Vector<Unique<IComponent>>& GetComponents() const {
         return mComponents;
+    }
+
+    [[nodiscard]] Vector<IComponent*> GetComponentsRaw() const {
+        Vector<IComponent*> result;
+        for (auto& component : mComponents) {
+            result.push_back(component.get());
+        }
+        return result;
     }
 
     template<typename T, typename... Args>
@@ -87,6 +96,9 @@ public:
 protected:
     Vector<Unique<IComponent>> mComponents;
     str mName;
+
+    RTTR_ENABLE()
+    RTTR_REGISTRATION_FRIEND
 };
 
 namespace GameObject::Traits {

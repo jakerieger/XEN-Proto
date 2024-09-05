@@ -94,9 +94,6 @@ using Dictionary = std::unordered_map<K, V>;
 template<class K, class V>
 using Map = std::map<K, V>;
 
-template<typename T>
-using Future = std::future<T>;
-
 struct Rect {
     int Left   = 0;
     int Top    = 0;

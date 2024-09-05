@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(XEN-Proto)
 
-set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/XENEditor)
 
 include_directories(
@@ -23,7 +22,7 @@ target_sources(XENEditor PRIVATE
         FileTemplates.h
 )
 
-target_link_libraries(XENEditor PRIVATE XnCore glfw XnApp unofficial::nativefiledialog::nfd)
+target_link_libraries(XENEditor PRIVATE XnCore glfw XnApp unofficial::nativefiledialog::nfd fmt::fmt-header-only)
 
 add_custom_command(TARGET XENEditor PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

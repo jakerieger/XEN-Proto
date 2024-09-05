@@ -1,35 +1,33 @@
 {
-  "name": "xen",
-  "version": "1.0.0",
-  "builtin-baseline": "01f602195983451bc83e72f4214af2cbc495aa94",
-  "dependencies": [
-    {
-      "name": "glfw3",
-      "version>=": "3.4"
-    },
-    {
-      "name": "glm",
-      "version>=": "1.0.1#2"
-    },
-    {
-      "name": "openal-soft",
-      "version>=": "1.23.1"
-    },
-    {
-      "name": "audiofile",
-      "version>=": "1.1.1"
-    },
-    {
-      "name": "rmlui",
-      "version>=": "5.1#1"
-    },
-    {
-      "name": "nativefiledialog",
-      "version>=": "2022-01-20"
-    },
-    {
-      "name": "yaml-cpp",
-      "version>=": "0.8.0#1"
-    }
-  ]
+  "name" : "xen",
+  "version" : "1.0.0",
+  "builtin-baseline" : "01f602195983451bc83e72f4214af2cbc495aa94",
+  "dependencies" : [ {
+    "name" : "glfw3",
+    "version>=" : "3.4"
+  }, {
+    "name" : "glm",
+    "version>=" : "1.0.1#2"
+  }, {
+    "name" : "openal-soft",
+    "version>=" : "1.23.1"
+  }, {
+    "name" : "audiofile",
+    "version>=" : "1.1.1"
+  }, {
+    "name" : "rmlui",
+    "version>=" : "5.1#1"
+  }, {
+    "name" : "nativefiledialog",
+    "version>=" : "2022-01-20"
+  }, {
+    "name" : "yaml-cpp",
+    "version>=" : "0.8.0#1"
+  }, {
+    "name" : "fmt",
+    "version>=" : "10.2.1#2"
+  }, {
+    "name" : "rapidjson",
+    "version>=" : "2023-07-17#1"
+  } ]
 }

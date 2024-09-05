@@ -4,7 +4,6 @@
 
 #include "Game.h"
 #include "Events.h"
-#include "XnProfiler/Profiler.h"
 
 #include <iostream>
 
@@ -41,31 +40,23 @@ void IGame::Run() {
 
     // Game loop
     mClock->Start();
-    Profiler::Begin(mTitle);
     while (IsRunning()) {
         mClock->Tick();
 
         if (!mPaused) {
-            Profiler::TimePoint start = Profiler::BeginContext();
             if (mActiveScene) {
                 mActiveScene->Update(mClock->GetDeltaTime());
             }
-            Profiler::EndContext(start, "SceneUpdate");
 
-            start = Profiler::BeginContext();
             RenderThread();
-            Profiler::EndContext(start, "Render");
 
-            start = Profiler::BeginContext();
             if (mActiveScene) {
                 mActiveScene->LateUpdate();
             }
-            Profiler::EndContext(start, "LateUpdate");
         }
 
         mClock->Update();
     }
-    Profiler::End();
     mClock->Stop();
 
     RemoveAllScenes();
@@ -174,6 +165,11 @@ void IGame::Pause() {
 void IGame::Resume() {
     mPaused = false;
 }
+
+void IGame::Quit() const {
+    glfwSetWindowShouldClose(mGraphicsContext->GetWindow(), true);
+}
+
 void IGame::SetWindowIcon(const Path& icon) const {
     mGraphicsContext->SetWindowIcon(icon);
 }

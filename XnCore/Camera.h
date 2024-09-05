@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Shared/Types.h"
-#include "Shared/TypeTraits.h"
 
 #include <glm/mat4x4.hpp>
 #include <glm/glm.hpp>
@@ -38,7 +37,6 @@ public:
     /// baseCam->As<OrthoCamera>()->SomeOrthoCameraMethod();
     /// @endcode
     template<typename T>
-        requires IsBaseOf<ICamera, T>
     T* As() {
         return DCAST<T*>(this);
     }

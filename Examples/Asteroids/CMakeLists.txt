@@ -21,17 +21,31 @@ else ()
     add_executable(Asteroids ${GAME_SOURCES})
 endif ()
 
-target_link_libraries(Asteroids PRIVATE XnCore glfw)
+target_link_libraries(Asteroids PRIVATE XnCore glfw fmt::fmt-header-only RTTR::Core_Lib_STL)
 
 # Copy default engine config
-add_custom_command(TARGET Asteroids PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_SOURCE_DIR}/Config.ini ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.ini)
+if (MSVC)
+    add_custom_command(TARGET Asteroids PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/Config.ini ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/Config.ini)
 
-add_custom_command(TARGET Asteroids PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Assets)
+    add_custom_command(TARGET Asteroids PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/Assets)
 
-add_custom_command(TARGET Asteroids PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/Res ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Res)
+    add_custom_command(TARGET Asteroids PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Res ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/Res)
+else ()
+    add_custom_command(TARGET Asteroids PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/Config.ini ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.ini)
+
+    add_custom_command(TARGET Asteroids PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Assets ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Assets)
+
+    add_custom_command(TARGET Asteroids PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Res ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Res)
+endif ()

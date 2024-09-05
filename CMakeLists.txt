@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.14)
 project(XEN-Proto)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(VCPKG_CMAKE_PATH "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
 set(CMAKE_TOOLCHAIN_FILE ${VCPKG_CMAKE_PATH} CACHE STRING "Vcpkg toolchain file")
-
-set(BUILD_EXAMPLES ON)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -30,20 +29,24 @@ find_package(AudioFile CONFIG REQUIRED)
 find_package(RmlUi CONFIG REQUIRED)
 find_package(unofficial-nativefiledialog CONFIG REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 
 ## THIRD PARTY DEPENDENCIES (LOCAL) ##
+set(BUILD_EXAMPLES OFF)
+set(BUILD_DOCUMENTATION OFF)
+set(BUILD_INSTALLER OFF)
+set(BUILD_UNIT_TESTS OFF)
+set(BUILD_STATIC ON)
+set(BUILD_WITH_STATIC_RUNTIME_LIBS ON)
 add_subdirectory(Shared/Vendor/rttr)
 
 ## LIBRARIES ##
 add_subdirectory(XnCore)
 add_subdirectory(XnGUI)
-add_subdirectory(XnProfiler)
 
 ## TOOLS ##
 add_subdirectory(Tools/XnApp)
 add_subdirectory(Tools/Editor)
 
-if (${BUILD_EXAMPLES})
-    add_subdirectory(Examples/Pong)
-    add_subdirectory(Examples/Asteroids)
-endif ()
+add_subdirectory(Examples/Pong)
+add_subdirectory(Examples/Asteroids)

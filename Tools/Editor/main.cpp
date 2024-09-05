@@ -18,6 +18,7 @@
 #include <imgui_internal.h>
 #include <iostream>
 #include <nfd.h>
+#include <fmt/format.h>
 
 struct Project {
     Path RootDir;
@@ -59,8 +60,8 @@ namespace Windows {
                     }
                 }
 
-                const auto headerPath = std::format("{}\\{}.h", mPathBuffer, mNameBuffer);
-                const auto sourcePath = std::format("{}\\{}.cpp", mPathBuffer, mNameBuffer);
+                const auto headerPath = fmt::format("{}\\{}.h", mPathBuffer, mNameBuffer);
+                const auto sourcePath = fmt::format("{}\\{}.cpp", mPathBuffer, mNameBuffer);
 
                 ImGui::Text("Traits: ");
                 ImGui::SameLine(100);
@@ -357,7 +358,7 @@ public:
         mProject.Name       = projectPath.filename().string();
         mProject.XenVersion = "0.0.1";
 
-        const auto titleFmt = std::format("XEN Editor | {}", mProject.Name);
+        const auto titleFmt = fmt::format("XEN Editor | {}", mProject.Name);
         glfwSetWindowTitle(mWindow, titleFmt.c_str());
     }
 

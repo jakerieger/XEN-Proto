@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.14)
 project(XEN-Proto)
 
 add_library(XnCore STATIC
+        #############################
         ../Shared/Vendor/glad.c
         ../Shared/Vendor/stb_image.cpp
         ../Shared/Types.h
-        ../Shared/TypeTraits.h
         ../Shared/IO.h
         #############################
         Game.h
@@ -14,8 +14,8 @@ add_library(XnCore STATIC
         Memory/ThreadPool.h
         GraphicsContext.cpp
         GraphicsContext.h
-        Scene.cpp
         Scene.h
+        Scene.cpp
         Config.cpp
         Config.h
         PipelineStates.cpp
@@ -71,9 +71,10 @@ add_library(XnCore STATIC
 )
 
 target_link_libraries(XnCore PRIVATE
-        XnProfiler
         glfw
         glm::glm-header-only
+        fmt::fmt-header-only
         OpenAL::OpenAL
         AudioFile
+        RTTR::Core_Lib_STL
 )

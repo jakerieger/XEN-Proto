@@ -4,8 +4,6 @@
 
 #include "InputManager.h"
 
-#include "XnProfiler/Profiler.h"
-
 #include <utility>
 
 static InputManager* gActiveManager = None;
@@ -16,14 +14,13 @@ static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, i
     }
 
     if (key == GLFW_KEY_F12 && action == GLFW_PRESS) {
-        Profiler::CaptureFrame();
     }
 
     if (!gActiveManager) {
         return;
     }
 
-    const FKeyEvent event(key);
+    const FKeyEvent event {key};
     if (action == GLFW_PRESS) {
         gActiveManager->UpdateKeyStates(key, {true, false});
         for (const auto& listener : gActiveManager->GetListeners()) {
@@ -47,7 +44,7 @@ static void DispatchThread() {
     while (gActiveManager->ShouldDispatch()) {
         for (const auto& [key, state] : gActiveManager->GetKeyStates()) {
             if (state.Pressed) {
-                FKeyEvent event(CAST<int>(key));
+                FKeyEvent event {CAST<int>(key)};
                 for (const auto& listener : gActiveManager->GetListeners()) {
                     listener->OnKey(event, gActiveManager->GetInputMap());
                 }

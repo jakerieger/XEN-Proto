@@ -62,7 +62,7 @@ glm::vec2 OrthoCamera::WorldToScreen(const glm::vec3& worldCoords,
 }
 
 Rect OrthoCamera::GetViewport() const {
-    return Rect(CAST<int>(mLeft), CAST<int>(mTop), CAST<int>(mRight), CAST<int>(mBottom));
+    return {CAST<int>(mLeft), CAST<int>(mTop), CAST<int>(mRight), CAST<int>(mBottom)};
 }
 
 void OrthoCamera::UpdateView() {

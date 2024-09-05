@@ -10,11 +10,11 @@
 
 class ThreadPool {
 public:
-    explicit ThreadPool(size_t numThreads);
+    explicit ThreadPool(int numThreads);
     ~ThreadPool();
 
     template<class F, class... Args>
-    auto Enqueue(F&& f, Args&&... args) -> Future<typename std::invoke_result_t<F, Args...>> {
+    auto Enqueue(F&& f, Args&&... args) -> std::future<typename std::invoke_result_t<F, Args...>> {
         using ReturnType = std::invoke_result_t<F, Args...>;
 
         auto task = std::make_shared<std::packaged_task<ReturnType()>>(

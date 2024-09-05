@@ -3,15 +3,18 @@
 //
 
 #include "Player.h"
-
 #include "Bullet.h"
+
 #include "XnCore/SceneContext.h"
 #include "XnCore/InputEvents.h"
 #include "XnCore/InputMap.h"
 
+#include <fmt/format.h>
+
 void Player::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();
-    mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/ship.png", mTransform, glm::vec2(2.f, 2.f));
+    mSprite =
+      AddComponent<SpriteRenderer>("Assets/Sprites/ship.png", mTransform, glm::vec2(2.f, 2.f));
     mTransform->SetPosition({0.f, 0.f});
 
     mContext = context;
@@ -44,12 +47,12 @@ void Player::OnKeyDown(const FKeyEvent& event, const FInputMap& input) {
 
     static int bullets = 0;
     if (event.KeyCode == GetKeyCode(shoot)) {
-        const auto fmt = std::format("Bullet_{}", ++bullets);
+        const auto fmt = fmt::format("Bullet_{}", ++bullets);
 
         // Get player rotation in radians
         constexpr auto rotation     = 1.f;
         constexpr auto baseVelocity = 4.f;
-        constexpr auto velocity               = rotation * baseVelocity;
+        constexpr auto velocity     = rotation * baseVelocity;
 
         mBulletPool->Spawn(mContext.lock(), fmt, glm::vec2 {0.f, 0.f}, glm::vec2 {0.f, velocity});
     }

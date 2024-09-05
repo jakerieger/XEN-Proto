@@ -74,9 +74,9 @@ void Ball::CheckCollision() {
     const auto playerBounds   = mPlayer->GetComponent<Transform>()->GetBounds();
     const auto opponentBounds = mOpponent->GetComponent<Transform>()->GetBounds();
 
-    const auto topBounds = Rect(mViewport.Left, mViewport.Top + 1, mViewport.Right, mViewport.Top);
+    const auto topBounds = Rect {mViewport.Left, mViewport.Top + 1, mViewport.Right, mViewport.Top};
     const auto bottomBounds =
-      Rect(mViewport.Left, mViewport.Bottom, mViewport.Right, mViewport.Bottom - 1);
+      Rect {mViewport.Left, mViewport.Bottom, mViewport.Right, mViewport.Bottom - 1};
 
     if (Transform::IsColliding(ballBounds, topBounds)) {
         mTransform->SetPosition(mTransform->GetPosition() - (mVelocity * 1.f));

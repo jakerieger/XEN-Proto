@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(XEN-Proto)
 
-set(CMAKE_CXX_STANDARD 20)
-
 file(GLOB RMLUI_SRCS ../Shared/Vendor/RmlUi/*.cpp ../Shared/Vendor/RmlUi/*.h)
 add_library(XnGUI STATIC
         ${RMLUI_SRCS}

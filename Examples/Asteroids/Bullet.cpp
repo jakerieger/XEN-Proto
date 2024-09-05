@@ -23,7 +23,8 @@ void Bullet::Draw(const Shared<SceneContext>& context) {
 
 void Bullet::Awake(const Shared<SceneContext>& context) {
     mTransform = AddComponent<Transform>();
-    mSprite    = AddComponent<SpriteRenderer>("Assets/Sprites/bullet.png", mTransform, glm::vec2{3.f, 3.f});
+    mSprite =
+      AddComponent<SpriteRenderer>("Assets/Sprites/bullet.png", mTransform, glm::vec2 {3.f, 3.f});
     mTransform->SetPosition(mInitialPosition);
 
     IGameObject::Awake(context);
@@ -36,7 +37,7 @@ void Bullet::Update(const Shared<SceneContext>& context, f32 dT) {
 void Bullet::PhysicsUpdate(const Shared<SceneContext>& context) {
     // TODO: This causes crashes occasionally, probably a dangling pointer somewhere
     if (mFrame >= mLifetime) {
-        //Destroy(context);
+        // Destroy(context);
         return;
     }
 

@@ -42,4 +42,7 @@ public:
 
 private:
     Shared<SceneContext> mSceneContext;
+
+    RTTR_ENABLE()
+    RTTR_REGISTRATION_FRIEND
 };

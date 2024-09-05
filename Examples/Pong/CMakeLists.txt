@@ -24,7 +24,7 @@ else ()
     add_executable(Pong ${GAME_SOURCES})
 endif ()
 
-target_link_libraries(Pong PRIVATE XnCore glfw)
+target_link_libraries(Pong PRIVATE XnCore glfw fmt::fmt-header-only)
 
 # Copy default engine config
 add_custom_command(TARGET Pong PRE_BUILD

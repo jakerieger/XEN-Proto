@@ -4,7 +4,9 @@
 
 #include "Scene.h"
 
-#include "XnProfiler/Profiler.h"
+#include <rttr/type>
+#include <rttr/registration_friend.h>
+#include <rttr/registration.h>
 
 using namespace GameObject::Traits;
 
@@ -53,9 +55,7 @@ void Scene::Destroyed() const {
 
 void Scene::Render() const {
     for (const auto& go : FindAllGameObjectsOf<IDrawable>(mSceneContext)) {
-        auto start = Profiler::BeginContext();
         go->Draw(mSceneContext);
-        Profiler::EndContext(start, "Render | Draw GameObject");
     }
 }
 
@@ -73,4 +73,12 @@ Shared<ICamera> Scene::GetCamera() const {
 
 void Scene::LoadFromFile(const Path& sceneFile) {
     mSceneContext = {};
+}
+
+RTTR_REGISTRATION {
+    using namespace rttr;
+
+    registration::class_<Scene>("Scene")(policy::ctor::as_std_shared_ptr)
+      .constructor<Shared<EventDispatcher>&>()
+      .property("SceneContext", &Scene::mSceneContext, registration::private_access);
 }

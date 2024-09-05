@@ -67,6 +67,7 @@ public:
 
     void Pause();
     void Resume();
+    void Quit() const;
 
     /// @brief Set's the game window's icon from a png file.
     ///
