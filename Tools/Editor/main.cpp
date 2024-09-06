@@ -174,7 +174,7 @@ namespace Windows {
 class Editor final : public IApp {
 public:
     Editor() : IApp("XEN Editor", kXenTheme, "Data/logo_1x.png") {
-        LoadProject(R"(C:\Users\conta\Code\CPP\2DGameEngine\Templates\Empty\Empty.xenproj)");
+        LoadProject(R"(C:\Users\conta\Code\CPP\XEN-Proto\Templates\Empty\Empty.xenproj)");
 
         LoadFont("Inter_18", "Data/Fonts/Inter_18pt-Medium.ttf", 18.f);
 

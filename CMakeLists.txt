@@ -50,3 +50,6 @@ add_subdirectory(Tools/Editor)
 
 add_subdirectory(Examples/Pong)
 add_subdirectory(Examples/Asteroids)
+
+## TESTING PURPOSES: REMOVE ##
+add_subdirectory(Templates/EmptyProject/Runtime)
