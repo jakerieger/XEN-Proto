@@ -4,10 +4,6 @@
 
 #include "Transform.h"
 
-#include <rttr/type>
-#include <rttr/registration_friend.h>
-#include <rttr/registration.h>
-
 void Transform::Awake() {}
 
 void Transform::Update() {
@@ -70,18 +66,4 @@ bool Transform::IsColliding(const Rect& a, const Rect& b) {
     }
 
     return true;
-}
-
-RTTR_REGISTRATION {
-    using namespace rttr;
-
-    registration::class_<Transform>("Transform")
-      .constructor<>()
-      .property("Position", &Transform::mPosition)
-      .property("Rotation", &Transform::mRotation)
-      .property("Scale", &Transform::mScale)
-      .property("Matrix", &Transform::mMatrix)
-      .method("Update", &Transform::Update)
-      .method("GetBounds", &Transform::GetBounds)
-      .method("IsColliding", &Transform::IsColliding);
 }

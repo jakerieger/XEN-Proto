@@ -29,8 +29,41 @@ static void PhysicsThread(const IGame* game) {
     }
 }
 
+void IGame::Initialize(GLFWwindow* window) {
+    CreateResources(window);
+
+    // Call user-defined init code
+    Create();
+
+    mPhysicsThread = Thread(PhysicsThread, this);
+}
+
+void IGame::Shutdown() {
+    RemoveAllScenes();
+    mPhysicsThread.join();
+    mInputManager->SetShouldDispatch(false);
+    Destroy();
+}
+
+void IGame::RequestFrame() const {
+    if (mPaused) {
+        RenderThread();
+        return;
+    }
+
+    if (mActiveScene) {
+        mActiveScene->Update(1.f);
+    }
+
+    RenderThread();
+
+    if (mActiveScene) {
+        mActiveScene->LateUpdate();
+    }
+}
+
 void IGame::Run() {
-    CreateResources();
+    /*CreateResources();
 
     // Call user-defined init code
     Create();
@@ -62,7 +95,7 @@ void IGame::Run() {
     RemoveAllScenes();
     physicsThread.join();
     mInputManager->SetShouldDispatch(false);
-    Destroy();
+    Destroy();*/
 }
 
 void IGame::Destroy() {
@@ -71,14 +104,14 @@ void IGame::Destroy() {
     mInputManager.reset();
 }
 
-void IGame::CreateResources() {
+void IGame::CreateResources(GLFWwindow* window) {
     mEventDispatcher = std::make_unique<EventDispatcher>();
     mEventDispatcher->RegisterListener<ResolutionChangedEvent>(
       [this](const ResolutionChangedEvent& event) {
           OnResolutionChange(event.Width, event.Height);
       });
 
-    mGraphicsContext = std::make_unique<GraphicsContext>(mConfig, mTitle, mEventDispatcher);
+    mGraphicsContext = std::make_unique<GraphicsContext>(window, mConfig, mTitle, mEventDispatcher);
     mClock           = std::make_unique<Clock>();
     mInputManager =
       std::make_unique<InputManager>(mGraphicsContext->GetWindow(), mConfig->GetInputMap());

@@ -3,10 +3,10 @@
 //
 
 #include "SpriteRenderer.h"
-#include "../Primitives.h"
-#include "../TextureLoader.h"
+#include "XnCore/Primitives.h"
+#include "XnCore/TextureLoader.h"
 
-#include <../../Shared/Vendor/glad/glad.h>
+#include <glad/glad.h>
 
 #pragma region Shaders
 #include "../../Shaders/SpriteQuad.h"

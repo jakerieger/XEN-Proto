@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Shared/Types.h"
+#include "Types.h"
 
 #define MINI_CASE_SENSITIVE
 #include <ini.h>

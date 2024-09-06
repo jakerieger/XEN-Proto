@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Shared/Types.h"
+#include "Types.h"
 
 #include <glm/mat4x4.hpp>
 #include <glm/glm.hpp>

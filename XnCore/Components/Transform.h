@@ -4,9 +4,8 @@
 
 #pragma once
 
-#include "Shared/Types.h"
+#include "Types.h"
 #include "XnCore/Component.h"
-#include "rttr/registration_friend.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -40,7 +39,4 @@ private:
     glm::vec2 mPosition = {0.f, 0.f};
     glm::vec2 mRotation = {0.f, 0.f};
     glm::vec2 mScale    = {1.f, 1.f};
-
-    RTTR_ENABLE(IComponent)
-    RTTR_REGISTRATION_FRIEND
 };

@@ -9,7 +9,8 @@
 
 #include <stb_image.h>
 
-GraphicsContext::GraphicsContext(const Shared<Config>& config,
+GraphicsContext::GraphicsContext(GLFWwindow* context,
+                                 const Shared<Config>& config,
                                  const str& title,
                                  const Shared<EventDispatcher>& dispatcher)
     : mWidthCreated(0), mHeightCreated(0), mWidthCurrent(0), mHeightCurrent(0), mConfig(config),
@@ -18,30 +19,9 @@ GraphicsContext::GraphicsContext(const Shared<Config>& config,
     const auto height     = config->GetRenderingConfig().ResY;
     const auto vsync      = config->GetRenderingConfig().VSync;
     const auto windowMode = config->GetRenderingConfig().WindowMode;
+    mWindow               = context;
 
-    if (glfwInit() == GLFW_FALSE) {
-        throw RuntimeError("Failed to initialize GLFW");
-    }
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_SAMPLES, 4);
-
-#ifndef NDEBUG
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-#endif
-
-    // TODO: Handle window modes here, prior to swap interval
-
-    mWindow = UniqueDelete<GLFWwindow, DestroyWindow>(
-      glfwCreateWindow(CAST<int>(width), CAST<int>(height), title.c_str(), None, None));
-    if (!mWindow) {
-        glfwTerminate();
-        throw RuntimeError("Failed to create GLFW window");
-    }
-
-    glfwMakeContextCurrent(mWindow.get());
+    glfwMakeContextCurrent(context);
 
     if (!gladLoadGLLoader(RCAST<GLADloadproc>(glfwGetProcAddress))) {
         glfwTerminate();
@@ -49,23 +29,23 @@ GraphicsContext::GraphicsContext(const Shared<Config>& config,
     }
 
     OnResize(width, height);
-    glfwSetFramebufferSizeCallback(mWindow.get(), [](GLFWwindow* window, int width, int height) {
+    glfwSetFramebufferSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);
     });
 
     glfwSwapInterval(vsync);
-    SetWindowMode(EWindowMode::Windowed /*windowMode*/);
+    // SetWindowMode(EWindowMode::Windowed /*windowMode*/);
 }
 
 GraphicsContext::~GraphicsContext() {
-    glfwDestroyWindow(mWindow.get());
-    glfwTerminate();
-
-    mWindow.reset();
+    // glfwDestroyWindow(mWindow);
+    // glfwTerminate();
+    // Let the runner app handle this
+    mWindow = None;
 }
 
 GLFWwindow* GraphicsContext::GetWindow() const {
-    return mWindow.get();
+    return mWindow;
 }
 
 void GraphicsContext::SetWindowIcon(const Path& icon) const {
@@ -123,13 +103,13 @@ void SetFullscreenMode(GLFWwindow* window) {
 void GraphicsContext::SetWindowMode(const EWindowMode mode) const {
     switch (mode) {
         case EWindowMode::Windowed:
-            SetWindowedMode(mWindow.get(), CAST<int>(mWidthCurrent), CAST<int>(mHeightCurrent));
+            SetWindowedMode(mWindow, CAST<int>(mWidthCurrent), CAST<int>(mHeightCurrent));
             break;
         case EWindowMode::Borderless:
-            SetBorderlessFullscreenMode(mWindow.get());
+            SetBorderlessFullscreenMode(mWindow);
             break;
         case EWindowMode::Fullscreen:
-            SetFullscreenMode(mWindow.get());
+            SetFullscreenMode(mWindow);
             break;
     }
 }
@@ -166,7 +146,7 @@ void GraphicsContext::BeginFrame() const {  // NOLINT(*-convert-member-functions
 }
 
 void GraphicsContext::EndFrame() const {
-    glfwSwapBuffers(mWindow.get());
+    glfwSwapBuffers(mWindow);
 }
 void GraphicsContext::OnResize(u32 width, u32 height) {
     mWidthCurrent  = width;

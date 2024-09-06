@@ -13,7 +13,8 @@
 
 class GraphicsContext {
 public:
-    GraphicsContext(const Shared<Config>& config,
+    GraphicsContext(GLFWwindow* context,
+                    const Shared<Config>& config,
                     const str& title,
                     const Shared<EventDispatcher>& dispatcher);
     ~GraphicsContext();
@@ -37,7 +38,7 @@ private:
         }
     };
 
-    UniqueDelete<GLFWwindow, DestroyWindow> mWindow;
+    GLFWwindow* mWindow;
     u32 mWidthCreated, mHeightCreated;
     u32 mWidthCurrent, mHeightCurrent;
     Weak<Config> mConfig;

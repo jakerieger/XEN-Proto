@@ -2,16 +2,14 @@ cmake_minimum_required(VERSION 3.14)
 project(XEN-Proto)
 
 include_directories(
-        ../../Shared/Vendor/imgui
-        ../../Shared/Vendor/imgui/backends
+        ../../ThirdParty/imgui
+        ../../ThirdParty/imgui/backends
 )
 
 add_library(XnApp STATIC
         ${IMGUI_SRCS}
-        ../../Shared/Vendor/stb_image.h
-        ../../Shared/Vendor/stb_image.cpp
-        ../../Shared/Vendor/glad/glad.h
-        ../../Shared/Vendor/glad.c
+        ${STB_SRCS}
+        ${GLAD_SRCS}
         ../Resources/XenTheme.h
         App.h
         App.cpp

@@ -2,6 +2,12 @@
 // Created: 9/5/2024.
 //
 
+#if defined(_WIN32) || defined(_WIN64)
+    #define PLATFORM_MAIN int WinMain()
+#else
+    #define PLATFORM_MAIN int main()
+#endif
+
 #include "Shared/Types.h"
 #include "Source/Empty.h"
 
@@ -11,8 +17,7 @@
 
 GLFWwindow* gWindow = None;
 
-#if defined(_WIN32) || defined(_WIN64)
-int WinMain() {
+PLATFORM_MAIN {
     if (!glfwInit()) {
         printf("Failed to initialize GLFW3\n");
         return -1;
@@ -23,9 +28,9 @@ int WinMain() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    #ifndef NDEBUG
+#ifndef NDEBUG
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-    #endif
+#endif
 
     gWindow = glfwCreateWindow(1280, 720, "Empty", None, None);
     if (!gWindow) {
@@ -59,8 +64,3 @@ int WinMain() {
 
     return 0;
 }
-#else
-int main() {
-    return 0;
-}
-#endif

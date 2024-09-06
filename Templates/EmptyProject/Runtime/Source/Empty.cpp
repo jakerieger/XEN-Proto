@@ -20,6 +20,6 @@ void Empty::Render() const {
         return;
     }
 
-    glClearColor(15.f / 255.f, 16.f / 255.f, 28.f / 255.f, 1.0f);
+    glClearColor(150.f / 255.f, 160.f / 255.f, 280.f / 255.f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }

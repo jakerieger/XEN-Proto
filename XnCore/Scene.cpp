@@ -4,10 +4,6 @@
 
 #include "Scene.h"
 
-#include <rttr/type>
-#include <rttr/registration_friend.h>
-#include <rttr/registration.h>
-
 using namespace GameObject::Traits;
 
 Scene::Scene(const Shared<EventDispatcher>& eventDispatcher) {
@@ -73,12 +69,4 @@ Shared<ICamera> Scene::GetCamera() const {
 
 void Scene::LoadFromFile(const Path& sceneFile) {
     mSceneContext = {};
-}
-
-RTTR_REGISTRATION {
-    using namespace rttr;
-
-    registration::class_<Scene>("Scene")(policy::ctor::as_std_shared_ptr)
-      .constructor<Shared<EventDispatcher>&>()
-      .property("SceneContext", &Scene::mSceneContext, registration::private_access);
 }

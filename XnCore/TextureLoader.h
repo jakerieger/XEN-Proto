@@ -4,6 +4,6 @@
 
 #pragma once
 
-#include "Shared/Types.h"
+#include "Types.h"
 
 u32 LoadTextureFromFile(const Path& file, u32& outWidth, u32& outHeight);

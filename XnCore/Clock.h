@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Shared/Types.h"
+#include "Types.h"
 
 /// @brief High resolution clock used for frame timing.
 class Clock {

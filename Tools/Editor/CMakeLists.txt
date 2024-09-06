@@ -4,8 +4,8 @@ project(XEN-Proto)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/XENEditor)
 
 include_directories(
-        ../../Shared/Vendor/imgui
-        ../../Shared/Vendor/imgui/backends
+        ../../Vendor/imgui
+        ../../Vendor/imgui/backends
 )
 
 if (WIN32)

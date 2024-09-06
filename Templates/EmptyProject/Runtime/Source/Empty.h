@@ -7,9 +7,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#define EMPTY_API __declspec(dllexport)
+#define CORE_API __declspec(dllexport)
 
-class EMPTY_API Empty {
+class CORE_API Empty {
 public:
     explicit Empty(GLFWwindow* context);
 

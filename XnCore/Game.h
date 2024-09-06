@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Api.h"
 #include "AudioContext.h"
 #include "Clock.h"
 #include "Config.h"
@@ -31,6 +32,10 @@ class IGame {
 public:
     explicit IGame(const str& title);
     virtual ~IGame() = default;
+
+    void Initialize(GLFWwindow* window);
+    void Shutdown();
+    void RequestFrame() const;
 
     /// @brief Creates game resources and starts the game loop, cleaning up and shutting down
     /// once the game exits.
@@ -95,7 +100,9 @@ protected:
 
     Dictionary<str, Shared<Scene>> mScenes;
 
+    Thread mPhysicsThread;
+
 private:
-    void CreateResources();
+    void CreateResources(GLFWwindow* window);
     void RenderThread() const;
 };

@@ -6,9 +6,6 @@
 
 #include "GameObject.h"
 #include "SceneContext.h"
-#include "Shared/Types.h"
-
-#include <RmlUi/Config/Config.h>
 
 class Scene {
 public:
@@ -42,7 +39,4 @@ public:
 
 private:
     Shared<SceneContext> mSceneContext;
-
-    RTTR_ENABLE()
-    RTTR_REGISTRATION_FRIEND
 };

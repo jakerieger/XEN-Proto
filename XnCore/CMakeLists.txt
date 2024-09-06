@@ -3,10 +3,7 @@ project(XEN-Proto)
 
 add_library(XnCore STATIC
         #############################
-        ../Shared/Vendor/glad.c
-        ../Shared/Vendor/stb_image.cpp
-        ../Shared/Types.h
-        ../Shared/IO.h
+        ${GLAD_SRCS}
         #############################
         Game.h
         Game.cpp
@@ -68,6 +65,7 @@ add_library(XnCore STATIC
         Math/MatrixOperations.h
         ObjectPool.cpp
         ObjectPool.h
+        Api.h
 )
 
 target_link_libraries(XnCore PRIVATE
@@ -76,5 +74,4 @@ target_link_libraries(XnCore PRIVATE
         fmt::fmt-header-only
         OpenAL::OpenAL
         AudioFile
-        RTTR::Core_Lib_STL
 )

@@ -6,11 +6,8 @@
 
 #include "Component.h"
 #include "Config.h"
-#include "Shared/Types.h"
+#include "Types.h"
 #include "InputEvents.h"
-
-#include <rttr/type>
-#include <rttr/registration_friend.h>
 
 // Forward declarations
 class SceneContext;
@@ -96,9 +93,6 @@ public:
 protected:
     Vector<Unique<IComponent>> mComponents;
     str mName;
-
-    RTTR_ENABLE()
-    RTTR_REGISTRATION_FRIEND
 };
 
 namespace GameObject::Traits {

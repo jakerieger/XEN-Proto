@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Shared/Types.h"
+#include "Types.h"
 #include "AudioChannel.h"
 #include "Config.h"
 #include "EventSystem.h"

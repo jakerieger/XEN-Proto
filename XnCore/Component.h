@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <rttr/type>
-
 /// @brief Component interface used for implementing game object components.
 ///
 /// Provides the core lifecycle hooks for game objects.
@@ -24,6 +22,4 @@ public:
 
     /// @brief This is called when the game object is despawned.
     virtual void Destroyed() = 0;
-
-    RTTR_ENABLE()
 };
