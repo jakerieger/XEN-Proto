@@ -10,7 +10,7 @@
 IGame::IGame(const str& title) {
     mConfig = std::make_shared<Config>();
     try {
-        mConfig->LoadConfig("Config.ini");
+        mConfig->LoadConfig("Config/Input.ini");
     } catch (RuntimeError& ex) {
         std::cerr << "[IGame::IGame] " << ex.what() << ", using defaults." << std::endl;
     }

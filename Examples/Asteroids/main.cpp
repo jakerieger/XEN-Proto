@@ -5,7 +5,7 @@
 #include "XnCore/Game.h"
 #include "Player.h"
 
-#ifndef NDEBUGll
+#ifndef NDEBUG
 static const auto kGameName = "Asteroids <Debug>";
 #else
 static const auto kGameName = "Asteroids";
