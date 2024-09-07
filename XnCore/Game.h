@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include "Api.h"
 #include "AudioContext.h"
 #include "Clock.h"
 #include "Config.h"
@@ -36,10 +35,6 @@ public:
     void Initialize(GLFWwindow* window);
     void Shutdown();
     void RequestFrame() const;
-
-    /// @brief Creates game resources and starts the game loop, cleaning up and shutting down
-    /// once the game exits.
-    void Run();
 
     /// @brief Returns the running status of the game application.
     [[nodiscard]] bool IsRunning() const;
@@ -101,6 +96,15 @@ protected:
     Dictionary<str, Shared<Scene>> mScenes;
 
     Thread mPhysicsThread;
+
+    /// @brief Creates a new instance of T and adds it to the supplied scene.
+    /// @return Shared pointer to T instance.
+    template<typename T, typename... Args>
+    Shared<T> CreateGameObject(const Shared<Scene>& scene, Args&&... args) {
+        auto go = std::make_shared<T>(std::forward<Args>(args)...);
+        scene->AddGameObject(go);
+        return go;
+    }
 
 private:
     void CreateResources(GLFWwindow* window);

@@ -52,10 +52,7 @@ PLATFORM_MAIN {
 
     while (!glfwWindowShouldClose(gWindow)) {
         glfwPollEvents();
-
         game->RequestFrame();
-
-        glfwSwapBuffers(gWindow);
     }
 
     game->Shutdown();

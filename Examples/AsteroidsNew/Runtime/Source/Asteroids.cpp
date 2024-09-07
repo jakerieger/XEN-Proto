@@ -4,15 +4,18 @@
 
 #include "Asteroids.h"
 #include "Player.h"
-#include "Bullet.h"
-#include "Shared/Types.h"
+#include "Types.h"
 
 void Asteroids::Create() {
-    const auto player = std::make_shared<Player>("Player");
-    mInputManager->RegisterListener(player);
-
     const auto gameScene = CreateScene("Game");
-    gameScene->AddGameObject(player);
     gameScene->SetCamera(OrthoCamera::CreateDefault());
+
+    const auto player = CreateGameObject<Player>(gameScene, "Player");
+    GetInputManager()->RegisterListener(player);
+
     LoadScene("Game");
+}
+
+void Asteroids::Destroy() {
+    IGame::Destroy();
 }

@@ -14,4 +14,5 @@ class CORE_API Asteroids final : public IGame {
 public:
     Asteroids() : IGame("Asteroids") {}
     void Create() override;
+    void Destroy() override;
 };

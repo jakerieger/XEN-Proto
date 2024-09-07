@@ -38,9 +38,11 @@ void IGame::Initialize(GLFWwindow* window) {
     Create();
 
     mPhysicsThread = Thread(PhysicsThread, this);
+    mClock->Start();
 }
 
 void IGame::Shutdown() {
+    mClock->Stop();
     RemoveAllScenes();
     mPhysicsThread.join();
     mInputManager->SetShouldDispatch(false);
@@ -48,6 +50,8 @@ void IGame::Shutdown() {
 }
 
 void IGame::RequestFrame() const {
+    mClock->Tick();
+
     if (mPaused) {
         RenderThread();
         return;
@@ -62,42 +66,8 @@ void IGame::RequestFrame() const {
     if (mActiveScene) {
         mActiveScene->LateUpdate();
     }
-}
 
-void IGame::Run() {
-    /*CreateResources();
-
-    // Call user-defined init code
-    Create();
-
-    // Pass physics updating to its own thread running at its own fixed timestep
-    auto physicsThread = Thread(PhysicsThread, this);
-
-    // Game loop
-    mClock->Start();
-    while (IsRunning()) {
-        mClock->Tick();
-
-        if (!mPaused) {
-            if (mActiveScene) {
-                mActiveScene->Update(mClock->GetDeltaTime());
-            }
-
-            RenderThread();
-
-            if (mActiveScene) {
-                mActiveScene->LateUpdate();
-            }
-        }
-
-        mClock->Update();
-    }
-    mClock->Stop();
-
-    RemoveAllScenes();
-    physicsThread.join();
-    mInputManager->SetShouldDispatch(false);
-    Destroy();*/
+    mClock->Update();
 }
 
 void IGame::Destroy() {
