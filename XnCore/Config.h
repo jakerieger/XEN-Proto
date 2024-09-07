@@ -39,7 +39,10 @@ struct FInputMap {
 class Config {
 public:
     Config() = default;
-    void LoadConfig(const Path& config);
+
+    void LoadRenderingConfig(const Path& config);
+    void LoadAudioConfig(const Path& config);
+    void LoadInputMappings(const Path& config);
 
     [[nodiscard]] FRenderingConfig GetRenderingConfig() const {
         return mRenderingConfig;
@@ -65,8 +68,4 @@ private:
     FRenderingConfig mRenderingConfig;
     FAudioConfig mAudioConfig;
     FInputMap mInputMap;
-
-    void LoadRenderingConfig(mINI::INIStructure& config);
-    void LoadAudioConfig(mINI::INIStructure& config);
-    void LoadInputMappings(mINI::INIStructure& config);
 };
