@@ -51,4 +51,4 @@ add_subdirectory(Tools/XnApp)
 add_subdirectory(Tools/Editor)
 
 ## EXAMPLES ##
-add_subdirectory(Examples/AsteroidsNew)
+add_subdirectory(Examples/Asteroids)

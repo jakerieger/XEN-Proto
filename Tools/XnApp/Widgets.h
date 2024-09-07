@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Shared/Types.h"
-#include <imgui.h>
+#include <imgui/imgui.h>
 
 namespace Widgets {
     void PrimaryButton(const char* text, const ImVec2& size, const Function<void()>& onClick);

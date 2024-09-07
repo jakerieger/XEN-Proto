@@ -15,7 +15,7 @@
 #include "Tools/Resources/XenTheme.h"
 #include "Tools/Resources/IconsFontAwesome6Pro.h"
 
-#include <imgui_internal.h>
+#include <imgui/imgui_internal.h>
 #include <iostream>
 #include <nfd.h>
 #include <fmt/format.h>
@@ -24,6 +24,10 @@ struct Project {
     Path RootDir;
     str Name;
     str XenVersion;
+
+    [[nodiscard]] Path GetAssetsDir() const {
+        return RootDir / "Assets";
+    }
 };
 
 namespace Windows {
@@ -117,6 +121,60 @@ namespace Windows {
         Project mProject;
     };
 
+    const char* mItems[] = {"Sprite", "Audio", "Font", "Tilemap"};
+
+    class ImportAssetModal final : public IWindow {
+    public:
+        explicit ImportAssetModal(const Project& project) : mProject(project) {}
+
+        void Draw(u32 sceneTexture, IApp* app) override {
+            ImGui::SetNextWindowSize(ImVec2(800, 280));
+            if (ImGui::BeginPopupModal("Import Asset", nullptr, ImGuiWindowFlags_NoResize)) {
+                ImGui::Text("Path: ");
+                ImGui::SameLine(100);
+                ImGui::InputText("##Path", mPathBuffer, IM_ARRAYSIZE(mPathBuffer));
+                ImGui::SameLine();
+                if (ImGui::Button("...", ImVec2(32, 24))) {
+                    // Open folder browser dialog or whatever its called
+                    nfdchar_t* outPath       = None;
+                    const nfdresult_t result = NFD_PickFolder(None, &outPath);
+                    if (result == NFD_OKAY) {
+                        std::strncpy(mPathBuffer, outPath, sizeof(mPathBuffer) - 1);
+                        mPathBuffer[sizeof(mPathBuffer) - 1] = '\0';
+                    }
+                }
+
+                ImGui::Combo("Type: ", &mItemIndex, mItems, IM_ARRAYSIZE(mItems));
+
+                ImGui::Spacing();
+
+                ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 220.f);
+                Widgets::PrimaryButton("Create", {100, 32}, [this] {
+                    ResetState();
+                    ImGui::CloseCurrentPopup();
+                });
+                ImGui::SameLine();
+                Widgets::SecondaryButton("Cancel", {100, 32}, [this] {
+                    ResetState();
+                    ImGui::CloseCurrentPopup();
+                });
+
+                ImGui::EndPopup();
+            }
+        }
+
+        void ResetState() override {
+            mPathBuffer[0] = '\0';
+        }
+
+    private:
+        char mPathBuffer[256] = {'\0'};
+        int mItemIndex        = 0;
+
+    private:
+        Project mProject;
+    };
+
     class SceneWindow final : public IWindow {
     public:
         void Draw(u32 sceneTexture, IApp* app) override {
@@ -174,7 +232,7 @@ namespace Windows {
 class Editor final : public IApp {
 public:
     Editor() : IApp("XEN Editor", kXenTheme, "Data/logo_1x.png") {
-        LoadProject(R"(C:\Users\conta\Code\CPP\XEN-Proto\Templates\Empty\Empty.xenproj)");
+        LoadProject(R"(C:\Users\conta\Code\CPP\2DGameEngine\Examples\Asteroids\Asteroids.xenproj)");
 
         LoadFont("Inter_18", "Data/Fonts/Inter_18pt-Medium.ttf", 18.f);
 
@@ -306,13 +364,37 @@ public:
                                   {
                                     "Import Asset",
                                     "Shift+I",
-                                    [] {},
+                                    [this] {
+                                        ImGui::OpenPopup("Import Asset");
+                                        // nfdchar_t* outPath = None;
+                                        // const nfdresult_t result =
+                                        //   NFD_OpenDialog("png;hdr;wav;ttf;mp4;txt", None,
+                                        //   &outPath);
+                                        //
+                                        // if (result == NFD_OKAY) {
+                                        //     const auto src = Path(outPath);
+                                        //     if (!FileSystem::exists(src)) {
+                                        //         throw RuntimeError("Src not found");
+                                        //     }
+                                        //     const auto filename  = src.filename();
+                                        //     const auto assetsDir = mProject.GetAssetsDir();
+                                        //     const auto dest      = assetsDir / filename;
+                                        //     try {
+                                        //         std::filesystem::copy_file(src, dest);
+                                        //     } catch (const std::filesystem::filesystem_error& e)
+                                        //     {
+                                        //         std::cerr << "Error copying file: " << e.what()
+                                        //                   << '\n';
+                                        //     }
+                                        // }
+                                    },
                                   }}};
 
         Vector<Menu> menus = {fileMenu, editMenu, createMenu};
         mMenuBar           = std::make_unique<MenuBar>(menus);
 
         CreateWindow<Windows::NewGameObjectModal>(mProject);
+        CreateWindow<Windows::ImportAssetModal>(mProject);
         CreateWindow<Windows::SceneWindow>();
         CreateWindow<Windows::HierarchyWindow>();
         CreateWindow<Windows::InspectorWindow>();

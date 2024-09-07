@@ -22,8 +22,14 @@ target_sources(XENEditor PRIVATE
         FileTemplates.h
 )
 
-target_link_libraries(XENEditor PRIVATE XnCore glfw XnApp unofficial::nativefiledialog::nfd fmt::fmt-header-only)
+target_link_libraries(XENEditor PRIVATE XnCore glfw XnApp unofficial::nativefiledialog::nfd fmt::fmt)
 
-add_custom_command(TARGET XENEditor PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
+if (MSVC)
+    add_custom_command(TARGET XENEditor PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/Data)
+else ()
+    add_custom_command(TARGET XENEditor PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
+endif ()

@@ -2,7 +2,7 @@
 
 #include "Shared/Types.h"
 
-#include <imgui.h>
+#include <imgui/imgui.h>
 
 static ImVec4 HexToRGBA(const u32 hex) {
     const unsigned char alphaByte = (hex >> 24) & 0xFF;
