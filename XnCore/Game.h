@@ -29,7 +29,7 @@
 /// @endcode
 class IGame {
 public:
-    explicit IGame(const str& title);
+    explicit IGame(const str& title, const Path& dataPath);
     virtual ~IGame() = default;
 
     void Initialize(GLFWwindow* window);
@@ -83,6 +83,7 @@ public:
 protected:
     str mTitle;
     bool mPaused = false;
+    Path mDataPath;
 
     Shared<Scene> mActiveScene;
     Shared<Config> mConfig;

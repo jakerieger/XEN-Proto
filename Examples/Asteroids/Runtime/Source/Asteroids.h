@@ -16,3 +16,7 @@ public:
     void Create() override;
     void Destroy() override;
 };
+
+extern "C" CORE_API IGame* CreateInstance();
+
+extern "C" CORE_API void DestroyInstance(const IGame* instance);

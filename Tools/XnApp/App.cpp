@@ -28,6 +28,7 @@ void IApp::Run() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Render scene
+        DrawGame();
 
         // Render UI
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

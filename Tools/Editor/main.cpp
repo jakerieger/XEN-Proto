@@ -5,7 +5,7 @@
 #pragma warning(disable : 4996)
 
 #include "FileTemplates.h"
-#include "Shared/Types.h"
+#include "GameProcess.h"
 
 #include "Tools/XnApp/App.h"
 #include "Tools/XnApp/MenuBar.h"
@@ -15,6 +15,7 @@
 #include "Tools/Resources/XenTheme.h"
 #include "Tools/Resources/IconsFontAwesome6Pro.h"
 
+#include <Types.h>
 #include <imgui/imgui_internal.h>
 #include <iostream>
 #include <nfd.h>
@@ -399,6 +400,25 @@ public:
         CreateWindow<Windows::HierarchyWindow>();
         CreateWindow<Windows::InspectorWindow>();
         CreateWindow<Windows::ProjectWindow>();
+
+        LoadGameProcess(R"(C:\Users\conta\Code\CPP\2DGameEngine\build\Debug\bin\Debug\Core.dll)",
+                        mGameModule,
+                        mCreateGameFunc,
+                        mDestroyGameFunc);
+        if (mCreateGameFunc) {
+            mGame = mCreateGameFunc();
+            if (!mGame) {
+                std::cout << "Failed to create game!" << std::endl;
+            }
+
+            mGame->Initialize(mWindow);
+        }
+    }
+
+    void DrawGame() override {
+        if (mGame) {
+            mGame->RequestFrame();
+        }
     }
 
     void Draw(u32 sceneTexture) override {
@@ -449,12 +469,22 @@ public:
     }
 
     ~Editor() override {
+        if (mGame) {
+            mGame->Shutdown();
+            mDestroyGameFunc(mGame);
+        }
+        UnloadGameProcess(mGameModule);
         mMenuBar.reset();
     }
 
 private:
     Unique<MenuBar> mMenuBar;
     Project mProject;
+
+    HMODULE mGameModule              = None;
+    CreateGameFunc mCreateGameFunc   = None;
+    DestroyGameFunc mDestroyGameFunc = None;
+    IGame* mGame                     = None;
 };
 
 int main() {

@@ -9,6 +9,8 @@
 #define MINI_CASE_SENSITIVE
 #include <ini.h>
 
+#include <utility>
+
 enum class EWindowMode {
     Windowed,
     Borderless,
@@ -38,7 +40,7 @@ struct FInputMap {
 
 class Config {
 public:
-    Config() = default;
+    explicit Config(Path dataPath) : mDataPath(std::move(dataPath)) {}
 
     void LoadRenderingConfig(const Path& config);
     void LoadAudioConfig(const Path& config);
@@ -68,4 +70,5 @@ private:
     FRenderingConfig mRenderingConfig;
     FAudioConfig mAudioConfig;
     FInputMap mInputMap;
+    Path mDataPath;
 };

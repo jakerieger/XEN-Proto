@@ -19,3 +19,11 @@ void Asteroids::Create() {
 void Asteroids::Destroy() {
     IGame::Destroy();
 }
+
+IGame* CreateInstance() {
+    return new Asteroids;
+}
+
+void DestroyInstance(const IGame* instance) {
+    delete instance;
+}

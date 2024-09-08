@@ -7,8 +7,10 @@
 
 #include <iostream>
 
-IGame::IGame(const str& title) {
-    mConfig = std::make_shared<Config>();
+IGame::IGame(const str& title, const Path& dataPath) {
+    mDataPath = dataPath;
+    mConfig   = std::make_shared<Config>(dataPath);
+
     try {
         mConfig->LoadAudioConfig("Config/Audio.ini");
         mConfig->LoadInputMappings("Config/Input.ini");
@@ -16,6 +18,7 @@ IGame::IGame(const str& title) {
     } catch (RuntimeError& ex) {
         std::cerr << "[IGame::IGame] " << ex.what() << ", using defaults." << std::endl;
     }
+
     mTitle = title;
 }
 

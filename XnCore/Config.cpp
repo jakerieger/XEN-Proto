@@ -5,6 +5,8 @@
 #include "Config.h"
 #include "InputMap.h"
 
+#include <iostream>
+
 str FInputMap::GetInputMapping(const str& name) const {
     return InputMappings.find(name)->second;
 }
@@ -14,10 +16,12 @@ void FInputMap::AddInputMapping(const str& name, const str& value) {
 }
 
 void Config::LoadRenderingConfig(const Path& config) {
-    const mINI::INIFile configIni(config.string());
+    const auto filename = mDataPath / config;
+    const mINI::INIFile configIni(filename.string());
     mINI::INIStructure ini;
     if (!configIni.read(ini)) {
-        throw RuntimeError("Failed to read config file");
+        std::cout << "Failed to read config file: " << config << std::endl;
+        return;
     }
 
     mRenderingConfig.ResX  = std::stoi(ini["Rendering"]["ResX"]);
@@ -35,10 +39,12 @@ void Config::LoadRenderingConfig(const Path& config) {
 }
 
 void Config::LoadAudioConfig(const Path& config) {
-    const mINI::INIFile configIni(config.string());
+    const auto filename = mDataPath / config;
+    const mINI::INIFile configIni(filename.string());
     mINI::INIStructure ini;
     if (!configIni.read(ini)) {
-        throw RuntimeError("Failed to read config file");
+        std::cout << "Failed to read config file: " << config << std::endl;
+        return;
     }
 
     mAudioConfig.MasterVolume = std::stof(ini["Audio"]["MasterVolume"]);
@@ -48,10 +54,12 @@ void Config::LoadAudioConfig(const Path& config) {
 }
 
 void Config::LoadInputMappings(const Path& config) {
-    const mINI::INIFile configIni(config.string());
+    const auto filename = mDataPath / config;
+    const mINI::INIFile configIni(filename.string());
     mINI::INIStructure ini;
     if (!configIni.read(ini)) {
-        throw RuntimeError("Failed to read config file");
+        std::cout << "Failed to read config file: " << config << std::endl;
+        return;
     }
 
     auto it = ini["InputMap"].begin();

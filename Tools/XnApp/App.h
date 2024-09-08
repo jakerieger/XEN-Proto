@@ -31,6 +31,7 @@ public:
     [[nodiscard]] GLFWwindow* GetWindow() const;
     void Quit() const;
 
+    virtual void DrawGame()             = 0;
     virtual void Draw(u32 sceneTexture) = 0;
 
     template<typename T, typename... Args>
