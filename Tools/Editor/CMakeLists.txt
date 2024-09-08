@@ -13,7 +13,8 @@ if (WIN32)
 else ()
     add_executable(XENEditor
             FileTemplates.h
-            GameProcess.h)
+            GameProcess.h
+            ../ProjectManager/main.cpp)
 endif ()
 
 target_sources(XENEditor PRIVATE
@@ -29,9 +30,9 @@ target_link_libraries(XENEditor PRIVATE XnCore glfw XnApp unofficial::nativefile
 if (MSVC)
     add_custom_command(TARGET XENEditor PRE_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_CURRENT_SOURCE_DIR}/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/Data)
+            ../Resources/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/Data)
 else ()
     add_custom_command(TARGET XENEditor PRE_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_CURRENT_SOURCE_DIR}/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
+            ../Resources/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
 endif ()

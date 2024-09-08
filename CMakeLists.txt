@@ -49,6 +49,7 @@ add_subdirectory(XnGUI)
 ## TOOLS ##
 add_subdirectory(Tools/XnApp)
 add_subdirectory(Tools/Editor)
+add_subdirectory(Tools/CreateProject)
 
 ## EXAMPLES ##
 add_subdirectory(Examples/Asteroids)
