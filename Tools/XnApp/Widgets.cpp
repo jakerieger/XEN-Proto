@@ -12,17 +12,16 @@ namespace Widgets {
         if (ImGui::Button(text, size)) {
             onClick();
         }
-        ImGui::PopStyleColor();
-        ImGui::PopStyleColor();
+        ImGui::PopStyleColor(2);
     }
 
     void SecondaryButton(const char* text, const ImVec2& size, const Function<void()>& onClick) {
         ImGui::PushStyleColor(ImGuiCol_Button, HexToRGBA(0xFF1A1C29));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, HexToRGBA(0xD01a1c29));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, HexToRGBA(0xFF242538));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, HexToRGBA(0xFF242538));
         if (ImGui::Button(text, size)) {
             onClick();
         }
-        ImGui::PopStyleColor();
-        ImGui::PopStyleColor();
+        ImGui::PopStyleColor(3);
     }
 }  // namespace Widgets

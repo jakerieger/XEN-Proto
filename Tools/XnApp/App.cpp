@@ -9,13 +9,20 @@
 #include <imgui_impl_opengl3.h>
 #include <stb_image.h>
 
-IApp::IApp(const str& title, const Theme& theme, const Path& icon, const ImVec2& initSize) {
+IApp::IApp(const str& title,
+           const Theme& theme,
+           const Path& icon,
+           const ImVec2& initSize,
+           bool allowDocking,
+           bool startMaximized,
+           bool resizable,
+           bool maximizable) {
     mWindowTitle = title;
     mTheme       = theme;
     mIconPath    = icon;
     mWindowSize  = initSize;
 
-    Initialize(initSize);
+    Initialize(initSize, allowDocking, startMaximized, resizable, maximizable);
 }
 
 void IApp::Run() {
@@ -107,11 +114,21 @@ ImFont* IApp::GetFont(const str& name) const {
     return it->second;
 }
 
-void IApp::Initialize(const ImVec2& initSize) {
+void IApp::Initialize(const ImVec2& initSize,
+                      bool allowDocking,
+                      bool startMaximized,
+                      bool resizable,
+                      bool maximizable) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    if (!resizable)
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+    if (!maximizable)
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
 
     mWindow = glfwCreateWindow(CAST<int>(initSize.x),
                                CAST<int>(initSize.y),
@@ -144,20 +161,24 @@ void IApp::Initialize(const ImVec2& initSize) {
     glClearColor(100.f / 255.f, 110.f / 255.f, 160.f / 255.f, 1.0f);
 
     glfwSwapInterval(1);
-    glfwMaximizeWindow(mWindow);
+    if (startMaximized)
+        glfwMaximizeWindow(mWindow);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
     ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_DockingEnable;
+    int flags   = ImGuiConfigFlags_NavEnableKeyboard;
+    if (allowDocking)
+        flags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= flags;
 
     // Define ui theme
     {
         // Initialize our window style vars
         static float window_rounding = 4.0f;
         static float frame_rounding  = 4.0f;
-        static float border_size     = 2.0f;
+        static float border_size     = 1.0f;
 
         ImGuiStyle* style   = &ImGui::GetStyle();
         ImVec4* styleColors = style->Colors;

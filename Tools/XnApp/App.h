@@ -24,7 +24,11 @@ public:
     IApp(const str& title,
          const Theme& theme,
          const Path& icon,
-         const ImVec2& initSize = ImVec2(1280, 720));
+         const ImVec2& initSize = ImVec2(1280, 720),
+         bool allowDocking      = true,
+         bool startMaximized    = false,
+         bool resizable         = true,
+         bool maximizable       = true);
     virtual ~IApp() = default;
 
     void Run();
@@ -43,7 +47,11 @@ public:
     [[nodiscard]] ImFont* GetFont(const str& name) const;
 
 protected:
-    void Initialize(const ImVec2& initSize);
+    void Initialize(const ImVec2& initSize,
+                    bool allowDocking,
+                    bool startMaximized,
+                    bool resizable,
+                    bool maximizable);
     void Shutdown() const;
     [[nodiscard]] static RenderBuffers CreateRenderBuffers(i32 width, i32 height);
 
