@@ -27,14 +27,9 @@ int main() {
     const auto norm = Normalize(v1);
     std::cout << norm.X << ", " << norm.Y << ", " << norm.Z << std::endl;
 
-    Mat4x4 mat                 = Mat4x4::Identity();
-    constexpr f32 rowValues[4] = {1.f, 2.f, 3.f, 4.f};
-    mat.SetRow(0, rowValues);
-
-    auto trans = mat.Transpose();
-
-    std::cout << Mat4x4::Identity().SlowDeterminant() << std::endl;
-    std::cout << Mat4x4::Identity().FastDeterminant() << std::endl;
+    const Mat4x4 mat = Mat4x4::Identity();
+    std::cout << mat.SlowDeterminant() << std::endl;
+    std::cout << mat.FastDeterminant() << std::endl;
 
     return 0;
 }
