@@ -34,5 +34,5 @@ if (MSVC)
 else ()
     add_custom_command(TARGET XENEditor PRE_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ../Resources/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
+            ${CMAKE_CURRENT_SOURCE_DIR}/../Resources/Data ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Data)
 endif ()

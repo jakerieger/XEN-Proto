@@ -4,9 +4,6 @@
 
 #include "Math.h"
 
-#include <immintrin.h>
-#include <iostream>
-
 #if defined(_MSC_VER)
     #include <intrin.h>
 #elif defined(__GNUC__) || defined(__clang__)
@@ -39,10 +36,6 @@ namespace XnMath {
         return (cpuInfo[3] & (1 << 25)) != 0;
     }
 
-    /// @brief XnMath uses SIMD intrinsics to optimize the calculations as much as possible. This
-    /// function checks CPU and OS support for SSE and AVX.
-    ///
-    /// @warning If this returns false, XnMath cannot be used.
     bool VerifySupport() {
         return SseSupported() && AvxSupported();
     }

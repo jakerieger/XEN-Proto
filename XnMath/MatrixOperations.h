@@ -7,10 +7,12 @@
 #include "Mat4x4.h"
 
 namespace XnMath {
+    /// @brief Returns a 4x4 identity matrix.
     inline Mat4x4 MatrixIdentity() {
         return Mat4x4::Identity();
     }
 
+    /// @brief Translates a given matrix by vector (x,y,z).
     inline Mat4x4 MatrixTranslate(const Mat4x4& mat, f32 x, f32 y, f32 z) {
         const Mat4x4 translation(_mm_set_ps(0, 0, 0, 1),
                                  _mm_set_ps(0, 0, 0, 1),
@@ -19,6 +21,7 @@ namespace XnMath {
         return translation * mat;
     }
 
+    /// @brief Scales a given matrix by vector (x,y,z).
     inline Mat4x4 MatrixScale(const Mat4x4& mat, f32 x, f32 y, f32 z) {
         const Mat4x4 scale(_mm_set_ps(0, 0, 0, x),
                            _mm_set_ps(0, 0, 0, y),
@@ -27,6 +30,7 @@ namespace XnMath {
         return scale * mat;
     }
 
+    /// @brief Rotates a given matrix along its x-axis by <angle> degrees.
     inline Mat4x4 MatrixRotateX(const Mat4x4& mat, f32 angle) {
         const f32 c = std::cos(angle);
         const f32 s = std::sin(angle);
@@ -38,6 +42,7 @@ namespace XnMath {
         return rotateX * mat;
     }
 
+    /// @brief Rotates a given matrix along its y-axis by <angle> degrees.
     inline Mat4x4 MatrixRotateY(const Mat4x4& mat, f32 angle) {
         const f32 c = std::cos(angle);
         const f32 s = std::sin(angle);
@@ -49,6 +54,7 @@ namespace XnMath {
         return rotateY * mat;
     }
 
+    /// @brief Rotates a given matrix along its z-axis by <angle> degrees.
     inline Mat4x4 MatrixRotateZ(const Mat4x4& mat, f32 angle) {
         const f32 c = std::cos(angle);
         const f32 s = std::sin(angle);
@@ -60,6 +66,7 @@ namespace XnMath {
         return rotateZ * mat;
     }
 
+    /// @brief Returns an orthographic projection matrix, typically used for cameras.
     inline Mat4x4 MatrixOrthographic(f32 left, f32 top, f32 right, f32 bottom, f32 near, f32 far) {
         Mat4x4 ortho = MatrixIdentity();
 

@@ -54,15 +54,6 @@ add_library(XnCore STATIC
         AudioContext.h
         AudioChannel.h
         AudioUtils.h
-        Math/Vector2.cpp
-        Math/Vector2.h
-        Math/Matrix4x4.cpp
-        Math/Matrix4x4.h
-        Math/Vector3.cpp
-        Math/Vector3.h
-        Math/Vector4.cpp
-        Math/Vector4.h
-        Math/MatrixOperations.h
         ObjectPool.cpp
         ObjectPool.h
         Api.h

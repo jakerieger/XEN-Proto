@@ -66,7 +66,9 @@ namespace XnMath {
         static Mat4x4 Identity();
 
         // Determinant (simple method, not optimized)
-        [[nodiscard]] f32 SlowDeterminant() const;
-        [[nodiscard]] f32 FastDeterminant() const;
+        [[nodiscard]] f32 SDeterminant() const;
+
+        // Determinant (SIMD-method, optimized)
+        [[nodiscard]] f32 FDeterminant() const;
     };
 }  // namespace XnMath

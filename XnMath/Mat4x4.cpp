@@ -97,7 +97,7 @@ namespace XnMath {
         };
     }
 
-    f32 Mat4x4::SlowDeterminant() const {
+    f32 Mat4x4::SDeterminant() const {
         const f32 det = M[0][0] * (M[1][1] * (M[2][2] * M[3][3] - M[2][3] * M[3][2]) -
                                    M[1][2] * (M[2][1] * M[3][3] - M[2][3] * M[3][1]) +
                                    M[1][3] * (M[2][1] * M[3][2] - M[2][2] * M[3][1])) -
@@ -113,7 +113,7 @@ namespace XnMath {
         return det;
     }
 
-    f32 Mat4x4::FastDeterminant() const {
+    f32 Mat4x4::FDeterminant() const {
         // Load rows into SIMD registers
         __m128 r0 = Rows[0];
         __m128 r1 = Rows[1];

@@ -123,8 +123,10 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = Core \
-                        Shared
+INPUT                  = XnCore \
+                        Shared \
+                        XnMath \
+                        Tools
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -178,7 +180,8 @@ EXCLUDE                = Examples \
                          .git \
                          .gitignore \
                          .gitattributes \
-                         Shared/Vendor \
+                         ThirdParty \
+                         Templates \
 EXCLUDE_SYMLINKS       = YES
 EXCLUDE_PATTERNS       = *.txt \
                          LICENSE
