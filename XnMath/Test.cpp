@@ -33,7 +33,7 @@ int main() {
 
     auto trans = mat.Transpose();
 
-    std::cout << Mat4x4::Identity().FastDeterminant() << std::endl;
+    std::cout << Mat4x4::Identity().SlowDeterminant() << std::endl;
     std::cout << Mat4x4::Identity().FastDeterminant() << std::endl;
 
     return 0;

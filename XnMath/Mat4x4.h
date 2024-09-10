@@ -5,7 +5,7 @@
 #pragma once
 
 #include <Types.h>
-#include <immintrin.h>
+#include <smmintrin.h>
 
 namespace XnMath {
     class Mat4x4 {
