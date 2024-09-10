@@ -9,6 +9,9 @@ add_library(XnMath STATIC
         Vec3.cpp
         Vec3.h
         VectorOperations.h
+        Mat4x4.cpp
+        Mat4x4.h
+        MatrixOperations.h
 )
 
 ## TEMPORARY TESTING EXE, REMOVE

@@ -10,15 +10,13 @@
 namespace XnMath {
     class Vec2 {
     public:
-        struct alignas(16) {  // Enforce 16-byte alignment
-            union {
-                __m128 m128_f32;  // SSE register containing four single-precision (32-bit) floats
-                struct {
-                    f32 X;      // First component v₁
-                    f32 Y;      // Second component v₂
-                    f32 _pad1;  // Padding to align with 128-bit register
-                    f32 _pad2;  // Padding to align with 128-bit register
-                };
+        union alignas(16) {   // Enforce 16-byte alignment
+            __m128 m128_f32;  // SSE register containing four single-precision (32-bit) floats
+            struct {
+                f32 X;      // First component v₁
+                f32 Y;      // Second component v₂
+                f32 _pad1;  // Padding to align with 128-bit register
+                f32 _pad2;  // Padding to align with 128-bit register
             };
         };
 

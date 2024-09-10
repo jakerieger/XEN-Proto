@@ -21,4 +21,10 @@ namespace XnMath {
     inline Vec3 Cross(const Vec3& lhs, const Vec3& rhs) {
         return lhs.Cross(rhs);
     }
+
+    template<typename T>
+    T Normalize(const T& vec) {
+        ASSERT_VECTOR
+        return vec.Normalize();
+    }
 }  // namespace XnMath
