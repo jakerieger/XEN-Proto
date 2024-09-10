@@ -1,6 +1,8 @@
 # XEN Engine
 
-XEN is a highly-optimized 2D cross-platform game engine designed to allow rapid game development
+## What XEN Wants To Be
+
+A highly-optimized 2D cross-platform game engine designed to allow rapid game development
 with minimal boilerplate, while also producing efficiently-packed and lightweight distributables.
 
 ## What's included?
@@ -12,10 +14,7 @@ with minimal boilerplate, while also producing efficiently-packed and lightweigh
 - Custom memory management with detailed profiling for debugging and optimizing your game
 - Asset packing tool for efficiently compressing and securing game asset files for distribution
 
-## Getting Started
-
-To get started building a game with XEN, take a look at the [Quickstart](#getting-started) guide.
-
 ## License
 
-None, yet.
+XEN has no license at the moment. Once a stable initial version is ready to be demonstrated, an open source license will
+be attached. Until then, consider this repository closed-source.
