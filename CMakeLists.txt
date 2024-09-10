@@ -45,6 +45,7 @@ find_package(fmt CONFIG REQUIRED)
 ## LIBRARIES ##
 add_subdirectory(XnCore)
 add_subdirectory(XnGUI)
+add_subdirectory(XnMath)
 
 ## TOOLS ##
 add_subdirectory(Tools/XnApp)

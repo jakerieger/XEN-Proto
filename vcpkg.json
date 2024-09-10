@@ -29,5 +29,8 @@
   }, {
     "name" : "rapidjson",
     "version>=" : "2023-07-17#1"
+  }, {
+    "name" : "catch2",
+    "version>=" : "3.6.0"
   } ]
 }
