@@ -16,5 +16,5 @@ with minimal boilerplate, while also producing efficiently-packed and lightweigh
 
 ## License
 
-XEN has no license at the moment. Once a stable initial version is ready to be demonstrated, an open source license will
-be attached. Until then, consider this repository closed-source.
+XEN has no license at the moment. Once I feel the project is ready to start accepting outside contributions,
+a license will be attached. Until then, consider this project closed-source.
