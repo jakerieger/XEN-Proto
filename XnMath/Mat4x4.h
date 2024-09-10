@@ -5,7 +5,7 @@
 #pragma once
 
 #include <Types.h>
-#include <smmintrin.h>
+#include <immintrin.h>
 
 namespace XnMath {
     class Mat4x4 {
@@ -31,6 +31,13 @@ namespace XnMath {
             for (int i = 0; i < 4; ++i) {
                 Rows[i] = other.Rows[i];
             }
+        }
+
+        Mat4x4(const __m128& row0, const __m128& row1, const __m128& row2, const __m128& row3) {
+            Rows[0] = row0;
+            Rows[1] = row1;
+            Rows[2] = row2;
+            Rows[3] = row3;
         }
 
         Mat4x4 operator+(const Mat4x4& rhs) const;
@@ -61,14 +68,5 @@ namespace XnMath {
         // Determinant (simple method, not optimized)
         [[nodiscard]] f32 SlowDeterminant() const;
         [[nodiscard]] f32 FastDeterminant() const;
-
-    private:
-        // Private constructor for internal use with SIMD rows
-        Mat4x4(const __m128& row0, const __m128& row1, const __m128& row2, const __m128& row3) {
-            Rows[0] = row0;
-            Rows[1] = row1;
-            Rows[2] = row2;
-            Rows[3] = row3;
-        }
     };
 }  // namespace XnMath

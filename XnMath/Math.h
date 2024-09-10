@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "VectorOperations.h"
+#include "MatrixOperations.h"
+
 namespace XnMath {
     bool VerifySupport();
 }  // namespace XnMath

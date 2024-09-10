@@ -16,4 +16,4 @@ add_library(XnMath STATIC
 
 ## TEMPORARY TESTING EXE, REMOVE
 add_executable(XnMath-Test Test.cpp)
-target_link_libraries(XnMath-Test PRIVATE XnMath)
+target_link_libraries(XnMath-Test PRIVATE XnMath glm::glm-header-only)

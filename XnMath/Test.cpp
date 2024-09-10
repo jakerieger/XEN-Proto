@@ -3,33 +3,49 @@
 //
 
 #include "Math.h"
-#include "VectorOperations.h"
-#include "MatrixOperations.h"
 
 #include <iostream>
+#include <glm/mat4x4.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+
+void PrintMatrix(const XnMath::Mat4x4& mat) {
+    for (int i = 0; i < 4; ++i) {
+        std::cout << "[ ";
+
+        float row[4];
+        _mm_storeu_ps(row, mat.Rows[i]);
+        for (int j = 0; j < 4; ++j) {
+            std::cout << row[j] << " ";
+        }
+
+        std::cout << "]\n";
+    }
+}
+
+void PrintMatrix(const glm::mat4& mat) {
+    for (int i = 0; i < 4; ++i) {
+        std::cout << "[ ";
+
+        for (int j = 0; j < 4; ++j) {
+            std::cout << mat[i][j] << " ";
+        }
+
+        std::cout << "]\n";
+    }
+}
 
 int main() {
     if (!XnMath::VerifySupport()) {
         return 1;
     }
 
-    using namespace XnMath;
+    const auto xnOrtho = XnMath::MatrixOrthographic(0.f, 0.f, 10.f, 10.f, -1.f, 1.f);
+    auto glmOrtho      = glm::ortho(0.f, 10.f, 10.f, 0.f, -1.f, 1.f);
 
-    const Vec3 v1 = {1, 2, 3};
-    const Vec3 v2 = {4, 5, 6};
-
-    const auto dot = Dot(v1, v2);
-    std::cout << dot << std::endl;
-
-    const auto cross = Cross(v1, v2);
-    std::cout << cross.X << ", " << cross.Y << ", " << cross.Z << std::endl;
-
-    const auto norm = Normalize(v1);
-    std::cout << norm.X << ", " << norm.Y << ", " << norm.Z << std::endl;
-
-    const Mat4x4 mat = Mat4x4::Identity();
-    std::cout << mat.SlowDeterminant() << std::endl;
-    std::cout << mat.FastDeterminant() << std::endl;
+    std::cout << "XnMath: \n";
+    PrintMatrix(xnOrtho);
+    std::cout << "\nGLM: \n";
+    PrintMatrix(glmOrtho);
 
     return 0;
 }

@@ -23,7 +23,7 @@ namespace XnMath {
     }
 
     template<typename T>
-    T Normalize(const T& vec) {
+    T VectorNormalize(const T& vec) {
         ASSERT_VECTOR
         return vec.Normalize();
     }
