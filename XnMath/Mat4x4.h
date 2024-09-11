@@ -64,6 +64,7 @@ namespace XnMath {
 
         // Identity matrix
         static Mat4x4 Identity();
+        static Mat4x4 Zero();
 
         // Determinant (simple method, not optimized)
         [[nodiscard]] f32 SDeterminant() const;

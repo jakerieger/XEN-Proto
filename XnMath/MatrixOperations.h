@@ -14,19 +14,19 @@ namespace XnMath {
 
     /// @brief Translates a given matrix by vector (x,y,z).
     inline Mat4x4 MatrixTranslate(const Mat4x4& mat, f32 x, f32 y, f32 z) {
-        const Mat4x4 translation(_mm_set_ps(0, 0, 0, 1),
-                                 _mm_set_ps(0, 0, 0, 1),
-                                 _mm_set_ps(0, 0, 0, 1),
-                                 _mm_set_ps(x, y, z, 1));
+        const Mat4x4 translation(_mm_setr_ps(1, 0, 0, 0),
+                                 _mm_setr_ps(0, 1, 0, 0),
+                                 _mm_setr_ps(0, 0, 1, 0),
+                                 _mm_setr_ps(x, y, z, 1));
         return translation * mat;
     }
 
     /// @brief Scales a given matrix by vector (x,y,z).
     inline Mat4x4 MatrixScale(const Mat4x4& mat, f32 x, f32 y, f32 z) {
-        const Mat4x4 scale(_mm_set_ps(0, 0, 0, x),
-                           _mm_set_ps(0, 0, 0, y),
-                           _mm_set_ps(0, 0, 0, z),
-                           _mm_set_ps(0, 0, 0, 1));
+        const Mat4x4 scale(_mm_setr_ps(x, 0, 0, 0),
+                           _mm_setr_ps(0, y, 0, 0),
+                           _mm_setr_ps(0, 0, z, 0),
+                           _mm_setr_ps(0, 0, 0, 1));
         return scale * mat;
     }
 

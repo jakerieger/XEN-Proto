@@ -22,4 +22,18 @@ namespace XnMath {
     ///
     /// @warning If this returns false, XnMath cannot be used.
     bool VerifySupport();
+
+#pragma region Constants
+    static constexpr f32 kPi        = 3.14159265358979323846f;
+    static constexpr f32 kPiSqr     = kPi * kPi;
+    static constexpr f32 kHalfPi    = kPi * 0.5f;
+    static constexpr f32 kThirdPi   = kPi / 3.f;
+    static constexpr f32 kTwoPi     = kPi * 2.f;
+    static constexpr f32 kTau       = kTwoPi;
+    static constexpr f32 kRootTwo   = 1.41421356237309504880f;
+    static constexpr f32 kRootThree = 1.73205080756887729352f;
+#pragma endregion
+
+    f32 ToDegrees(f32 angle);
+    f32 ToRadians(f32 angle);
 }  // namespace XnMath

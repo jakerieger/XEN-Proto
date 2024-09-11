@@ -39,4 +39,12 @@ namespace XnMath {
     bool VerifySupport() {
         return SseSupported() && AvxSupported();
     }
+
+    f32 ToDegrees(f32 angle) {
+        return angle * (180.f / kPi);
+    }
+
+    f32 ToRadians(f32 angle) {
+        return angle * (kPi / 180.f);
+    }
 }  // namespace XnMath
