@@ -29,7 +29,9 @@ void Player::Update(const Shared<SceneContext>& context, f32 dT) {
 }
 
 void Player::Destroyed(const Shared<SceneContext>& context) {
+    mBulletPool->Drain();
     mBulletPool.reset();
+
     IGameObject::Destroyed(context);
 }
 

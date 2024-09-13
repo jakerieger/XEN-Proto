@@ -6,9 +6,11 @@
 
 using namespace GameObject::Traits;
 
-Scene::Scene(const Shared<EventDispatcher>& eventDispatcher) {
+Scene::Scene(const Shared<EventDispatcher>& eventDispatcher, const Function<void(Weak<SceneContext>)>& builder) {
     mSceneContext              = std::make_shared<SceneContext>();
     mSceneContext->EventSystem = eventDispatcher;
+
+    builder(mSceneContext);
 };
 
 void Scene::Awake() const {

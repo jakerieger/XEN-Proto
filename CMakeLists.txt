@@ -52,4 +52,4 @@ add_subdirectory(XnMath)
 #add_subdirectory(Tools/Editor)
 
 ## EXAMPLES ##
-#add_subdirectory(Examples/Asteroids)
+add_subdirectory(Examples)

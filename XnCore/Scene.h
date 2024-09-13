@@ -1,4 +1,4 @@
-// Author: Jake Rieger
+ // Author: Jake Rieger
 // Created: 8/21/2024.
 //
 
@@ -9,7 +9,7 @@
 
 class Scene {
 public:
-    explicit Scene(const Shared<EventDispatcher>& eventDispatcher);
+    explicit Scene(const Shared<EventDispatcher>& eventDispatcher, const Function<void(Weak<SceneContext>)>& builder);
 
     void Awake() const;
     void Update(f32 dT) const;

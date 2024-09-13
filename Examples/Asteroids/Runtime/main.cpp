@@ -15,9 +15,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-GLFWwindow* gWindow = None;
-
 PLATFORM_MAIN {
+    GLFWwindow* window = None;
+
     if (!glfwInit()) {
         printf("Failed to initialize GLFW3\n");
         return -1;
@@ -32,14 +32,14 @@ PLATFORM_MAIN {
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
-    gWindow = glfwCreateWindow(1280, 720, "Asteroids", None, None);
-    if (!gWindow) {
+    window = glfwCreateWindow(1280, 720, "Asteroids", None, None);
+    if (!window) {
         printf("Failed to create GLFW window\n");
         glfwTerminate();
         return -1;
     }
 
-    glfwMakeContextCurrent(gWindow);
+    glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader(RCAST<GLADloadproc>(glfwGetProcAddress))) {
         glfwTerminate();
@@ -48,9 +48,9 @@ PLATFORM_MAIN {
     }
 
     const auto game = new Asteroids();
-    game->Initialize(gWindow);
+    game->Initialize(window);
 
-    while (!glfwWindowShouldClose(gWindow)) {
+    while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         game->RequestFrame();
     }
@@ -58,7 +58,7 @@ PLATFORM_MAIN {
     game->Shutdown();
     delete game;
 
-    glfwDestroyWindow(gWindow);
+    glfwDestroyWindow(window);
     glfwTerminate();
 
     return 0;

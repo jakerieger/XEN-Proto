@@ -162,7 +162,7 @@ void IGame::UnloadScene(const str& name) {
 }
 
 Shared<Scene> IGame::CreateScene(const str& name) {
-    mScenes[name] = std::make_shared<Scene>(mEventDispatcher);
+    mScenes[name] = std::make_shared<Scene>(mEventDispatcher, [](const Weak<SceneContext>&){});
     return mScenes[name];
 }
 

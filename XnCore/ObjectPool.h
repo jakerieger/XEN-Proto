@@ -17,6 +17,8 @@ public:
     template<typename... Args>
     void Spawn(const Shared<SceneContext>& context, Args&&... args);
 
+    void Drain();
+
 private:
     Unique<PoolAllocator<T>> mPool;
 };
@@ -28,6 +30,8 @@ ObjectPool<T>::ObjectPool(const size_t capacity) {
 
 template<typename T>
 ObjectPool<T>::~ObjectPool() {
+
+
     mPool.reset();
 }
 
@@ -40,11 +44,15 @@ void ObjectPool<T>::Spawn(const Shared<SceneContext>& context, Args&&... args) {
     new (ptr) T(std::forward<Args>(args)...);
     // Create a shared ptr of our game object with a custom deleter
     // for removing the memory from the pool
-    auto shared = std::shared_ptr<T>(ptr, [this](T* p) {
-        p->~T(); // Manually call the destructor
+    auto shared = std::shared_ptr<T>(ptr, [this, context](T* p) {
+        p->Destroyed(context);
+        p->~T();  // Manually call the destructor
         mPool->Deallocate(p);
     });
 
     context->GameObjects[(ptr)->GetName()] = shared;
     ptr->Awake(context);
 }
+
+template<typename T>
+void ObjectPool<T>::Drain() {}

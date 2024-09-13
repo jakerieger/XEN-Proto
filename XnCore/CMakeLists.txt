@@ -54,7 +54,6 @@ add_library(XnCore STATIC
         AudioContext.h
         AudioChannel.h
         AudioUtils.h
-        ObjectPool.cpp
         ObjectPool.h
         Api.h
 )
